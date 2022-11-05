@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/test/SampleVoucherGetRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/voucher/RestEasyClientGet.java" afterDir="false" />
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Entity/Document.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Entity/Supplier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/requests/VoucherPostRequestBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Entity/Voucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Entity/Voucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/voucher/SampleVoucherGetRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/SampleVoucherGetRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/voucher/RestEasyClientGet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/voucher/RestEasyClientGet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,23 +40,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "spring.configuration.checksum": "d13aebd44112d1cbd9a4896b73975e48"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;d13aebd44112d1cbd9a4896b73975e48&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.RestEasyClientGet">
     <configuration name="RestEasyClientGet" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="voucher.RestEasyClientGet" />
@@ -99,8 +101,17 @@
       <updated>1667558574985</updated>
       <workItem from="1667558576180" duration="921000" />
       <workItem from="1667559570786" duration="3222000" />
-      <workItem from="1667637508254" duration="3641000" />
+      <workItem from="1667637508254" duration="3698000" />
+      <workItem from="1667656633792" duration="8650000" />
     </task>
+    <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
+      <created>1667641192482</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667641192482</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,13 +128,22 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden." />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden." />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/voucher/RestEasyClientGet.java</url>
-          <line>41</line>
+          <line>43</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/voucher/RestEasyClientGet.java</url>
+          <line>84</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
