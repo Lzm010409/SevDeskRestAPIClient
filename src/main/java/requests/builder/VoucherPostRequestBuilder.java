@@ -1,4 +1,4 @@
-package requests;
+package requests.builder;
 
 import Entity.Voucher;
 
@@ -10,7 +10,7 @@ public class VoucherPostRequestBuilder {
     private final Map<String, String> varMap = new HashMap<>();
 
     public VoucherPostRequestBuilder() {
-        varMap.put("StartVar", "\"voucher\"");
+        varMap.put("StartVar", "\"requests.voucher\"");
         varMap.put("objectName", "\"objectName\"");
         varMap.put("mapAll", "\"mapAll\"");
         varMap.put("voucherDate", "\"voucherDate\"");

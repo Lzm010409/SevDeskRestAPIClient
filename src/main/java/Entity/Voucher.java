@@ -50,7 +50,7 @@ public class Voucher {
     }
 
     public void postVoucherMapBuilder() {
-        voucherMap.put("StartVar", "\"voucher\"");
+        voucherMap.put("StartVar", "\"requests.voucher\"");
         if (getObjectName() != null) {
             voucherMap.put("objectName", "\"" + getObjectName() + "\"");
         } else {

@@ -1,21 +1,22 @@
-package voucher;
+package requests.voucher;
 
 import Entity.Voucher;
-import org.apache.commons.io.FileUtils;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import requests.VoucherPostRequestBuilder;
+import requests.accountingtype.RestEasyClientAccountingTypeRequests;
+import requests.builder.VoucherPostRequestBuilder;
+import requests.url.RootUrl;
+import requests.url.Token;
 
 import java.io.*;
-import java.util.Base64;
 
-public class RestEasyClientGet {
-    private final String TOKEN = "";
-    private final String ROOTURL = "https://my.sevdesk.de/api/v1";
+public class RestEasyClientVoucherRequests {
+    private final RootUrl rootUrl = new RootUrl();
+    private final Token token = new Token();
 
     public void voucherGetAllRequest() {
         try {
-            ClientRequest request = new ClientRequest(ROOTURL + "/Voucher" + TOKEN);
+            ClientRequest request = new ClientRequest(rootUrl.getROOTURL() + "/Voucher?token=" + token.getToken());
             request.accept("application/json");
             ClientResponse<String> response = request.get(String.class);
             if (response.getStatus() != 200) {
@@ -41,7 +42,7 @@ public class RestEasyClientGet {
         try {
             voucher.postVoucherMapBuilder();
             VoucherPostRequestBuilder voucherPostRequestBuilder = new VoucherPostRequestBuilder();
-            ClientRequest request = new ClientRequest(ROOTURL + "/Voucher/Factory/saveVoucher?" + TOKEN);
+            ClientRequest request = new ClientRequest(rootUrl.getROOTURL() + "/Voucher/Factory/saveVoucher?" + token.getToken());
             request.accept("application/json");
             String input = voucherPostRequestBuilder.buildVoucherPostRequestShort(voucher);
             System.out.println(input);
@@ -67,11 +68,14 @@ public class RestEasyClientGet {
     }
 
     public static void main(String[] args) {
-        RestEasyClientGet restEasyClientGet = new RestEasyClientGet();
+        RestEasyClientVoucherRequests restEasyClientGet = new RestEasyClientVoucherRequests();
         //restEasyClientGet.voucherGetAllRequest();
+        RestEasyClientAccountingTypeRequests restEasyClientAccountingTypeRequests = new RestEasyClientAccountingTypeRequests();
+
         Voucher voucher = new Voucher(50, "default", "C", "VOU");
         voucher.setDescritption("0922/684TG02");
-        restEasyClientGet.voucherPostNewVoucherRequest(voucher);
+       // restEasyClientGet.voucherGetAllRequest();
+        restEasyClientAccountingTypeRequests.accountingTypeGetAllRequest();
         /*try {
 
             File file = new File("/Users/lukegollenstede/Downloads/Rechnung_3676083653.pdf");
