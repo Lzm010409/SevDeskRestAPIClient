@@ -2,7 +2,7 @@ package requests.url;
 
 public class Token {
 
-    private String token="";
+    private String token="token=b135d867554ab439a014eafb84078349";
 
 
     public Token(){

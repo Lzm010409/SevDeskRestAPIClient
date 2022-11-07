@@ -1,4 +1,7 @@
-package Entity;
+package Entity.voucher;
+
+import Entity.Document;
+import Entity.Supplier;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -38,7 +41,7 @@ public class Voucher {
     private Timestamp recurringEndDate = null;
 
     Map<String, Object> voucherMap = new HashMap<>();
-    Map<String, Object> voucherPosSaveMap = new HashMap<>();
+
 
 
     public Voucher(int status, String taxType, String creditDebit, String voucherType) {
@@ -49,8 +52,10 @@ public class Voucher {
 
     }
 
+
+
     public void postVoucherMapBuilder() {
-        voucherMap.put("StartVar", "\"requests.voucher\"");
+        voucherMap.put("StartVar", "\"voucher\"");
         if (getObjectName() != null) {
             voucherMap.put("objectName", "\"" + getObjectName() + "\"");
         } else {
@@ -140,9 +145,7 @@ public class Voucher {
 
     }
 
-    public void postVoucherPosSaveMapBuilder() {
 
-    }
 
 
     public Map<String, Object> getVoucherMap() {
