@@ -1,19 +1,14 @@
-package requests.voucher;
+package restfulapi.requests.voucher;
 
-import Entity.accountingType.AccountingType;
-import Entity.voucher.Voucher;
-import Entity.voucher.VoucherPosSave;
-import org.apache.commons.io.FileUtils;
+import data.entity.voucher.Voucher;
+import data.entity.voucher.VoucherPosSave;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
-import requests.accountingtype.RestEasyClientAccountingTypeRequests;
-import requests.builder.VoucherPostRequestBuilder;
-import requests.url.RootUrl;
-import requests.url.Token;
+import restfulapi.requests.builder.VoucherPostRequestBuilder;
+import restfulapi.requests.url.RootUrl;
+import restfulapi.requests.url.Token;
 
 import java.io.*;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,20 +100,6 @@ public class RestEasyClientVoucherRequests {
         }
     }
 
-    public static void main(String[] args) {
-       RestEasyClientVoucherRequests restEasyClientGet = new RestEasyClientVoucherRequests();
-        //restEasyClientGet.voucherGetAllRequest();
-/*        RestEasyClientAccountingTypeRequests restEasyClientAccountingTypeRequests = new RestEasyClientAccountingTypeRequests();
-        AccountingType accountingType = new AccountingType(1);
-        Voucher voucher = new Voucher(50, "default", "C", "VOU");
-        VoucherPosSave voucherPosSave = new VoucherPosSave(accountingType, 19, true, 200    , 238);
-        voucher.setDescritption("0922/684TG02");
-
-
-        restEasyClientGet.voucherPostNewVoucherRequest(voucher, voucherPosSave);*/
-
-           restEasyClientGet.voucherPostFileRequest();
-        }
 
 
 

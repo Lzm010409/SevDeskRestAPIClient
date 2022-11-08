@@ -1,10 +1,9 @@
-package requests.accountingtype;
+package restfulapi.requests.accountingtype;
 
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import requests.url.RootUrl;
-import requests.url.Token;
-import response.parser.Parser;
+import restfulapi.requests.url.RootUrl;
+import restfulapi.requests.url.Token;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -20,9 +19,7 @@ public class RestEasyClientAccountingTypeRequests {
     private final Token token = new Token();
 
     Map<String, Integer> accountingTypeMap = new HashMap<>();
-
     public RestEasyClientAccountingTypeRequests() {
-
     }
 
 
@@ -37,7 +34,7 @@ public class RestEasyClientAccountingTypeRequests {
             }
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response.getEntity().getBytes())));
             String output = bufferedReader.readLine();
-            Parser parser = new Parser();
+            AccountingTypeParser parser = new AccountingTypeParser();
             this.accountingTypeMap = parser.buildingAccountingTypeMap(output);
             System.out.println("Output from Server: \n");
             return this.accountingTypeMap;

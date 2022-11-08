@@ -1,7 +1,7 @@
-package Entity.voucher;
+package data.entity.voucher;
 
-import Entity.Document;
-import Entity.Supplier;
+import data.entity.other.Document;
+import data.entity.other.Supplier;
 
 import java.sql.Timestamp;
 import java.util.Date;

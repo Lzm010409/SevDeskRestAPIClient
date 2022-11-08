@@ -1,6 +1,6 @@
-package Entity.voucher;
+package data.entity.voucher;
 
-import Entity.accountingType.AccountingType;
+import data.entity.accountingType.AccountingType;
 
 import java.util.HashMap;
 import java.util.Map;

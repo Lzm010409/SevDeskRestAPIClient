@@ -1,12 +1,12 @@
-package Entity;
+package data.entity.other;
 
-public class Supplier {
+public class Document {
 
     private long id;
-    private String objectName="Contact";
+    private String objectName="Document";
 
 
-    public Supplier(){
+    public Document() {
 
     }
 

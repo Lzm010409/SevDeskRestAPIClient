@@ -1,12 +1,12 @@
-package Entity.accountingType;
+package data.entity.contact;
 
-public class AccountingType {
+public class Category {
     private int id;
-    private String name;
-    private String objectName = "AccountingType";
+    private String objectName;
 
-    public AccountingType(int id) {
+    public Category(int id, String objectName) {
         this.id = id;
+        this.objectName = objectName;
     }
 
     public int getId() {
@@ -15,14 +15,6 @@ public class AccountingType {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getObjectName() {

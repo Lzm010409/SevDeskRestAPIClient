@@ -1,15 +1,14 @@
-package response.parser;
+package restfulapi.requests.accountingtype;
 
 import org.apache.commons.codec.binary.StringUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class Parser {
+public class AccountingTypeParser {
 
     Map<String, Integer> accountingTypeMap = new HashMap<>();
 
-    public Parser() {
+    public AccountingTypeParser() {
 
     }
 

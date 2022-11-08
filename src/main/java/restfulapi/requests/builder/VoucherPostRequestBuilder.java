@@ -1,7 +1,7 @@
-package requests.builder;
+package restfulapi.requests.builder;
 
-import Entity.voucher.Voucher;
-import Entity.voucher.VoucherPosSave;
+import data.entity.voucher.Voucher;
+import data.entity.voucher.VoucherPosSave;
 
 import java.util.HashMap;
 import java.util.Map;

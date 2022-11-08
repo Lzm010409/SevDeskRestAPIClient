@@ -1,4 +1,4 @@
-package requests.url;
+package restfulapi.requests.url;
 
 public class RootUrl {
 
