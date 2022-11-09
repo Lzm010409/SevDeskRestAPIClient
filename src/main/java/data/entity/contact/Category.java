@@ -4,9 +4,9 @@ public class Category {
     private int id;
     private String objectName;
 
-    public Category(int id, String objectName) {
+    public Category(int id) {
         this.id = id;
-        this.objectName = objectName;
+        this.objectName = "Category";
     }
 
     public int getId() {

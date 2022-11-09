@@ -1,7 +1,6 @@
 package restfulapi.requests.get;
 
 import com.google.gson.Gson;
-import data.entity.voucher.VoucherResponse;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import restfulapi.requests.url.RootUrl;
@@ -69,9 +68,13 @@ public class GetVoucher {
     public static void main(String[] args) {
         Gson g = new Gson();
         GetVoucher getVoucher = new GetVoucher();
+        GetAccountingType getAccountingType = new GetAccountingType();
 
-        VoucherResponse voucherResponse = new VoucherResponse();
+        /*VoucherResponse voucherResponse = new VoucherResponse();
         voucherResponse = g.fromJson(getVoucher.getVoucherById(51628775), VoucherResponse.class);
-        System.out.println(voucherResponse.getId());
+        System.out.println(voucherResponse.getId());*/
+        Gson test = new Gson();
+
+
     }
 }

@@ -1,9 +1,9 @@
-package restfulapi.requests.contact;
+package restfulapi.requests.post;
 
-import data.entity.contact.Contact;
+import com.google.gson.Gson;
+import data.entity.contact.ContactRequest;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import restfulapi.requests.builder.ContactPostRequestBuilder;
 import restfulapi.requests.url.RootUrl;
 import restfulapi.requests.url.Token;
 
@@ -11,21 +11,21 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 
-public class RestEasyClientContactRequests {
-    private final RootUrl rootUrl = new RootUrl();
-    private final Token token = new Token();
+public class PostContact {
+    private final RootUrl ROOTURL = new RootUrl();
+    private final Token TOKEN = new Token();
 
+    private ClientRequest request;
 
-    public void contactPostNewContactRequest(Contact contact) {
+    public void postNewContact(ContactRequest contactRequest) {
         try {
-            contact.postContactMapBuilder();
-            ContactPostRequestBuilder contactPostRequestBuilder = new ContactPostRequestBuilder();
-            ClientRequest contactRequest = new ClientRequest(rootUrl.getROOTURL() + "/Contact?" + token.getToken());
-            contactRequest.accept("application/json");
-            String input = contactPostRequestBuilder.buildContactPostRequest(contact);
+            Gson builder = new Gson();
+            ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Contact?" + TOKEN.getToken());
+            request.accept("application/json");
+            String input = builder.toJson(contactRequest);
             System.out.println(input);
-            contactRequest.body("application/json", input);
-            ClientResponse<String> clientResponse = contactRequest.post(String.class);
+            request.body("application/json", input);
+            ClientResponse<String> clientResponse = request.post(String.class);
             if (clientResponse.getStatus() != 200 && clientResponse.getStatus() != 201) {
                 throw new RuntimeException("Failed: Http error code: " + clientResponse.getStatus());
 
@@ -40,6 +40,7 @@ public class RestEasyClientContactRequests {
                 System.out.println(output);
             }
 
+            request.clear();
         } catch (Exception e) {
 
         }
