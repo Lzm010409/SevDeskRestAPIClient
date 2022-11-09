@@ -1,13 +1,7 @@
-import data.entity.contact.Category;
-import data.entity.contact.Contact;
-import restfulapi.requests.contact.RestEasyClientContactRequests;
-import restfulapi.requests.voucher.RestEasyClientVoucherRequests;
-
 public class Main {
 
     public static void main(String[] args) {
-        RestEasyClientVoucherRequests restEasyClientGet = new RestEasyClientVoucherRequests();
-        RestEasyClientContactRequests restEasyClientContactRequests = new RestEasyClientContactRequests();
+
         //restEasyClientGet.voucherGetAllRequest();
 /*        RestEasyClientAccountingTypeRequests restEasyClientAccountingTypeRequests = new RestEasyClientAccountingTypeRequests();
         AccountingType accountingType = new AccountingType(1);
@@ -19,7 +13,7 @@ public class Main {
         restEasyClientGet.voucherPostNewVoucherRequest(voucher, voucherPosSave);*/
 
         //restEasyClientGet.voucherPostFileRequest();
-        Category customer = new Category(2,"Category");
+        /*Category customer = new Category(2,"Category");
         Contact contact = new Contact(customer);
         contact.setStatus(1000);
         contact.setSurename("Thorsten");
@@ -29,7 +23,8 @@ public class Main {
         contact.setDescription("Papa von Luke");
         contact.setGender("Männlich");
 
-        restEasyClientContactRequests.contactPostNewContactRequest(contact);
+        restEasyClientContactRequests.contactPostNewContactRequest(contact);*/
+
 
 
 

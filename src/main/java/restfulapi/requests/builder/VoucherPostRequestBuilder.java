@@ -1,8 +1,5 @@
 package restfulapi.requests.builder;
 
-import data.entity.voucher.Voucher;
-import data.entity.voucher.VoucherPosSave;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +43,7 @@ public class VoucherPostRequestBuilder {
         varVoucherPosSaveMap.put("comment", "\"comment\"");
     }
 
-    public String buildVoucherPostRequestShort(Voucher voucher) {
+ /*   public String buildVoucherPostRequestShort(Voucher voucher) {
 
         String query = "{" +
                 varVoucherMap.get("StartVar") + ":{" + varVoucherMap.get("objectName") + ":" + voucher.getVoucherMap().get("objectName") + "," +
@@ -81,5 +78,5 @@ public class VoucherPostRequestBuilder {
                 varVoucherPosSaveMap.get("comment") + ":" + voucher.getVoucherPosSaveMap().get("comment") + "}]";
 
         return voucherPosSaveQuery;
-    }
+    }*/
 }

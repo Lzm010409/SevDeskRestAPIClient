@@ -1,20 +1,21 @@
 package data.entity.other;
 
+import com.google.gson.Gson;
+
 public class Supplier {
 
-    private long id;
-    private String objectName="Contact";
+    private int id;
+    private String objectName = "Contact";
 
-
-    public Supplier(){
-
+    public Supplier(int id) {
+        this.id = id;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -24,5 +25,11 @@ public class Supplier {
 
     public void setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+
+    public static void main (String[]args){
+        Gson g= new Gson();
+        Supplier supplier= new Supplier(1);
+        System.out.println(g.toJson(supplier));
     }
 }
