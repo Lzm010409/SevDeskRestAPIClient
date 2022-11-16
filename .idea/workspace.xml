@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Auf GSON für Json Requests umgestellt. Der Umbau wird ein wenig dauern.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetAccountingType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostContact.java" afterDir="false" />
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- PostContact integriert. Entity Klassen werden im nächsten Schritt so angepasst, sodas der GSON Builder mit Annotation arbeiten kann">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/main/ThreadSleeper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/voucher/VoucherRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/voucher/Voucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/builder/ContactPostRequestBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/contact/RestEasyClientContactRequests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +65,33 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PostVoucher">
+  <component name="RunManager" selected="Application.ApplicationMain">
+    <configuration name="ApplicationMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.ApplicationMain" />
+      <module name="SevDeskRestAPIClient" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DirLister" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dir.dir.DirLister" />
+      <module name="SevDeskRestAPIClient" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dir.dir.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GetVoucher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restfulapi.requests.get.GetVoucher" />
       <module name="SevDeskRestAPIClient" />
@@ -86,32 +105,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="SevDeskRestAPIClient" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PostVoucher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restfulapi.requests.post.PostVoucher" />
       <module name="SevDeskRestAPIClient" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="restfulapi.requests.post.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RestEasyClientVoucherRequests" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="restfulapi.requests.voucher.RestEasyClientVoucherRequests" />
-      <module name="SevDeskRestAPIClient" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="restfulapi.requests.voucher.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -134,11 +133,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ApplicationMain" />
+        <item itemvalue="Application.DirLister" />
         <item itemvalue="Application.PostVoucher" />
         <item itemvalue="Application.GetVoucher" />
         <item itemvalue="Application.Supplier" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.RestEasyClientVoucherRequests" />
       </list>
     </recent_temporary>
   </component>
@@ -167,7 +166,8 @@
       <workItem from="1667928292707" duration="1241000" />
       <workItem from="1667997413047" duration="5144000" />
       <workItem from="1668002584064" duration="674000" />
-      <workItem from="1668017302205" duration="3077000" />
+      <workItem from="1668017302205" duration="3771000" />
+      <workItem from="1668611424152" duration="2645000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -218,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668003253279</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="-- Work in Progress -- PostContact integriert. Entity Klassen werden im nächsten Schritt so angepasst, sodas der GSON Builder mit Annotation arbeiten kann">
+      <created>1668020482468</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668020482468</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,7 +250,8 @@
     <MESSAGE value="-- Work in Progress -- Sicherheits Commit" />
     <MESSAGE value="-- Work in Progress -- Contact.java Entity hinzugefügt. PostRequest für Contact erstellt." />
     <MESSAGE value="-- Work in Progress -- Auf GSON für Json Requests umgestellt. Der Umbau wird ein wenig dauern." />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Auf GSON für Json Requests umgestellt. Der Umbau wird ein wenig dauern." />
+    <MESSAGE value="-- Work in Progress -- PostContact integriert. Entity Klassen werden im nächsten Schritt so angepasst, sodas der GSON Builder mit Annotation arbeiten kann" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- PostContact integriert. Entity Klassen werden im nächsten Schritt so angepasst, sodas der GSON Builder mit Annotation arbeiten kann" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
