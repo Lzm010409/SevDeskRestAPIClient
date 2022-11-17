@@ -1,32 +1,19 @@
+import text.extractor.InvoiceTextExtractor;
+
+import java.io.File;
+import java.io.IOException;
+
 public class Main {
 
+
     public static void main(String[] args) {
+        InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
 
-        //restEasyClientGet.voucherGetAllRequest();
-/*        RestEasyClientAccountingTypeRequests restEasyClientAccountingTypeRequests = new RestEasyClientAccountingTypeRequests();
-        AccountingType accountingType = new AccountingType(1);
-        Voucher voucher = new Voucher(50, "default", "C", "VOU");
-        VoucherPosSave voucherPosSave = new VoucherPosSave(accountingType, 19, true, 200    , 238);
-        voucher.setDescritption("0922/684TG02");
-
-
-        restEasyClientGet.voucherPostNewVoucherRequest(voucher, voucherPosSave);*/
-
-        //restEasyClientGet.voucherPostFileRequest();
-        /*Category customer = new Category(2,"Category");
-        Contact contact = new Contact(customer);
-        contact.setStatus(1000);
-        contact.setSurename("Thorsten");
-        contact.setFamilyname("Gollenstede");
-        contact.setCustomerNumber("999");
-        contact.setTitel("Herr");
-        contact.setDescription("Papa von Luke");
-        contact.setGender("Männlich");
-
-        restEasyClientContactRequests.contactPostNewContactRequest(contact);*/
-
-
-
+        try {
+            System.out.println(invoiceTextExtractor.extractTextFromDoc(new File("/Users/lukegollenstede/Desktop/1ff9ad57d0_1022651TG01.pdf")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
