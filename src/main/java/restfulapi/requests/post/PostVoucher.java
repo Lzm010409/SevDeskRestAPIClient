@@ -1,7 +1,5 @@
 package restfulapi.requests.post;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import data.entity.accountingType.AccountingTypeRequest;
 import data.entity.contact.Category;
 import data.entity.contact.ContactRequest;
@@ -10,6 +8,7 @@ import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSaveRequest;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
+import restfulapi.requests.input.PostVoucherBuilder;
 import restfulapi.requests.url.RootUrl;
 import restfulapi.requests.url.Token;
 
@@ -22,7 +21,7 @@ public class PostVoucher {
     private final RootUrl ROOTURL = new RootUrl();
     private final Token TOKEN = new Token();
 
-    private Gson builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private PostVoucherBuilder postBuilder = new PostVoucherBuilder();
 
     public PostVoucher() {
 
@@ -32,7 +31,7 @@ public class PostVoucher {
         try {
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Voucher/Factory/saveVoucher?" + TOKEN.getToken());
             request.accept("application/json");
-            String input = "{\"voucher\":" + builder.toJson(voucher) + ",\"voucherPosSave\":[" + builder.toJson(voucherPosSave) + "]}";
+            String input = "{\"voucher\":" + postBuilder.builder(voucher) + ",\"voucherPosSave\":[" + postBuilder.builder(voucherPosSave) + "]}";
             System.out.println(input);
             request.body("application/json", input);
             ClientResponse<String> clientResponse = request.post(String.class);

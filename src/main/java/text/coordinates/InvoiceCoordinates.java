@@ -5,7 +5,9 @@ import java.util.List;
 public enum InvoiceCoordinates {
     NAME(60, 650, 250, 60),
     GUTACHTENNUMMER(380, 561, 170, 30),
-    BETRAG(440, 75, 130, 250);
+    BETRAG(440, 75, 130, 250),
+    RECHNUNGSNUMMER(415, 600, 120, 15);
+
 
     float x, y, width, height;
     List<InvoiceCoordinates> list;
