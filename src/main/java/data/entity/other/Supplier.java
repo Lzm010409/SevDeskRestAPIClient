@@ -1,10 +1,13 @@
 package data.entity.other;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 public class Supplier {
 
+    @Expose
     private int id;
+    @Expose
     private String objectName = "Contact";
 
     public Supplier(int id) {

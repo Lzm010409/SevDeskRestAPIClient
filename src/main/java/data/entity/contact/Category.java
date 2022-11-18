@@ -1,7 +1,11 @@
 package data.entity.contact;
 
+import com.google.gson.annotations.Expose;
+
 public class Category {
+    @Expose
     private int id;
+    @Expose
     private String objectName;
 
     public Category(int id) {

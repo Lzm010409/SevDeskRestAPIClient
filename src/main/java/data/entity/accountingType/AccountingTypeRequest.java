@@ -1,16 +1,17 @@
 package data.entity.accountingType;
 
 import com.google.gson.annotations.Expose;
-import data.entity.other.AbstractEntity;
 
 
-public class AccountingTypeRequest extends AbstractEntity {
+public class AccountingTypeRequest {
+    @Expose(serialize = false, deserialize = true)
+    private int id;
     @Expose
     private String objectName;
 
-    public AccountingTypeRequest(int id){
-        this.id=id;
-        this.objectName="AccountingType";
+    public AccountingTypeRequest(int id) {
+        this.id = id;
+        this.objectName = "AccountingType";
     }
 
     public String getObjectName() {
@@ -19,5 +20,13 @@ public class AccountingTypeRequest extends AbstractEntity {
 
     public void setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

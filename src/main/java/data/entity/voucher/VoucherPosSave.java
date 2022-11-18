@@ -4,7 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import data.entity.accountingType.AccountingTypeRequest;
 
-public class VoucherPosSaveRequest {
+public class VoucherPosSave {
+    @Expose(serialize = false, deserialize = true)
+    private int id;
+
+    @Expose(serialize = false, deserialize = true)
+    private Voucher voucher;
+
     @Expose
     private String objectName = "VoucherPos";
     @Expose
@@ -17,6 +23,9 @@ public class VoucherPosSaveRequest {
     private boolean net = true;
     @Expose
     private float sumNet;
+    @Expose(serialize = false, deserialize = true)
+    private float sumTax;
+
     @Expose
     private float sumGross;
     @Expose
@@ -24,7 +33,7 @@ public class VoucherPosSaveRequest {
     @Expose
     private String comment = null;
 
-    public VoucherPosSaveRequest(AccountingTypeRequest accountingType, int taxRate, boolean net, float sumNet, float sumGross) {
+    public VoucherPosSave(AccountingTypeRequest accountingType, int taxRate, boolean net, float sumNet, float sumGross) {
         this.accountingType = accountingType;
         this.taxRate = taxRate;
         this.net = net;
@@ -98,7 +107,7 @@ public class VoucherPosSaveRequest {
 
     public static void main(String[] args) {
         AccountingTypeRequest accountingTypeRequest = new AccountingTypeRequest(1);
-        VoucherPosSaveRequest voucherPosSaveRequest = new VoucherPosSaveRequest(accountingTypeRequest, 19, true, 100, 119);
+        VoucherPosSave voucherPosSaveRequest = new VoucherPosSave(accountingTypeRequest, 19, true, 100, 119);
         Gson builder = new Gson();
         String output = builder.toJson(voucherPosSaveRequest);
 

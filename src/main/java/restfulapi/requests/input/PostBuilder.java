@@ -1,14 +1,12 @@
-package restfulapi.requests.post;
+package restfulapi.requests.input;
 
-import data.entity.accountingType.AccountingTypeRequest;
-import data.entity.contact.Category;
-import data.entity.contact.ContactRequest;
-import data.entity.other.Supplier;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import data.entity.contact.Contact;
 import data.entity.voucher.Voucher;
-import data.entity.voucher.VoucherPosSaveRequest;
+import data.entity.voucher.VoucherPosSave;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
-import restfulapi.requests.input.PostVoucherBuilder;
 import restfulapi.requests.url.RootUrl;
 import restfulapi.requests.url.Token;
 
@@ -16,22 +14,23 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 
-public class PostVoucher {
-
+public class PostBuilder implements RequestBuilder {
+    private Gson builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private final RootUrl ROOTURL = new RootUrl();
     private final Token TOKEN = new Token();
 
-    private PostVoucherBuilder postBuilder = new PostVoucherBuilder();
-
-    public PostVoucher() {
-
+    @Override
+    public String builder(Object voucher) {
+        String input = builder.toJson(voucher);
+        return input;
     }
 
-    public void postNewVoucher(Voucher voucher, VoucherPosSaveRequest voucherPosSave) {
+
+    public String postNewVoucher(Voucher voucher, VoucherPosSave voucherPosSave) {
         try {
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Voucher/Factory/saveVoucher?" + TOKEN.getToken());
             request.accept("application/json");
-            String input = "{\"voucher\":" + postBuilder.builder(voucher) + ",\"voucherPosSave\":[" + postBuilder.builder(voucherPosSave) + "]}";
+            String input = "{\"voucher\":" + builder(voucher) + ",\"voucherPosSave\":[" + builder(voucherPosSave) + "]}";
             System.out.println(input);
             request.body("application/json", input);
             ClientResponse<String> clientResponse = request.post(String.class);
@@ -41,23 +40,19 @@ public class PostVoucher {
             }
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientResponse.getEntity().getBytes())));
-            String output;
+            String output=bufferedReader.readLine();
 
-            System.out.println("Output from Server: \n");
-
-            while ((output = bufferedReader.readLine()) != null) {
-                System.out.println(output);
-            }
 
             request.clear();
-        } catch (Exception e) {
 
+            return output;
+        } catch (Exception e) {
+            return null;
         }
     }
 
-    public void voucherPostFileRequest() {
+    public String postNewVoucherFile() {
         try {
-
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Voucher/Factory/uploadTempFile?" + TOKEN.getToken());
             String input = "file:\"/Users/lukegollenstede/Downloads/Rechnung_3676083653.pdf\"";
             request.accept("application/json");
@@ -70,29 +65,38 @@ public class PostVoucher {
             }
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response.getEntity().getBytes())));
-            String output;
-
-            System.out.println("Output from Server: \n");
-
-            while ((output = bufferedReader.readLine()) != null) {
-                System.out.println(output);
-            }
+            String output=bufferedReader.readLine();
+            request.clear();
+            return output;
         } catch (Exception e) {
-
+            return null;
         }
 
     }
 
-    public static void main(String[] args) {
-        Category category = new Category(2);
-        ContactRequest contactRequest = new ContactRequest(category);
-        Supplier supplier = new Supplier(200);
-        Voucher voucher = new Voucher(100, "C", "VOU", null);
-        AccountingTypeRequest accountingType = new AccountingTypeRequest(1);
-        VoucherPosSaveRequest voucherPosSave = new VoucherPosSaveRequest(accountingType, 19, true, 200, 238);
-        PostVoucher postVoucher = new PostVoucher();
-        //PostContact postContact = new PostContact();
-       // postContact.postNewContact(contactRequest);
-        postVoucher.postNewVoucher(voucher, voucherPosSave);
+    public String postNewContact(Contact contact) {
+        try {
+            ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Contact?" + TOKEN.getToken());
+            request.accept("application/json");
+            String input = builder(contact);
+            System.out.println(input);
+            request.body("application/json", input);
+            ClientResponse<String> clientResponse = request.post(String.class);
+            if (clientResponse.getStatus() != 200 && clientResponse.getStatus() != 201) {
+                throw new RuntimeException("Failed: Http error code: " + clientResponse.getStatus());
+
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientResponse.getEntity().getBytes())));
+            String output = bufferedReader.readLine();
+
+
+            request.clear();
+
+            return output;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

@@ -1,32 +1,69 @@
 package data.entity.contact;
 
-public class ContactRequest {
-    private String name = null;
-    private int status;
-    private String customerNumber;
-    private String surename = null;
-    private String familyname = null;
-    private String titel = null;
-    private Category category;
-    private String description = null;
-    private String academicTitle = null;
-    private String gender = null;
-    private String name2 = null;
-    private String vatNumber = null;
+import com.google.gson.annotations.Expose;
 
+public class Contact {
+    @Expose(serialize = false, deserialize = true)
+    private int id;
+
+    @Expose(serialize = false, deserialize = true)
+    private String objectName;
+
+    @Expose
+    private String name = null;
+    @Expose
+    private int status;
+    @Expose
+    private String customerNumber;
+    @Expose
+    private String surename = null;
+    @Expose
+    private String familyname = null;
+    @Expose
+    private String titel = null;
+    @Expose
+    private Category category;
+    @Expose
+    private String description = null;
+    @Expose
+    private String academicTitle = null;
+    @Expose
+    private String gender = null;
+    @Expose
+    private String name2 = null;
+    @Expose
+    private String birthday=null;
+    @Expose
+    private String vatNumber = null;
+    @Expose
     private String bankAccount = null;
+    @Expose
+    private String bankNumber;
+    @Expose
     private int defaultCashbackTime;
+    @Expose
     private int defaultTimeToPay;
+    @Expose
     private String taxNumber = null;
+    @Expose
     private String taxOffice = null;
+    @Expose
     private boolean exemptVat;
+    @Expose
     private String taxType = "default";
+    @Expose
     private float defaultDiscountAmount;
+    @Expose
     private boolean defaultDiscountPercentage;
+    @Expose
     private String buyerReference;
+    @Expose
     private boolean governmentAgency;
 
-    public ContactRequest(Category category) {
+    @Expose(serialize = false, deserialize = true)
+    private String additionalInformation;
+
+    public Contact(Category category) {
         this.category = category;
 
 
@@ -214,5 +251,45 @@ public class ContactRequest {
 
     public void setGovernmentAgency(boolean governmentAgency) {
         this.governmentAgency = governmentAgency;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
+    }
+
+    public String getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
     }
 }

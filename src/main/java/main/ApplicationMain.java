@@ -2,11 +2,11 @@ package main;
 
 import com.sun.istack.logging.Logger;
 import data.entity.voucher.Voucher;
-import data.entity.voucher.VoucherPosSaveRequest;
+import data.entity.voucher.VoucherPosSave;
 import data.filepaths.PathReader;
 import data.filepaths.PathWriter;
 import dir.dir.DirLister;
-import restfulapi.requests.post.PostVoucher;
+import restfulapi.requests.input.PostBuilder;
 import text.extractor.InvoiceTextExtractor;
 import text.parser.TextParser;
 
@@ -31,7 +31,7 @@ public class ApplicationMain {
         List<String> readedFileList = new ArrayList<>();
         TextParser textParser = new TextParser();
         InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
-        PostVoucher postVoucher = new PostVoucher();
+        PostBuilder postBuilder = new PostBuilder();
         PathWriter pathWriter = new PathWriter();
         PathReader pathReader = new PathReader();
         pathWriter.setFilePathName("ReadedFiles.txt");
@@ -47,7 +47,7 @@ public class ApplicationMain {
                 try {
                     if (!readedFileList.contains(fileList.get(i))) {
                         objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(fileList.get(i))));
-                        postVoucher.postNewVoucher((Voucher) objectList.get(1), (VoucherPosSaveRequest) objectList.get(2));
+                        postBuilder.postNewVoucher((Voucher) objectList.get(1), (VoucherPosSave) objectList.get(2));
                         pathWriter.writeData(fileList.get(i));
                     }
 

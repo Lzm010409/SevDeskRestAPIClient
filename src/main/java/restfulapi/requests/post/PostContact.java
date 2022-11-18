@@ -1,7 +1,7 @@
 package restfulapi.requests.post;
 
 import com.google.gson.Gson;
-import data.entity.contact.ContactRequest;
+import data.entity.contact.Contact;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import restfulapi.requests.url.RootUrl;
@@ -17,7 +17,7 @@ public class PostContact {
 
     private ClientRequest request;
 
-    public void postNewContact(ContactRequest contactRequest) {
+    public void postNewContact(Contact contactRequest) {
         try {
             Gson builder = new Gson();
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Contact?" + TOKEN.getToken());
