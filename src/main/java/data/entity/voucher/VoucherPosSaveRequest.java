@@ -1,17 +1,27 @@
 package data.entity.voucher;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import data.entity.accountingType.AccountingTypeRequest;
 
 public class VoucherPosSaveRequest {
-
+    @Expose
     private String objectName = "VoucherPos";
+    @Expose
     private boolean mapAll = true;
+    @Expose
     private AccountingTypeRequest accountingType;
+    @Expose
     private int taxRate;
+    @Expose
     private boolean net = true;
+    @Expose
     private float sumNet;
+    @Expose
     private float sumGross;
-    private String isAsset=null;
+    @Expose
+    private String isAsset = null;
+    @Expose
     private String comment = null;
 
     public VoucherPosSaveRequest(AccountingTypeRequest accountingType, int taxRate, boolean net, float sumNet, float sumGross) {
@@ -84,5 +94,14 @@ public class VoucherPosSaveRequest {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public static void main(String[] args) {
+        AccountingTypeRequest accountingTypeRequest = new AccountingTypeRequest(1);
+        VoucherPosSaveRequest voucherPosSaveRequest = new VoucherPosSaveRequest(accountingTypeRequest, 19, true, 100, 119);
+        Gson builder = new Gson();
+        String output = builder.toJson(voucherPosSaveRequest);
+
+        System.out.println(output);
     }
 }

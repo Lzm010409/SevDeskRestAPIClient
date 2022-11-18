@@ -1,9 +1,15 @@
 package main;
 
 import com.sun.istack.logging.Logger;
+import data.entity.voucher.Voucher;
+import data.entity.voucher.VoucherPosSaveRequest;
 import dir.dir.DirLister;
+import restfulapi.requests.post.PostVoucher;
+import text.extractor.InvoiceTextExtractor;
+import text.parser.TextParser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,19 +18,33 @@ public class ApplicationMain {
     private final Logger logger = Logger.getLogger(ApplicationMain.class);
 
 
-    private String invoiceDir = "/Volumes/Sachverständigerei/Sachverständigerei/bezahlte RG/2022";
+    private String invoiceDir = "/Users/lukegollenstede/Desktop/02";
 
     public static void main(String[] args) {
         ApplicationMain applicationMain = new ApplicationMain();
         DirLister dirLister = new DirLister();
         ThreadSleeper threadSleeper = new ThreadSleeper();
         List<String> fileList = new ArrayList<>();
+        List<Object> objectList = new ArrayList<>();
+        TextParser textParser = new TextParser();
+        InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
+        PostVoucher postVoucher = new PostVoucher();
 
         while (applicationMain.isRunApplication() == true) {
 
             dirLister.listDir(new File(applicationMain.getInvoiceDir()), fileList);
-            threadSleeper.threadSleep(10000);
 
+           for (int i = 0; i < fileList.size(); i++) {
+                try {
+                    objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(fileList.get(i))));
+                    postVoucher.postNewVoucher((Voucher) objectList.get(1), (VoucherPosSaveRequest) objectList.get(2));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+            threadSleeper.threadSleep(10000);
 
 
         }

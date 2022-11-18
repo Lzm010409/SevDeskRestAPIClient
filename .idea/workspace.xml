@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Heimische Rechnungen können nun ausgelesen werden.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostVoucherBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/RequestBuilder.java" afterDir="false" />
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Texte können nun geparst werden">
+      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/InvoiceBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/ObjectBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/VoucherPosBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/accountingType/AccountingTypeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/accountingType/AccountingTypeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/other/AbstractEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/AbstractEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/voucher/VoucherPosSaveRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/voucher/VoucherPosSaveRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +73,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.ApplicationMain">
     <configuration name="ApplicationMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.ApplicationMain" />
       <module name="SevDeskRestAPIClient" />
@@ -90,19 +93,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="dir.dir.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetVoucher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="restfulapi.requests.get.GetVoucher" />
-      <module name="SevDeskRestAPIClient" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="restfulapi.requests.get.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -130,13 +120,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="VoucherPosSaveRequest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="data.entity.voucher.VoucherPosSaveRequest" />
+      <module name="SevDeskRestAPIClient" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="data.entity.voucher.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.ApplicationMain" />
+        <item itemvalue="Application.VoucherPosSaveRequest" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.DirLister" />
         <item itemvalue="Application.PostVoucher" />
-        <item itemvalue="Application.GetVoucher" />
       </list>
     </recent_temporary>
   </component>
@@ -168,7 +171,8 @@
       <workItem from="1668017302205" duration="3771000" />
       <workItem from="1668611424152" duration="3080000" />
       <workItem from="1668687740686" duration="3717000" />
-      <workItem from="1668705773950" duration="7140000" />
+      <workItem from="1668705773950" duration="7281000" />
+      <workItem from="1668753467332" duration="3697000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -240,7 +244,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668692869616</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="-- Work in Progress -- Texte können nun geparst werden">
+      <created>1668713526108</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1668713526108</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,7 +279,8 @@
     <MESSAGE value="-- Work in Progress -- PostContact integriert. Entity Klassen werden im nächsten Schritt so angepasst, sodas der GSON Builder mit Annotation arbeiten kann" />
     <MESSAGE value="-- Work in Progress -- Lokale Ordner können nun durchsucht und gespeichert werden. Zusätzlich wurde ein ThreadSleeper integriert." />
     <MESSAGE value="-- Work in Progress -- Heimische Rechnungen können nun ausgelesen werden." />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Heimische Rechnungen können nun ausgelesen werden." />
+    <MESSAGE value="-- Work in Progress -- Texte können nun geparst werden" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Texte können nun geparst werden" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -299,9 +311,24 @@
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostVoucherBuilder.java</url>
+          <line>10</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/VoucherPosBuilder.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="63" />
+          <line>72</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

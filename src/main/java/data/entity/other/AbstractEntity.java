@@ -1,8 +1,10 @@
 package data.entity.other;
 
+import com.google.gson.annotations.Expose;
+
 public class AbstractEntity {
 
-
+    @Expose
     protected int id;
 
     public long getId() {
