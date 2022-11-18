@@ -20,7 +20,7 @@ public class Voucher {
     @Expose
     private String supplierName;
     @Expose
-    private String descritption;
+    private String description;
     @Expose
     private String payDate;
     @Expose
@@ -107,11 +107,11 @@ public class Voucher {
     }
 
     public String getDescritption() {
-        return descritption;
+        return description;
     }
 
     public void setDescritption(String descritption) {
-        this.descritption = descritption;
+        this.description = descritption;
     }
 
     public String getPayDate() {
