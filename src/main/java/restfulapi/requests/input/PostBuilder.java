@@ -2,7 +2,9 @@ package restfulapi.requests.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import data.entity.contact.Category;
 import data.entity.contact.Contact;
+import data.entity.contact.ContactAdress;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
 import org.jboss.resteasy.client.ClientRequest;
@@ -40,7 +42,7 @@ public class PostBuilder implements RequestBuilder {
             }
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientResponse.getEntity().getBytes())));
-            String output=bufferedReader.readLine();
+            String output = bufferedReader.readLine();
 
 
             request.clear();
@@ -65,7 +67,7 @@ public class PostBuilder implements RequestBuilder {
             }
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response.getEntity().getBytes())));
-            String output=bufferedReader.readLine();
+            String output = bufferedReader.readLine();
             request.clear();
             return output;
         } catch (Exception e) {
@@ -97,6 +99,53 @@ public class PostBuilder implements RequestBuilder {
         } catch (Exception e) {
             return null;
         }
+
+    }
+
+    public String postNewContactAdress(ContactAdress contact) {
+        try {
+            ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/ContactAdress?" + TOKEN.getToken());
+            request.accept("application/json");
+            String input = builder(contact);
+            System.out.println(input);
+            request.body("application/json", input);
+            ClientResponse<String> clientResponse = request.post(String.class);
+            if (clientResponse.getStatus() != 200 && clientResponse.getStatus() != 201) {
+                throw new RuntimeException("Failed: Http error code: " + clientResponse.getStatus());
+
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientResponse.getEntity().getBytes())));
+            String output = bufferedReader.readLine();
+
+
+            request.clear();
+
+            return output;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public static void main(String[] args) {
+        Gson gson = new Gson();
+        PostBuilder postBuilder = new PostBuilder();
+        Category category = new Category(2);
+        Contact contact = new Contact(category);
+        String output = postBuilder.postNewContact(contact);
+
+        StringBuilder builder1 = new StringBuilder();
+
+
+        String[] array = output.split("id\":\"");
+        char[] string = array[1].toCharArray();
+
+        for (int i = 0; i < 8; i++) {
+            builder1.append(string[i]);
+        }
+        String id = builder1.toString();
+
 
     }
 }

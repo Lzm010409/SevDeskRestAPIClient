@@ -11,6 +11,7 @@ import java.util.List;
 
 public class TextParser {
     private final Logger logger = Logger.getLogger(TextParser.class);
+
     public List<Object> parseInvoice(String invoiceText) {
         List<String> list = Arrays.asList(invoiceText.split("\n\n"));
         List<String> contact = Arrays.asList(list.get(0).split("\n"));
@@ -72,7 +73,22 @@ public class TextParser {
         objectList.add(invoiceBuilder.build(voucherInfo));
         objectList.add(voucherPosBuilder.build(max));
 
-        logger.log(Logger.Level.INFO,"Alle Daten korrekt ausgelesen!");
+        logger.log(Logger.Level.INFO, "Alle Daten korrekt ausgelesen!");
         return objectList;
+    }
+
+    public String parseId(String toParse) {
+        StringBuilder builder1 = new StringBuilder();
+        String[] array = toParse.split("id\":\"");
+        char[] string = array[1].toCharArray();
+
+        for (int i = 0; i < 8; i++) {
+            builder1.append(string[i]);
+        }
+
+        String id = builder1.toString();
+        logger.log(Logger.Level.INFO, "Die Id des neu angelegten Kunden ist: " + id);
+        return id;
+
     }
 }

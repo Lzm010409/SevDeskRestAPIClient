@@ -1,6 +1,7 @@
 package main;
 
 import com.sun.istack.logging.Logger;
+import data.entity.contact.Contact;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
 import data.filepaths.PathReader;
@@ -48,6 +49,9 @@ public class ApplicationMain {
                     if (!readedFileList.contains(fileList.get(i))) {
                         objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(fileList.get(i))));
                         postBuilder.postNewVoucher((Voucher) objectList.get(1), (VoucherPosSave) objectList.get(2));
+                        String output=postBuilder.postNewContact((Contact) objectList.get(0));
+                        textParser.parseId(output);
+                        
                         pathWriter.writeData(fileList.get(i));
                     }
 
