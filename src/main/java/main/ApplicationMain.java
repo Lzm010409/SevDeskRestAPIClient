@@ -48,10 +48,19 @@ public class ApplicationMain {
                 try {
                     if (!readedFileList.contains(fileList.get(i))) {
                         objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(fileList.get(i))));
-                        postBuilder.postNewVoucher((Voucher) objectList.get(1), (VoucherPosSave) objectList.get(2));
-                        String output=postBuilder.postNewContact((Contact) objectList.get(0));
-                        textParser.parseId(output);
-                        
+                        try {
+                            //Country country = new Country(0);
+                            String output = postBuilder.postNewContact((Contact) objectList.get(0));
+                            //String id= textParser.parseId(output);
+                            //ContactAdress contactAdress= new ContactAdress(country);
+                            //postBuilder.postNewContactAdress((ContactAdress) objectList.get(1), Long.parseLong(id));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3),"C");
+
                         pathWriter.writeData(fileList.get(i));
                     }
 

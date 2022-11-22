@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 
 public class AccountingTypeRequest {
-    @Expose(serialize = false, deserialize = true)
+    @Expose
     private int id;
     @Expose
     private String objectName;

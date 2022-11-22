@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import data.entity.contact.Category;
 import data.entity.contact.Contact;
 import data.entity.contact.ContactAdress;
+import data.entity.other.Supplier;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
 import org.jboss.resteasy.client.ClientRequest;
@@ -28,10 +29,19 @@ public class PostBuilder implements RequestBuilder {
     }
 
 
-    public String postNewVoucher(Voucher voucher, VoucherPosSave voucherPosSave) {
+    public String postNewVoucher(Voucher voucher, VoucherPosSave voucherPosSave, String creditDebit) {
         try {
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Voucher/Factory/saveVoucher?" + TOKEN.getToken());
             request.accept("application/json");
+            if(creditDebit.equalsIgnoreCase("c")){
+                Supplier supplier = new Supplier(54378628);
+                voucher.setSupplier(supplier);
+
+            }else{
+                Supplier supplier = new Supplier(54445210);
+                voucher.setSupplier(supplier);
+
+            }
             String input = "{\"voucher\":" + builder(voucher) + ",\"voucherPosSave\":[" + builder(voucherPosSave) + "]}";
             System.out.println(input);
             request.body("application/json", input);
@@ -102,11 +112,18 @@ public class PostBuilder implements RequestBuilder {
 
     }
 
-    public String postNewContactAdress(ContactAdress contact) {
+    public String postNewContactAdress(ContactAdress contact, long contactId) {
         try {
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/ContactAdress?" + TOKEN.getToken());
             request.accept("application/json");
-            String input = builder(contact);
+            String input = "{\"contact\":{" +
+                    "\"id\":" + contactId + ", \"objectName\":\"Contact\"}," +
+                    "\"street\":" + ("\"" + contact.getStreet() + "\",") +
+                    "\"zip\":" + ("\"" + contact.getZip() + "\",") +
+                    "\"city\":" + ("\"" + contact.getCity() + "\",") +
+                    "\"country\":{ \"id\":0,\"objectName\":\"StaticCountry\"}}";
+
+
             System.out.println(input);
             request.body("application/json", input);
             ClientResponse<String> clientResponse = request.post(String.class);

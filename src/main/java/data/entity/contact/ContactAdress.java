@@ -28,8 +28,7 @@ public class ContactAdress {
     @Expose
     private String name4;
 
-    public ContactAdress(Contact contact, Country country) {
-        this.contact = contact;
+    public ContactAdress( Country country) {
         this.country = country;
     }
 
