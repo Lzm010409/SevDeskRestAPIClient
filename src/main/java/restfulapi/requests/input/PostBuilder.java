@@ -121,7 +121,7 @@ public class PostBuilder implements RequestBuilder {
                     "\"street\":" + ("\"" + contact.getStreet() + "\",") +
                     "\"zip\":" + ("\"" + contact.getZip() + "\",") +
                     "\"city\":" + ("\"" + contact.getCity() + "\",") +
-                    "\"country\":{ \"id\":0,\"objectName\":\"StaticCountry\"}}";
+                    "\"country\":{ \"id\":1,\"objectName\":\"StaticCountry\"}}";
 
 
             System.out.println(input);

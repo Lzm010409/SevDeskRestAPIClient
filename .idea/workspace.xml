@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- ContactAdress wurde hinzugefügt. postNewContactAdress wurde hinzugefügt. ContactBuilder wurde angefangen anzupassen.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" afterDir="false" />
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Contact wird nun vor dem hochladen des Vouchers angelegt. Voucher wird nun auch mit dem richtigen Lieferanten verbucht.">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAdress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAdress.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +171,7 @@
       <workItem from="1668761897277" duration="9225000" />
       <workItem from="1668776859120" duration="3297000" />
       <workItem from="1669034032922" duration="5037000" />
-      <workItem from="1669112239607" duration="3743000" />
+      <workItem from="1669112239607" duration="6566000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -280,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669040407362</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="-- Work in Progress -- Contact wird nun vor dem hochladen des Vouchers angelegt. Voucher wird nun auch mit dem richtigen Lieferanten verbucht.">
+      <created>1669116308505</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669116308505</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,7 +318,8 @@
     <MESSAGE value="-- Work in Progress -- Voucher können nun erforlgreich übermittelt werden, zusätzlich werden die gelesenen getrennt von den bereits übetragenen Voucher in eine Datei geschrieben. Dies verhindert, dass ein Voucher doppelt hochgeladen wird." />
     <MESSAGE value="-- Work in Progress -- Entities wurden angepasst. PostBuilder wurde angepasst." />
     <MESSAGE value="-- Work in Progress -- ContactAdress wurde hinzugefügt. postNewContactAdress wurde hinzugefügt. ContactBuilder wurde angefangen anzupassen." />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- ContactAdress wurde hinzugefügt. postNewContactAdress wurde hinzugefügt. ContactBuilder wurde angefangen anzupassen." />
+    <MESSAGE value="-- Work in Progress -- Contact wird nun vor dem hochladen des Vouchers angelegt. Voucher wird nun auch mit dem richtigen Lieferanten verbucht." />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Contact wird nun vor dem hochladen des Vouchers angelegt. Voucher wird nun auch mit dem richtigen Lieferanten verbucht." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -350,8 +356,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="93" />
+          <line>56</line>
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

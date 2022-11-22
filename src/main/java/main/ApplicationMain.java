@@ -2,6 +2,8 @@ package main;
 
 import com.sun.istack.logging.Logger;
 import data.entity.contact.Contact;
+import data.entity.contact.ContactAdress;
+import data.entity.other.Country;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
 import data.filepaths.PathReader;
@@ -49,17 +51,16 @@ public class ApplicationMain {
                     if (!readedFileList.contains(fileList.get(i))) {
                         objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(fileList.get(i))));
                         try {
-                            //Country country = new Country(0);
+                            Country country = new Country(0);
                             String output = postBuilder.postNewContact((Contact) objectList.get(0));
-                            //String id= textParser.parseId(output);
-                            //ContactAdress contactAdress= new ContactAdress(country);
-                            //postBuilder.postNewContactAdress((ContactAdress) objectList.get(1), Long.parseLong(id));
+                            String id = textParser.parseId(output);
+                            postBuilder.postNewContactAdress((ContactAdress) objectList.get(1), Long.parseLong(id));
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
 
-                        postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3),"C");
+                        postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3), "C");
 
                         pathWriter.writeData(fileList.get(i));
                     }
