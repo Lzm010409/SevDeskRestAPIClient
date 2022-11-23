@@ -14,7 +14,6 @@ public class DirLister {
     PathWriter pathWriter = new PathWriter();
 
 
-
     public void listDir(File dir) {
         pathWriter.setFilePathName("FilePaths.txt");
         int count = 0;
@@ -27,9 +26,11 @@ public class DirLister {
                     continue;
                 }
                 if (!files[i].getAbsolutePath().contains("@eaDir")) {
-                    int j = pathWriter.writeData(files[i].getAbsolutePath());
-                    if (j == 1) {
-                        count += 1;
+                    if (files[i].getAbsolutePath().contains("Ausgaben") || files[i].getAbsolutePath().contains("Rechnung")|| files[i].getAbsolutePath().contains("RG")) {
+                        int j = pathWriter.writeData(files[i].getAbsolutePath());
+                        if (j == 1) {
+                            count += 1;
+                        }
                     }
                 }
 

@@ -3,7 +3,7 @@ package data.entity.contact;
 import com.google.gson.annotations.Expose;
 import data.entity.other.Country;
 
-public class ContactAdress {
+public class ContactAddress {
     @Expose(serialize = false, deserialize = true)
     private long id;
 
@@ -28,7 +28,7 @@ public class ContactAdress {
     @Expose
     private String name4;
 
-    public ContactAdress( Country country) {
+    public ContactAddress(Country country) {
         this.country = country;
     }
 

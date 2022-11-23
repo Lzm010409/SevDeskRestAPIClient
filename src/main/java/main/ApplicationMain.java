@@ -2,7 +2,7 @@ package main;
 
 import com.sun.istack.logging.Logger;
 import data.entity.contact.Contact;
-import data.entity.contact.ContactAdress;
+import data.entity.contact.ContactAddress;
 import data.entity.other.Country;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
@@ -23,7 +23,8 @@ public class ApplicationMain {
     private final Logger logger = Logger.getLogger(ApplicationMain.class);
 
 
-    private String invoiceDir = "/Users/lukegollenstede/Desktop/02";
+    private String invoiceDir = "/Users/lukegollenstede/Desktop/02/Gutachten";
+    private String voucherDir = "/Users/lukegollenstede/Desktop/02/Ausgaben";
 
     public static void main(String[] args) {
         ApplicationMain applicationMain = new ApplicationMain();
@@ -54,7 +55,7 @@ public class ApplicationMain {
                             Country country = new Country(0);
                             String output = postBuilder.postNewContact((Contact) objectList.get(0));
                             String id = textParser.parseId(output);
-                            postBuilder.postNewContactAdress((ContactAdress) objectList.get(1), Long.parseLong(id));
+                            postBuilder.postNewContactAdress((ContactAddress) objectList.get(1), Long.parseLong(id));
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -69,6 +70,11 @@ public class ApplicationMain {
                     throw new RuntimeException(e);
                 }
             }
+
+           /* dirLister=null;
+            dirLister.listDir(new File(applicationMain.getVoucherDir()));
+            fileList = pathReader.readFile(dirLister.getPathWriter().getFilePaths());
+            */
 
 
             threadSleeper.threadSleep(10000);
@@ -97,4 +103,11 @@ public class ApplicationMain {
         this.invoiceDir = invoiceDir;
     }
 
+    public String getVoucherDir() {
+        return voucherDir;
+    }
+
+    public void setVoucherDir(String voucherDir) {
+        this.voucherDir = voucherDir;
+    }
 }

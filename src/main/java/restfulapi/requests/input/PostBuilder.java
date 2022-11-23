@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import data.entity.contact.Category;
 import data.entity.contact.Contact;
-import data.entity.contact.ContactAdress;
+import data.entity.contact.ContactAddress;
 import data.entity.other.Supplier;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
@@ -112,9 +112,9 @@ public class PostBuilder implements RequestBuilder {
 
     }
 
-    public String postNewContactAdress(ContactAdress contact, long contactId) {
+    public String postNewContactAdress(ContactAddress contact, long contactId) {
         try {
-            ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/ContactAdress?" + TOKEN.getToken());
+            ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/ContactAddress?" + TOKEN.getToken());
             request.accept("application/json");
             String input = "{\"contact\":{" +
                     "\"id\":" + contactId + ", \"objectName\":\"Contact\"}," +
