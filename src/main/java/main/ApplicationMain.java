@@ -9,10 +9,13 @@ import data.entity.voucher.VoucherPosSave;
 import data.filepaths.PathReader;
 import data.filepaths.PathWriter;
 import dir.dir.DirLister;
+import mail.login.Login;
+import mail.send.MailSender;
 import restfulapi.requests.input.PostBuilder;
 import text.extractor.InvoiceTextExtractor;
 import text.parser.TextParser;
 
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,33 +27,35 @@ public class ApplicationMain {
 
 
     private String invoiceDir = "/Users/lukegollenstede/Desktop/02/Gutachten";
-    private String voucherDir = "/Users/lukegollenstede/Desktop/02/Ausgaben";
+    private String voucherDir = "/Users/lukegollenstede/Desktop/02/Ausgaben/2022/08/BAR";
 
     public static void main(String[] args) {
         ApplicationMain applicationMain = new ApplicationMain();
-        DirLister dirLister = new DirLister();
+        DirLister invoiceDirLister = new DirLister();
+        DirLister voucherDirLister = new DirLister();
         ThreadSleeper threadSleeper = new ThreadSleeper();
-        List<String> fileList = new ArrayList<>();
+        List<String> invoiceFileList = new ArrayList<>();
+        List<String> voucherFileList = new ArrayList<>();
         List<Object> objectList = new ArrayList<>();
         List<String> readedFileList = new ArrayList<>();
         TextParser textParser = new TextParser();
         InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
         PostBuilder postBuilder = new PostBuilder();
-        PathWriter pathWriter = new PathWriter();
+        PathWriter readedFilesWriter = new PathWriter();
         PathReader pathReader = new PathReader();
-        pathWriter.setFilePathName("ReadedFiles.txt");
+        readedFilesWriter.setFilePathName("ReadedFiles.txt");
 
         while (applicationMain.isRunApplication() == true) {
 
 
-            dirLister.listDir(new File(applicationMain.getInvoiceDir()));
-            fileList = pathReader.readFile(dirLister.getPathWriter().getFilePaths());
-            readedFileList = pathReader.readFile(new File(pathWriter.getFilePathName()));
+            invoiceDirLister.listDir(new File(applicationMain.getInvoiceDir()), "InvoiceFilePaths.txt");
+            invoiceFileList = pathReader.readFile(invoiceDirLister.getPathWriter().getFilePaths());
+            readedFileList = pathReader.readFile(new File(readedFilesWriter.getFilePathName()));
 
-            for (int i = 0; i < fileList.size(); i++) {
+            for (int i = 0; i < invoiceFileList.size(); i++) {
                 try {
-                    if (!readedFileList.contains(fileList.get(i))) {
-                        objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(fileList.get(i))));
+                    if (!readedFileList.contains(invoiceFileList.get(i))) {
+                        objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(invoiceFileList.get(i))));
                         try {
                             Country country = new Country(0);
                             String output = postBuilder.postNewContact((Contact) objectList.get(0));
@@ -63,18 +68,36 @@ public class ApplicationMain {
 
                         postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3), "C");
 
-                        pathWriter.writeData(fileList.get(i));
+                        readedFilesWriter.writeData(invoiceFileList.get(i));
                     }
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
+            voucherDirLister.listDir(new File(applicationMain.getVoucherDir()), "VoucherFilePaths.txt");
+            voucherFileList = pathReader.readFile(voucherDirLister.getPathWriter().getFilePaths());
+            Login login = new Login();
+            MailSender mailSender = new MailSender();
 
-           /* dirLister=null;
-            dirLister.listDir(new File(applicationMain.getVoucherDir()));
-            fileList = pathReader.readFile(dirLister.getPathWriter().getFilePaths());
-            */
+            try {
+                login.login("", "");
+                mailSender.setMailSession(login.getMailSession());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < voucherFileList.size(); i++) {
+                if (!readedFileList.contains(voucherFileList.get(i))) {
+                    try {
+                        mailSender.sendMail("", "", "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
+                        readedFilesWriter.writeData(voucherFileList.get(i));
+                    } catch (MessagingException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
 
 
             threadSleeper.threadSleep(10000);

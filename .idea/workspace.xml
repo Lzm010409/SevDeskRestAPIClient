@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben">
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben">
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/TextEncoder/HtmlEncoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/ServerData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/UserData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/testMail" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/login/Login.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mail/send/MailSender.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +28,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -52,6 +57,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/lukegollenstede/IdeaProjects/SevDeskRestAPIClient/src/main/java&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -64,6 +70,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
@@ -173,7 +182,10 @@
       <workItem from="1669034032922" duration="5037000" />
       <workItem from="1669112239607" duration="6775000" />
       <workItem from="1669195341736" duration="6357000" />
-      <workItem from="1669291691093" duration="2370000" />
+      <workItem from="1669291691093" duration="2916000" />
+      <workItem from="1669294622014" duration="10000" />
+      <workItem from="1669295167322" duration="494000" />
+      <workItem from="1669295699877" duration="2237000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -301,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669201651249</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben">
+      <created>1669294485161</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1669294485161</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -337,7 +356,8 @@
     <MESSAGE value="-- Work in Progress -- Contact wird nun vor dem hochladen des Vouchers angelegt. Voucher wird nun auch mit dem richtigen Lieferanten verbucht." />
     <MESSAGE value="-- Work in Progress -- Contact wird jetzt korrekt angelegt. ContactAdress wird nun korrekt mit dem davor erzeugten Contact verknüpft und hochgeladen." />
     <MESSAGE value="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben" />
+    <MESSAGE value="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -373,9 +393,14 @@
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="118" />
+          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="120" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

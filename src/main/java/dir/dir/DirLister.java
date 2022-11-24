@@ -14,19 +14,19 @@ public class DirLister {
     PathWriter pathWriter = new PathWriter();
 
 
-    public void listDir(File dir) {
-        pathWriter.setFilePathName("FilePaths.txt");
+    public void listDir(File dir, String filePaths) {
+        pathWriter.setFilePathName(filePaths);
         int count = 0;
         File[] files = dir.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
                 if (files[i].isDirectory()) {
                     logger.log(Logger.Level.WARN, files[i] + ": ist keine Datei!");
-                    listDir(files[i]);
+                    listDir(files[i], filePaths);
                     continue;
                 }
                 if (!files[i].getAbsolutePath().contains("@eaDir")) {
-                    if (files[i].getAbsolutePath().contains("Ausgaben") || files[i].getAbsolutePath().contains("Rechnung")|| files[i].getAbsolutePath().contains("RG")) {
+                    if (files[i].getAbsolutePath().contains("Ausgaben") || files[i].getAbsolutePath().contains("Rechnung") || files[i].getAbsolutePath().contains("RG")) {
                         int j = pathWriter.writeData(files[i].getAbsolutePath());
                         if (j == 1) {
                             count += 1;
