@@ -8,9 +8,9 @@ import java.util.List;
 public class ContactBuilder implements ObjectBuilder {
 
     char[] abcShort = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','ä', 'ü', 'ö'};
+            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ä', 'ü', 'ö'};
     char[] abcBig = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','Ä', 'Ü', 'Ö'};
+            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Ä', 'Ü', 'Ö'};
 
     @Override
     public Object build(List<String> e) {
@@ -25,14 +25,18 @@ public class ContactBuilder implements ObjectBuilder {
             for (int j = 0; j < abcShort.length; j++) {
                 if (name[i] == abcShort[j] && nachname == false) {
                     builder.append(name[i]);
+                    break;
                 }
                 if (name[i] == abcBig[j]) {
                     builder2.append(name[i]);
-                    nachname=true;
+                    nachname = true;
+                    break;
                 }
                 if (name[i] == abcShort[j] && nachname == true) {
                     builder2.append(name[i]);
+                    break;
                 }
+
             }
         }
         contact.setSurename(builder.toString());

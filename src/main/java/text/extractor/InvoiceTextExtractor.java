@@ -35,7 +35,7 @@ public class InvoiceTextExtractor implements TextExtractor {
             strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
             str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
             builder.append(str);
-            rect = new Rectangle(InvoiceCoordinates.RECHNUNGSNUMMER.getX(), InvoiceCoordinates.RECHNUNGSNUMMER.getY(), InvoiceCoordinates.RECHNUNGSNUMMER.getWidth(), InvoiceCoordinates.RECHNUNGSNUMMER.getHeight());
+            rect = new Rectangle(InvoiceCoordinates.RECHNUNGSDATUM.getX(), InvoiceCoordinates.RECHNUNGSDATUM.getY(), InvoiceCoordinates.RECHNUNGSDATUM.getWidth(), InvoiceCoordinates.RECHNUNGSDATUM.getHeight());
             regionFilter = new TextRegionEventFilter(rect);
             strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
             str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";

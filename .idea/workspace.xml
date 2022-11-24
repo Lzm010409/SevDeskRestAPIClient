@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Contact wird jetzt korrekt angelegt. ContactAdress wird nun korrekt mit dem davor erzeugten Contact verknüpft und hochgeladen.">
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben">
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAdress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAddress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,7 +172,8 @@
       <workItem from="1668776859120" duration="3297000" />
       <workItem from="1669034032922" duration="5037000" />
       <workItem from="1669112239607" duration="6775000" />
-      <workItem from="1669195341736" duration="5359000" />
+      <workItem from="1669195341736" duration="6357000" />
+      <workItem from="1669291691093" duration="2370000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -296,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669121520389</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben">
+      <created>1669201651249</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1669201651249</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,7 +336,8 @@
     <MESSAGE value="-- Work in Progress -- ContactAdress wurde hinzugefügt. postNewContactAdress wurde hinzugefügt. ContactBuilder wurde angefangen anzupassen." />
     <MESSAGE value="-- Work in Progress -- Contact wird nun vor dem hochladen des Vouchers angelegt. Voucher wird nun auch mit dem richtigen Lieferanten verbucht." />
     <MESSAGE value="-- Work in Progress -- Contact wird jetzt korrekt angelegt. ContactAdress wird nun korrekt mit dem davor erzeugten Contact verknüpft und hochgeladen." />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Contact wird jetzt korrekt angelegt. ContactAdress wird nun korrekt mit dem davor erzeugten Contact verknüpft und hochgeladen." />
+    <MESSAGE value="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -353,7 +359,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java</url>
-          <line>13</line>
+          <line>12</line>
           <option name="timeStamp" value="67" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -363,13 +369,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java</url>
-          <line>163</line>
-          <option name="timeStamp" value="83" />
+          <line>148</line>
+          <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="114" />
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="118" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -2,7 +2,6 @@ package restfulapi.requests.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import data.entity.contact.Category;
 import data.entity.contact.Contact;
 import data.entity.contact.ContactAddress;
 import data.entity.other.Supplier;
@@ -15,6 +14,7 @@ import restfulapi.requests.url.Token;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStreamReader;
 
 public class PostBuilder implements RequestBuilder {
@@ -33,11 +33,11 @@ public class PostBuilder implements RequestBuilder {
         try {
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Voucher/Factory/saveVoucher?" + TOKEN.getToken());
             request.accept("application/json");
-            if(creditDebit.equalsIgnoreCase("c")){
+            if (creditDebit.equalsIgnoreCase("c")) {
                 Supplier supplier = new Supplier(54378628);
                 voucher.setSupplier(supplier);
 
-            }else{
+            } else {
                 Supplier supplier = new Supplier(54445210);
                 voucher.setSupplier(supplier);
 
@@ -63,13 +63,12 @@ public class PostBuilder implements RequestBuilder {
         }
     }
 
-    public String postNewVoucherFile() {
+    public String postNewVoucherFile(File file) {
         try {
             ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Voucher/Factory/uploadTempFile?" + TOKEN.getToken());
-            String input = "file:\"/Users/lukegollenstede/Downloads/Rechnung_3676083653.pdf\"";
             request.accept("application/json");
             request.header("Content-Type", "multipart/form-data");
-            request.body("multipart/form-data", input);
+            request.body("multipart/form-data", file);
             ClientResponse<String> response = request.post(String.class);
             if (response.getStatus() != 200) {
                 throw new RuntimeException("Failed: Http error code: " + response.getStatus());
@@ -146,22 +145,9 @@ public class PostBuilder implements RequestBuilder {
     }
 
     public static void main(String[] args) {
-        Gson gson = new Gson();
         PostBuilder postBuilder = new PostBuilder();
-        Category category = new Category(2);
-        Contact contact = new Contact(category);
-        String output = postBuilder.postNewContact(contact);
-
-        StringBuilder builder1 = new StringBuilder();
-
-
-        String[] array = output.split("id\":\"");
-        char[] string = array[1].toCharArray();
-
-        for (int i = 0; i < 8; i++) {
-            builder1.append(string[i]);
-        }
-        String id = builder1.toString();
+        File file = new File("/Users/lukegollenstede/Desktop/02/0422_519.pdf");
+        String output = postBuilder.postNewVoucherFile(file);
 
 
     }
