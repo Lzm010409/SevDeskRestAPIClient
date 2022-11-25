@@ -34,4 +34,36 @@ public class PathReader {
 
         return tempList;
     }
+
+    public boolean isPresent(File file, String toSearchFor) {
+        try {
+            boolean isPresent = false;
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String zeile = "";
+            while ((zeile = bufferedReader.readLine()) != null) {
+                if (zeile.equalsIgnoreCase(toSearchFor)) {
+                    isPresent = true;
+                }
+
+            }
+            return isPresent;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public int countRows(File file) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String zeile = "";
+            int count = 0;
+            while ((zeile = bufferedReader.readLine()) != null) {
+                count += 1;
+            }
+            return count;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

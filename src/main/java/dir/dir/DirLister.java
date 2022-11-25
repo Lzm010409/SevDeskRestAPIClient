@@ -14,30 +14,41 @@ public class DirLister {
     PathWriter pathWriter = new PathWriter();
 
 
-    public void listDir(File dir, String filePaths) {
-        pathWriter.setFilePathName(filePaths);
+    private void listDir(File dir, List<File> list) {
+
         int count = 0;
         File[] files = dir.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
                 if (files[i].isDirectory()) {
                     logger.log(Logger.Level.WARN, files[i] + ": ist keine Datei!");
-                    listDir(files[i], filePaths);
-                    continue;
+                    listDir(files[i], list);
                 }
-                if (!files[i].getAbsolutePath().contains("@eaDir")) {
-                    if (files[i].getAbsolutePath().contains("Ausgaben") || files[i].getAbsolutePath().contains("Rechnung") || files[i].getAbsolutePath().contains("RG")) {
-                        int j = pathWriter.writeData(files[i].getAbsolutePath());
-                        if (j == 1) {
-                            count += 1;
-                        }
-                    }
+                if (!files[i].getAbsolutePath().contains("DS_Store") && !files[i].isDirectory()) {
+                    list.add(files[i]);
                 }
-
             }
-            logger.log(Logger.Level.INFO, "Es wurden " + count + " neue Dateien hinzugefügt!");
+
         }
 
+    }
+
+    public List<String> getInvoices(File dir) {
+        List<File> fileList = new ArrayList<>();
+        List<String> invoices = new ArrayList<>();
+        listDir(dir, fileList);
+
+        for (int i = 0; i < fileList.size(); i++) {
+            if (!dir.getAbsolutePath().contains("Ausgaben")) {
+                if (fileList.get(i).getAbsolutePath().contains("Rechnung") || fileList.get(i).getAbsolutePath().contains("RG")) {
+                    invoices.add(fileList.get(i).getAbsolutePath());
+                }
+            } else {
+                invoices.add(fileList.get(i).getAbsolutePath());
+            }
+
+        }
+        return invoices;
     }
 
     public static void main(String[] args) {

@@ -4,18 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben">
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/TextEncoder/HtmlEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/ServerData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/UserData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/data/testMail" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/login/Login.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mail/send/MailSender.java" afterDir="false" />
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!">
+      <change afterPath="$PROJECT_DIR$/ApplicationProperties.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/filepaths/PathReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/filepaths/PathReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +27,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -185,7 +183,8 @@
       <workItem from="1669291691093" duration="2916000" />
       <workItem from="1669294622014" duration="10000" />
       <workItem from="1669295167322" duration="494000" />
-      <workItem from="1669295699877" duration="2237000" />
+      <workItem from="1669295699877" duration="2594000" />
+      <workItem from="1669368843136" duration="5923000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -320,7 +319,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669294485161</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!">
+      <created>1669298299004</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1669298299004</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -357,7 +363,8 @@
     <MESSAGE value="-- Work in Progress -- Contact wird jetzt korrekt angelegt. ContactAdress wird nun korrekt mit dem davor erzeugten Contact verknüpft und hochgeladen." />
     <MESSAGE value="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben" />
     <MESSAGE value="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben" />
+    <MESSAGE value="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -393,14 +400,14 @@
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
-          <line>77</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
           <line>87</line>
           <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="132" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
