@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!">
-      <change afterPath="$PROJECT_DIR$/ApplicationProperties.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java" afterDir="false" />
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- DirLister.java wurde angepasst. ApllicationProperties.txt wurden hinzugefügt, mit Daten befüllt und können ausgelesen werden.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/text/parser/DateParser.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/filepaths/PathReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/filepaths/PathReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dir/dir/DirLister.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/InvoiceBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/InvoiceBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ObjectBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ObjectBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +62,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;d13aebd44112d1cbd9a4896b73975e48&quot;
   }
 }</component>
@@ -184,7 +183,11 @@
       <workItem from="1669294622014" duration="10000" />
       <workItem from="1669295167322" duration="494000" />
       <workItem from="1669295699877" duration="2594000" />
-      <workItem from="1669368843136" duration="5923000" />
+      <workItem from="1669368843136" duration="6091000" />
+      <workItem from="1669388623437" duration="160000" />
+      <workItem from="1669388790818" duration="158000" />
+      <workItem from="1669388956894" duration="700000" />
+      <workItem from="1669630213247" duration="6539000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -326,7 +329,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669298299004</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="-- Work in Progress -- DirLister.java wurde angepasst. ApllicationProperties.txt wurden hinzugefügt, mit Daten befüllt und können ausgelesen werden.">
+      <created>1669375520619</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1669375520619</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,7 +374,8 @@
     <MESSAGE value="-- Work in Progress -- Fehler bei Erstellung von Contact und ContactAdress behoben" />
     <MESSAGE value="-- Work in Progress -- Kleinen Fehler beim Auslesen des Rechnungsdatums behoben" />
     <MESSAGE value="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!" />
+    <MESSAGE value="-- Work in Progress -- DirLister.java wurde angepasst. ApllicationProperties.txt wurden hinzugefügt, mit Daten befüllt und können ausgelesen werden." />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- DirLister.java wurde angepasst. ApllicationProperties.txt wurden hinzugefügt, mit Daten befüllt und können ausgelesen werden." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -400,14 +411,9 @@
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="120" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="132" />
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/InvoiceBuilder.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="145" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -68,7 +68,6 @@ public class ApplicationMain {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                         postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3), "C");
 
                         readedFilesWriter.writeData(invoiceFileList.get(i));

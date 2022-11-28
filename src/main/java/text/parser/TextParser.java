@@ -30,6 +30,7 @@ public class TextParser {
             }
         }
         String invoiceDate = builder1.toString();
+        //Calendar calendar = new DateParser().parseDate(invoiceDate);
 
 
         String gutachtennummer = list.get(2);
