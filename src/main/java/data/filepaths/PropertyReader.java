@@ -1,5 +1,6 @@
 package data.filepaths;
 
+import data.entity.other.TagName;
 import org.jboss.logging.Logger;
 
 import java.io.*;
@@ -10,10 +11,10 @@ import java.util.List;
 public class PropertyReader {
     private final Logger logger = Logger.getLogger(PropertyReader.class);
 
-    public List<String> readProperties() {
+    public List<String> readProperties(String path) {
         String zeile;
         List<String> filePaths;
-        File file = new File("ApplicationProperties.txt");
+        File file = new File(path);
         try {
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -32,5 +33,17 @@ public class PropertyReader {
             return null;
         }
 
+    }
+
+
+    public List<TagName> readRechtsanwälte(List<String> list) {
+        List<TagName> tagNames = new ArrayList<>();
+        for (int i = 0; i < list.size(); i += 2) {
+            TagName tagName = new TagName(list.get(i), list.get(i + 1));
+            tagNames.add(tagName);
+            tagName = null;
+
+        }
+        return tagNames;
     }
 }

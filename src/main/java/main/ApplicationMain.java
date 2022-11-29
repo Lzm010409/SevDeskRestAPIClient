@@ -4,7 +4,10 @@ import com.sun.istack.logging.Logger;
 import data.entity.contact.Contact;
 import data.entity.contact.ContactAddress;
 import data.entity.other.Country;
+import data.entity.other.Tag;
+import data.entity.other.TagName;
 import data.entity.voucher.Voucher;
+import data.entity.voucher.VoucherLink;
 import data.entity.voucher.VoucherPosSave;
 import data.filepaths.PathReader;
 import data.filepaths.PathWriter;
@@ -12,7 +15,8 @@ import data.filepaths.PropertyReader;
 import dir.dir.DirLister;
 import mail.login.Login;
 import mail.send.MailSender;
-import restfulapi.requests.input.PostBuilder;
+import restfulapi.requests.post.PostBuilder;
+import restfulapi.requests.url.Token;
 import text.extractor.InvoiceTextExtractor;
 import text.parser.TextParser;
 
@@ -30,7 +34,7 @@ public class ApplicationMain {
     private String invoiceDir;
     private String voucherDir;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MessagingException{
         ApplicationMain applicationMain = new ApplicationMain();
         DirLister invoiceDirLister = new DirLister();
         DirLister voucherDirLister = new DirLister();
@@ -39,7 +43,7 @@ public class ApplicationMain {
         List<String> voucherFileList = new ArrayList<>();
         List<Object> objectList = new ArrayList<>();
         List<String> readedFileList = new ArrayList<>();
-        List<String> applicationProperties = new PropertyReader().readProperties();
+        List<String> applicationProperties = new PropertyReader().readProperties("ApplicationProperties.txt");
         TextParser textParser = new TextParser();
         InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
         PostBuilder postBuilder = new PostBuilder();
@@ -49,6 +53,10 @@ public class ApplicationMain {
         File readedFiles = new File(applicationProperties.get(0));
         applicationMain.setInvoiceDir(applicationProperties.get(1));
         applicationMain.setVoucherDir(applicationProperties.get(2));
+        Token TOKEN = new Token();
+        TOKEN.setToken(applicationProperties.get(3));
+
+        String output = "";
 
         while (applicationMain.isRunApplication() == true) {
 
@@ -61,15 +69,22 @@ public class ApplicationMain {
                         objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(invoiceFileList.get(i))));
                         try {
                             Country country = new Country(0);
-                            String output = postBuilder.postNewContact((Contact) objectList.get(0));
+                            output = postBuilder.postNewContact((Contact) objectList.get(0),TOKEN);
                             String id = textParser.parseId(output);
-                            postBuilder.postNewContactAdress((ContactAddress) objectList.get(1), Long.parseLong(id));
+                            postBuilder.postNewContactAdress((ContactAddress) objectList.get(1), Long.parseLong(id),TOKEN);
+                            output = null;
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3), "C");
 
+                        output = postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3), "D",TOKEN);
+                        String id = textParser.parseId(output);
+                        VoucherLink voucherLink = new VoucherLink();
+                        voucherLink.setId(Integer.parseInt(id));
+                        Tag tag = new Tag(((TagName) objectList.get(4)).getName());
+                        tag.setObject(voucherLink);
+                        postBuilder.postNewTag(tag,TOKEN);
                         readedFilesWriter.writeData(invoiceFileList.get(i));
                     }
 
@@ -83,7 +98,7 @@ public class ApplicationMain {
             MailSender mailSender = new MailSender();
 
             try {
-                login.login("", "");
+                login.login(applicationProperties.get(4), applicationProperties.get(6)+"#"+applicationProperties.get(7));
                 mailSender.setMailSession(login.getMailSession());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,7 +106,7 @@ public class ApplicationMain {
             for (int i = 0; i < voucherFileList.size(); i++) {
                 if (pathReader.isPresent(readedFiles, voucherFileList.get(i)) == false) {
                     try {
-                        mailSender.sendMail("", "", "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
+                        mailSender.sendMail(applicationProperties.get(4), applicationProperties.get(5), "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
                         readedFilesWriter.writeData(voucherFileList.get(i));
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
@@ -102,7 +117,7 @@ public class ApplicationMain {
             }
 
 
-            threadSleeper.threadSleep(10000);
+            threadSleeper.threadSleep(3600000);
 
 
         }

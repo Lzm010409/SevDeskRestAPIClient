@@ -1,4 +1,4 @@
-package restfulapi.requests.input;
+package restfulapi.requests.post;
 
 public interface RequestBuilder {
 

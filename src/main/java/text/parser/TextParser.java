@@ -1,10 +1,7 @@
 package text.parser;
 
 import org.jboss.logging.Logger;
-import text.object.ContactAdressBuilder;
-import text.object.ContactBuilder;
-import text.object.InvoiceBuilder;
-import text.object.VoucherPosBuilder;
+import text.object.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +14,7 @@ public class TextParser {
         List<String> list = Arrays.asList(invoiceText.split("\n\n"));
         List<String> contact = Arrays.asList(list.get(0).split("\n"));
         List<String> contactAdress = new ArrayList<>();
+        List<String> tag = Arrays.asList(list.get(4).split("\n"));
         contactAdress.add(contact.get(2));
         contactAdress.add(contact.get(3));
         char[] invoiceDateArray = list.get(1).toCharArray();
@@ -70,15 +68,13 @@ public class TextParser {
                 voucherPos.set(i, null);
             }
         }
-        InvoiceBuilder invoiceBuilder = new InvoiceBuilder();
-        VoucherPosBuilder voucherPosBuilder = new VoucherPosBuilder();
-        ContactBuilder contactBuilder = new ContactBuilder();
-        ContactAdressBuilder contactAdressBuilder = new ContactAdressBuilder();
+
         List<Object> objectList = new ArrayList<>();
-        objectList.add(contactBuilder.build(contact));
-        objectList.add(contactAdressBuilder.build(contactAdress));
-        objectList.add(invoiceBuilder.build(voucherInfo));
-        objectList.add(voucherPosBuilder.build(max));
+        objectList.add(new ContactBuilder().build(contact));
+        objectList.add(new ContactAdressBuilder().build(contactAdress));
+        objectList.add(new InvoiceBuilder().build(voucherInfo));
+        objectList.add(new VoucherPosBuilder().build(max));
+        objectList.add(new TagBuilder().build(tag));
 
         logger.log(Logger.Level.INFO, "Alle Daten korrekt ausgelesen!");
         return objectList;
@@ -113,4 +109,5 @@ public class TextParser {
         return id;
 
     }
+
 }

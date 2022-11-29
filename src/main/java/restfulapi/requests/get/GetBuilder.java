@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 
-public class GetVoucher {
+public class GetBuilder {
     private final RootUrl ROOTURL = new RootUrl();
     private final Token TOKEN = new Token();
 
@@ -67,7 +67,7 @@ public class GetVoucher {
 
     public static void main(String[] args) {
         Gson g = new Gson();
-        GetVoucher getVoucher = new GetVoucher();
+        GetBuilder getVoucher = new GetBuilder();
         GetAccountingType getAccountingType = new GetAccountingType();
 
         /*VoucherResponse voucherResponse = new VoucherResponse();

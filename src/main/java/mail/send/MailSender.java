@@ -1,5 +1,6 @@
 package mail.send;
 
+
 import org.jboss.logging.Logger;
 
 import javax.mail.*;
@@ -7,9 +8,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 public class MailSender {
@@ -24,7 +25,7 @@ public class MailSender {
     private String subject;
     private String message;
 
-    public void sendMail(String senderAdress, String senderName, String receiverAdress, String subject, File file) throws MessagingException, UnsupportedEncodingException, IOException {
+    public void sendMail(String senderAdress, String senderName, String receiverAdress, String subject, File file) throws MessagingException, IOException, IllegalStateException {
         if (mailSession == null) {
             throw new IllegalStateException("Erst einloggen!");
         }

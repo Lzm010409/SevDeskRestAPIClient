@@ -4,11 +4,9 @@ import mail.data.ServerData;
 import mail.send.MailSender;
 import org.jboss.logging.Logger;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import java.util.Properties;
 
 
@@ -44,7 +42,7 @@ public class Login {
 
     }
 
-    public int tryToAuthenticate(String username, String password) {
+   /* public int tryToAuthenticate(String username, String password) {
         int exitcode = 0;
         login(username, password);
         try {
@@ -76,7 +74,7 @@ public class Login {
         } catch (UnsupportedEncodingException e) {
             return exitcode = 3;
         }
-    }
+    }*/
 
 
     public Session getMailSession() {
