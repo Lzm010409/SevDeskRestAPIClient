@@ -7,40 +7,26 @@ import java.util.List;
 
 public class ContactBuilder implements ObjectBuilder {
 
-    char[] abcShort = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ä', 'ü', 'ö'};
-    char[] abcBig = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Ä', 'Ü', 'Ö'};
-
     @Override
     public Object build(List<String> e) {
-        boolean nachname = false;
         Category category = new Category(3);
         Contact contact = new Contact(category);
-        char[] name = e.get(1).toCharArray();
         StringBuilder builder = new StringBuilder();
-        StringBuilder builder2 = new StringBuilder();
-        builder.append(name[0]);
-        for (int i = 1; i < name.length; i++) {
-            for (int j = 0; j < abcShort.length; j++) {
-                if (name[i] == abcShort[j] && nachname == false) {
-                    builder.append(name[i]);
-                    break;
-                }
-                if (name[i] == abcBig[j]) {
-                    builder2.append(name[i]);
-                    nachname = true;
-                    break;
-                }
-                if (name[i] == abcShort[j] && nachname == true) {
-                    builder2.append(name[i]);
-                    break;
-                }
-
+        if (e.size() != 1) {
+            contact.setGender(e.get(0));
+            String[] arr = e.get(1).split(" ");
+            contact.setSurename(arr[0]);
+            for (int i = 1; i < arr.length; i++) {
+                builder.append(arr[i]);
+                builder.append(" ");
             }
+            contact.setFamilyname(builder.toString());
+        } else {
+            contact.setSurename(e.get(0));
         }
-        contact.setSurename(builder.toString());
-        contact.setFamilyname(builder2.toString());
+
         return contact;
     }
+
+
 }

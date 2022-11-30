@@ -3,7 +3,6 @@ package text.object;
 import data.entity.contact.ContactAddress;
 import data.entity.other.Country;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactAdressBuilder implements ObjectBuilder {
@@ -19,42 +18,26 @@ public class ContactAdressBuilder implements ObjectBuilder {
         Country country = new Country(0);
         ContactAddress contactAdress = new ContactAddress(country);
         String street = e.get(0);
-        char[] adress = e.get(1).toCharArray();
+        char[] cityZip = e.get(1).toCharArray();
         StringBuilder zip = new StringBuilder();
         StringBuilder city = new StringBuilder();
-        List<String> endAdress = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < number.length; j++) {
-                if (adress[i] == number[j] & zip.toString().length() <= 5) {
-                    zip.append(adress[i]);
-                    adress[i] = ' ';
-                    break;
+        int zipLength = 0;
+        while (zip.toString().length() < 5) {
+            for (int i = 0; i < cityZip.length; i++) {
+                for (int j = 0; j < number.length; j++) {
+                    if (cityZip[i] == number[j]) {
+                        zip.append(cityZip[i]);
+                        cityZip[i] = ' ';
+                        zipLength += 1;
+                        break;
+                    }
                 }
             }
         }
-        boolean firstBigLetter = true;
-        for (int i = 0; i < adress.length; i++) {
-            if(adress[i]!='\u00AD' && adress[i]!=' '){
-                city.append(adress[i]);
-            }if(adress[i]=='\u00AD'){
-                city.append(' ');
+        for (int i = 0; i < cityZip.length; i++) {
+            if (cityZip[i] != ' ') {
+                city.append(cityZip[i]);
             }
-           /* for (int j = 0; j < abcBig.length; j++) {
-                if (adress[i] == abcShort[j]) {
-                    city.append(adress[i]);
-                    break;
-                }
-                if (adress[i] == abcBig[j] && firstBigLetter) {
-                    city.append(adress[i]);
-                    firstBigLetter = false;
-                    break;
-                }
-                if (adress[i] == abcBig[j] && !firstBigLetter) {
-                    city.append(' ');
-                    city.append(adress[i]);
-                    break;
-                }
-            }*/
         }
 
 

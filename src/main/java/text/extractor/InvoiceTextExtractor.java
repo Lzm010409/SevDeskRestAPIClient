@@ -30,7 +30,22 @@ public class InvoiceTextExtractor implements TextExtractor {
 
             logger.log(Logger.Level.INFO, "Auslesen des Textes aus: " + file.getAbsolutePath());
 
+            rect = new Rectangle(InvoiceCoordinates.ANREDE.getX(), InvoiceCoordinates.ANREDE.getY(), InvoiceCoordinates.ANREDE.getWidth(), InvoiceCoordinates.ANREDE.getHeight());
+            regionFilter = new TextRegionEventFilter(rect);
+            strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
+            str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
+            builder.append(str);
             rect = new Rectangle(InvoiceCoordinates.NAME.getX(), InvoiceCoordinates.NAME.getY(), InvoiceCoordinates.NAME.getWidth(), InvoiceCoordinates.NAME.getHeight());
+            regionFilter = new TextRegionEventFilter(rect);
+            strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
+            str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
+            builder.append(str);
+            rect = new Rectangle(InvoiceCoordinates.STREET.getX(), InvoiceCoordinates.STREET.getY(), InvoiceCoordinates.STREET.getWidth(), InvoiceCoordinates.STREET.getHeight());
+            regionFilter = new TextRegionEventFilter(rect);
+            strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
+            str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
+            builder.append(str);
+            rect = new Rectangle(InvoiceCoordinates.ZIPCITY.getX(), InvoiceCoordinates.ZIPCITY.getY(), InvoiceCoordinates.ZIPCITY.getWidth(), InvoiceCoordinates.ZIPCITY.getHeight());
             regionFilter = new TextRegionEventFilter(rect);
             strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
             str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";

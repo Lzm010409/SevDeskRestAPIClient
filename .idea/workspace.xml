@@ -4,28 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Tags werden nun den">
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Tags werden nun den Vouchern hinzugefügt und korrekt hochgeladen">
       <change afterPath="$PROJECT_DIR$/RechtsanwälteProperties.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/TestMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/Tag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/TagName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/voucher/VoucherLink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/TagBuilder.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ApplicationProperties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ApplicationProperties.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mail/login/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/login/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mail/send/MailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/send/MailSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/PostBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/input/RequestBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/RequestBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostContact.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -237,6 +225,10 @@
       <workItem from="1669630213247" duration="9457000" />
       <workItem from="1669707548056" duration="14138000" />
       <workItem from="1669725546392" duration="46000" />
+      <workItem from="1669730839619" duration="643000" />
+      <workItem from="1669798056377" duration="2028000" />
+      <workItem from="1669803818345" duration="1995000" />
+      <workItem from="1669810011572" duration="4223000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -392,7 +384,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669637065495</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="-- Work in Progress -- Tags werden nun den Vouchern hinzugefügt und korrekt hochgeladen">
+      <created>1669730884209</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1669730884209</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +431,8 @@
     <MESSAGE value="-- Work in Progress -- Voucher welche Ausgaben beschreiben, werden nun per Mail an den SevDesk Server versand!" />
     <MESSAGE value="-- Work in Progress -- DirLister.java wurde angepasst. ApllicationProperties.txt wurden hinzugefügt, mit Daten befüllt und können ausgelesen werden." />
     <MESSAGE value="-- Work in Progress -- Voucher können nun mit korrekten VoucherDates und PaymentDeadlines ausgestattet werden" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Voucher können nun mit korrekten VoucherDates und PaymentDeadlines ausgestattet werden" />
+    <MESSAGE value="-- Work in Progress -- Tags werden nun den Vouchern hinzugefügt und korrekt hochgeladen" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Tags werden nun den Vouchern hinzugefügt und korrekt hochgeladen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -483,9 +483,29 @@
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="159" />
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/ContactBuilder.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/ContactAdressBuilder.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="167" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="169" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="171" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

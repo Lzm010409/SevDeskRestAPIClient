@@ -12,62 +12,69 @@ public class TextParser {
 
     public List<Object> parseInvoice(String invoiceText) {
         List<String> list = Arrays.asList(invoiceText.split("\n\n"));
-        List<String> contact = Arrays.asList(list.get(0).split("\n"));
+        List<String> contact = new ArrayList<>();
         List<String> contactAdress = new ArrayList<>();
-        List<String> tag = Arrays.asList(list.get(4).split("\n"));
-        contactAdress.add(contact.get(2));
-        contactAdress.add(contact.get(3));
-        char[] invoiceDateArray = list.get(1).toCharArray();
-        StringBuilder builder1 = new StringBuilder();
-        for (int i = 0; i < invoiceDateArray.length; i++) {
-            if (Character.isLetter(invoiceDateArray[i]) == true || invoiceDateArray[i] == ',') {
-                invoiceDateArray[i] = ' ';
-            }
-            if (invoiceDateArray[i] != ' ') {
-                builder1.append(invoiceDateArray[i]);
+        List<String> voucherInfo = new ArrayList<>();
+        List<String> voucherPos = new ArrayList<>();
+        String invoiceDate = "";
+        String gutachtennummer = "";
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == "") {
+                list.set(i, null);
             }
         }
-        String invoiceDate = builder1.toString();
-        //Calendar calendar = new DateParser().parseDate(invoiceDate);
 
+        if (list.get(0).equalsIgnoreCase("frau") || list.get(0).equalsIgnoreCase("herr")) {
+            contact.add(parseName(list.get(0)));
+            contact.add(parseName(list.get(1)));
+            contactAdress.add(parseAdress(list.get(2)));
+            contactAdress.add(list.get(3));
+            for (int i = 0; i < (contact.size() + contactAdress.size()); i++) {
+                list.set(i, null);
+            }
+        } else {
+            contact.add(parseName(list.get(0)));
+            contactAdress.add(parseAdress(list.get(1)));
+            contactAdress.add(list.get(2));
+            for (int i = 0; i < (contact.size() + contactAdress.size()); i++) {
+                list.set(i, null);
+            }
+        }
+        int index = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null) {
+                char[] invoiceDateArray = list.get(i).toCharArray();
+                invoiceDate = parseInvoiceDate(invoiceDateArray);
+                list.set(i, null);
+                break;
+            }
+        }
 
-        String gutachtennummer = list.get(2);
-        list.set(2, null);
-
-        List<String> voucherInfo = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null) {
+                gutachtennummer = list.get(i);
+                list.set(i, null);
+                break;
+            }
+        }
         voucherInfo.add(invoiceDate);
         voucherInfo.add(gutachtennummer);
 
-        List<String> voucherPos = new ArrayList<>();
-        if (list.get(3).contains("EUR")) {
-            String element = list.get(3).replace("EUR", "");
-            list.set(3, element);
-        }
 
-        voucherPos = Arrays.asList(list.get(3).split("\n"));
-
-        float max = 0;
-        for (int i = 0; i < voucherPos.size(); i++) {
-            try {
-                char[] numberArray = voucherPos.get(i).toCharArray();
-                StringBuilder builder = new StringBuilder();
-                for (int j = 0; j < numberArray.length; j++) {
-                    if (numberArray[j] == ',') {
-                        numberArray[j] = '.';
-
-                    }
-                    builder.append(numberArray[j]);
-                    voucherPos.set(i, builder.toString());
-                }
-
-
-                if (max < Float.parseFloat(voucherPos.get(i))) {
-                    max = Float.parseFloat(voucherPos.get(i));
-                }
-            } catch (Exception e) {
-                voucherPos.set(i, null);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null) {
+                voucherPos = Arrays.asList(list.get(i).split("\n"));
+                list.set(i, null);
+                break;
             }
         }
+
+        float max = parseMaxAmount(voucherPos);
+
+
+        List<String> tag = Arrays.asList(list.get(list.size() - 1).split("\n"));
+
 
         List<Object> objectList = new ArrayList<>();
         objectList.add(new ContactBuilder().build(contact));
@@ -95,19 +102,75 @@ public class TextParser {
 
     }
 
-    public String parseName(String toParse) {
-        StringBuilder builder1 = new StringBuilder();
-        String[] array = toParse.split("id\":\"");
-        char[] string = array[1].toCharArray();
 
-        for (int i = 0; i < 8; i++) {
-            builder1.append(string[i]);
+    public String parseInvoiceDate(char[] invoiceDateArray) {
+        StringBuilder builder1 = new StringBuilder();
+        for (int i = 0; i < invoiceDateArray.length; i++) {
+            if (Character.isDigit(invoiceDateArray[i]) || invoiceDateArray[i] == '.') {
+                builder1.append(invoiceDateArray[i]);
+            }
+        }
+        String invoiceDate = builder1.toString();
+        return invoiceDate;
+    }
+
+    public float parseMaxAmount(List<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).contains("EUR")) {
+                String element = list.get(i).replace("EUR", "");
+                list.set(i, element);
+            }
         }
 
-        String id = builder1.toString();
-        logger.log(Logger.Level.INFO, "Die Id des neu angelegten Kunden ist: " + id);
-        return id;
+        float max = 0;
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                char[] numberArray = list.get(i).toCharArray();
+                StringBuilder builder = new StringBuilder();
+                for (int j = 0; j < numberArray.length; j++) {
+                    if (numberArray[j] == ',') {
+                        numberArray[j] = '.';
 
+                    }
+                    builder.append(numberArray[j]);
+                    list.set(i, builder.toString());
+                }
+
+
+                if (max < Float.parseFloat(list.get(i))) {
+                    max = Float.parseFloat(list.get(i));
+                }
+            } catch (Exception e) {
+                list.set(i, null);
+            }
+        }
+        return max;
+    }
+
+    public String parseAdress(String adress) {
+        char[] tempChar = adress.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < tempChar.length; i++) {
+            if (Character.isLetter(tempChar[i]) || Character.isDigit(tempChar[i])) {
+                builder.append(tempChar[i]);
+            } else {
+                builder.append(" ");
+            }
+        }
+        return builder.toString();
+    }
+
+    public String parseName(String name) {
+        char[] tempChar = name.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < tempChar.length; i++) {
+            if (Character.isLetter(tempChar[i]) || Character.isDigit(tempChar[i])) {
+                builder.append(tempChar[i]);
+            } else {
+                builder.append(" ");
+            }
+        }
+        return builder.toString();
     }
 
 }

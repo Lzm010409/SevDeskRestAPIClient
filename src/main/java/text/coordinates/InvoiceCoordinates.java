@@ -3,7 +3,13 @@ package text.coordinates;
 import java.util.List;
 
 public enum InvoiceCoordinates {
-    NAME(60, 650, 250, 60),
+    ANREDE(60, 700, 250, 13),
+    NAME(60, 687, 250, 13),
+
+    STREET(60, 674, 250, 13),
+
+    ZIPCITY(60, 650, 250, 15),
+
     GUTACHTENNUMMER(380, 561, 170, 30),
     BETRAG(440, 75, 130, 250),
     RECHNUNGSDATUM(415, 600, 150, 15),
