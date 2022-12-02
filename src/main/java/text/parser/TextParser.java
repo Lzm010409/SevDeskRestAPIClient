@@ -1,8 +1,11 @@
 package text.parser;
 
 import org.jboss.logging.Logger;
+import text.extractor.InvoiceTextExtractor;
 import text.object.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +19,8 @@ public class TextParser {
         List<String> contactAdress = new ArrayList<>();
         List<String> voucherInfo = new ArrayList<>();
         List<String> voucherPos = new ArrayList<>();
+        List<String> tag = new ArrayList<>();
+        List<String> invoiceInfoList = new ArrayList<>();
         String invoiceDate = "";
         String gutachtennummer = "";
 
@@ -72,16 +77,24 @@ public class TextParser {
 
         float max = parseMaxAmount(voucherPos);
 
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null) {
+                tag = Arrays.asList(list.get(i).split("\n"));
+                list.set(i, null);
+                break;
+            }
+        }
 
-        List<String> tag = Arrays.asList(list.get(list.size() - 1).split("\n"));
+        invoiceInfoList = Arrays.asList(list.get(list.size() - 1).split("\n"));
 
 
         List<Object> objectList = new ArrayList<>();
         objectList.add(new ContactBuilder().build(contact));
         objectList.add(new ContactAdressBuilder().build(contactAdress));
-        objectList.add(new InvoiceBuilder().build(voucherInfo));
+        objectList.add(new VoucherBuilder().build(voucherInfo));
         objectList.add(new VoucherPosBuilder().build(max));
         objectList.add(new TagBuilder().build(tag));
+        objectList.add(new InvoicePosBuilder().build(invoiceInfoList));
 
         logger.log(Logger.Level.INFO, "Alle Daten korrekt ausgelesen!");
         return objectList;
@@ -171,6 +184,19 @@ public class TextParser {
             }
         }
         return builder.toString();
+    }
+
+    public static void main(String[] args) {
+        InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
+        String string = new String();
+        try {
+            string = invoiceTextExtractor.extractTextFromDoc(new File("/Users/lukegollenstede/Desktop/Rechnung_0722_581TG01.pdf"));
+            System.out.println(string);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        TextParser textParser = new TextParser();
+        List<Object> list = textParser.parseInvoice(string);
     }
 
 }

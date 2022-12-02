@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class InvoiceBuilder {
+public class VoucherBuilder {
 
 
     public Object build(List<String> e) {

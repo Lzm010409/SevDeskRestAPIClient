@@ -70,6 +70,11 @@ public class InvoiceTextExtractor implements TextExtractor {
             strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
             str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
             builder.append(str);
+            rect = new Rectangle(InvoiceCoordinates.RECHNUNGSPOSITIONEN.getX(), InvoiceCoordinates.RECHNUNGSPOSITIONEN.getY(), InvoiceCoordinates.RECHNUNGSPOSITIONEN.getWidth(), InvoiceCoordinates.RECHNUNGSPOSITIONEN.getHeight());
+            regionFilter = new TextRegionEventFilter(rect);
+            strategy = new FilteredTextEventListener(new LocationTextExtractionStrategy(), regionFilter);
+            str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
+            builder.append(str);
 
             logger.log(Logger.Level.INFO, "Auslesen erfolgreich!");
 
@@ -77,6 +82,17 @@ public class InvoiceTextExtractor implements TextExtractor {
         } catch (Exception e) {
             logger.log(Logger.Level.ERROR, "Auslesen nicht erfolgreich, folgender Fehler ist aufgetreten: " + e.getMessage());
             return null;
+        }
+
+    }
+
+    public static void main (String []args){
+        InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
+        try {
+            String strin=invoiceTextExtractor.extractTextFromDoc(new File("/Users/lukegollenstede/Desktop/Rechnung_0722_581TG01.pdf"));
+            System.out.println(strin);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
