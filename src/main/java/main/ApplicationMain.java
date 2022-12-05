@@ -1,14 +1,13 @@
 package main;
 
 import com.sun.istack.logging.Logger;
-import data.entity.contact.Contact;
-import data.entity.contact.ContactAddress;
+import data.auftrag.invoices.Auftrag;
+import data.entity.invoice.Invoice;
+import data.entity.invoice.InvoiceText;
+import data.entity.link.Contact;
+import data.entity.link.InvoiceLink;
 import data.entity.other.Country;
 import data.entity.other.Tag;
-import data.entity.other.TagName;
-import data.entity.voucher.Voucher;
-import data.entity.voucher.VoucherLink;
-import data.entity.voucher.VoucherPosSave;
 import data.filepaths.PathReader;
 import data.filepaths.PathWriter;
 import data.filepaths.PropertyReader;
@@ -34,14 +33,15 @@ public class ApplicationMain {
     private String invoiceDir;
     private String voucherDir;
 
-    public static void main(String[] args) throws MessagingException{
+    public static void main(String[] args) throws MessagingException {
         ApplicationMain applicationMain = new ApplicationMain();
         DirLister invoiceDirLister = new DirLister();
         DirLister voucherDirLister = new DirLister();
         ThreadSleeper threadSleeper = new ThreadSleeper();
         List<String> invoiceFileList = new ArrayList<>();
         List<String> voucherFileList = new ArrayList<>();
-        List<Object> objectList = new ArrayList<>();
+        //List<Object> objectList = new ArrayList<>();
+        Auftrag auftrag = new Auftrag();
         List<String> readedFileList = new ArrayList<>();
         List<String> applicationProperties = new PropertyReader().readProperties("ApplicationProperties.txt");
         TextParser textParser = new TextParser();
@@ -62,29 +62,40 @@ public class ApplicationMain {
 
 
             invoiceFileList = invoiceDirLister.getInvoices(new File(applicationMain.getInvoiceDir()));
-
+            String contactId = "";
             for (int i = 0; i < invoiceFileList.size(); i++) {
                 try {
                     if (pathReader.isPresent(readedFiles, invoiceFileList.get(i)) == false) {
-                        objectList = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(invoiceFileList.get(i))));
+                        auftrag = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(invoiceFileList.get(i))));
+
                         try {
                             Country country = new Country(0);
-                            output = postBuilder.postNewContact((Contact) objectList.get(0),TOKEN);
-                            String id = textParser.parseId(output);
-                            postBuilder.postNewContactAdress((ContactAddress) objectList.get(1), Long.parseLong(id),TOKEN);
+                            output = postBuilder.postNewContact(auftrag.getContact(), TOKEN);
+                            contactId = textParser.parseId(output);
+                            postBuilder.postNewContactAdress(auftrag.getContactAddress(), Long.parseLong(contactId), TOKEN);
                             output = null;
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        Contact contact = new Contact(Long.parseLong(contactId));
+                        Invoice invoice = new Invoice(contact, auftrag.getVoucher().getVoucherDate(), "100", InvoiceText.FOOTERTEXT.getText());
+                        invoice.setAdress(auftrag.getContact().getGender() + " " + auftrag.getContact().getSurename() + " " + auftrag.getContact().getFamilyname()
+                                + "\n" + auftrag.getContactAddress().getStreet() + "\n" + auftrag.getContactAddress().getZip() + " " + auftrag.getContactAddress().getCity());
+                        invoice.setTimeToPay(14);
+                        invoice.setSendDate(auftrag.getVoucher().getDeliveryDate());
+                        invoice.setDeliveryDate(auftrag.getVoucher().getDeliveryDate());
+                        invoice.setInvoiceNumber(auftrag.getVoucher().getDescritption());
+                        invoice.setHeader("Rechnung");
+                        invoice.setHeadText(auftrag.getInvoiceHeadText());//Es muss noch der Headtext, ausgelesen und angepasst werden!!!
+                        output = postBuilder.postNewInvoice(invoice, auftrag.getRechnungsPositions(), TOKEN);
 
-                        output = postBuilder.postNewVoucher((Voucher) objectList.get(2), (VoucherPosSave) objectList.get(3), "D",TOKEN);
-                        String id = textParser.parseId(output);
-                        VoucherLink voucherLink = new VoucherLink();
-                        voucherLink.setId(Integer.parseInt(id));
-                        Tag tag = new Tag(((TagName) objectList.get(4)).getName());
-                        tag.setObject(voucherLink);
-                        postBuilder.postNewTag(tag,TOKEN);
+                        //output = postBuilder.postNewVoucher(auftrag.getVoucher(), auftrag.getVoucherPosSave(), "D", TOKEN);
+                        String invoiceId = textParser.parseId(output);
+                        InvoiceLink invoiceLink = new InvoiceLink(Integer.parseInt(invoiceId));
+                        Tag tag = new Tag((auftrag.getLoyer()).getName());
+                        tag.setObject(invoiceLink);
+                        postBuilder.postNewTag(tag, TOKEN);
                         readedFilesWriter.writeData(invoiceFileList.get(i));
                     }
 
@@ -98,7 +109,7 @@ public class ApplicationMain {
             MailSender mailSender = new MailSender();
 
             try {
-                login.login(applicationProperties.get(4), applicationProperties.get(6)+"#"+applicationProperties.get(7));
+                login.login(applicationProperties.get(4), applicationProperties.get(6) + "#" + applicationProperties.get(7));
                 mailSender.setMailSession(login.getMailSession());
             } catch (Exception e) {
                 e.printStackTrace();

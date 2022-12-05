@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import data.entity.contact.Contact;
 import data.entity.contact.ContactAddress;
+import data.entity.invoice.Invoice;
+import data.entity.invoice.InvoicePos;
 import data.entity.other.Supplier;
 import data.entity.other.Tag;
 import data.entity.voucher.Voucher;
@@ -18,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class PostBuilder implements RequestBuilder {
     private Gson builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -170,8 +173,33 @@ public class PostBuilder implements RequestBuilder {
 
     }
 
-    public static void main(String[] args) {
+    public String postNewInvoice(Invoice invoice, List<InvoicePos> invoicePos, Token TOKEN) {
+        try {
+            ClientRequest request = new ClientRequest(ROOTURL.getROOTURL() + "/Invoice/Factory/saveInvoice?" + TOKEN.getToken());
+            request.accept("application/json");
+            String input = "{\"invoice\":" + builder(invoice) + ",\"invoicePosSave\":" + builder(invoicePos) + "}";
+            System.out.println(input);
+            request.body("application/json", input);
+            ClientResponse<String> clientResponse = request.post(String.class);
+            if (clientResponse.getStatus() != 200 && clientResponse.getStatus() != 201) {
+                throw new RuntimeException("Failed: Http error code: " + clientResponse.getStatus());
 
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientResponse.getEntity().getBytes())));
+            String output = bufferedReader.readLine();
+
+
+            request.clear();
+
+            return output;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public static void main(String[] args) {
 
 
     }

@@ -1,13 +1,13 @@
 package data.entity.invoice;
 
 import com.google.gson.annotations.Expose;
-import data.entity.contact.Contact;
 import data.entity.contact.ContactPerson;
+import data.entity.link.Contact;
 import data.entity.other.AdressCountry;
 
 public class Invoice {
 
-    @Expose
+    @Expose(serialize = false, deserialize = true)
     private int id;
     @Expose
     private String objectName = "Invoice";
@@ -15,9 +15,10 @@ public class Invoice {
     private boolean mapAll = true;
     @Expose
     private String invoiceNumber;
+    //private data.entity.contact.Contact contact;
+
     @Expose
     private Contact contact;
-
     @Expose
     private ContactPerson contactPerson = new ContactPerson(851050);
     @Expose
@@ -33,20 +34,20 @@ public class Invoice {
     @Expose
     private int discount;
     @Expose
-    private String adress;
+    private String address;
     @Expose
-    private AdressCountry adressCountry;
+    private AdressCountry adressCountry = new AdressCountry(1);
     @Expose
     private String payDate;
     @Expose
     private String deliveryDate;
-    @Expose
+
     private boolean deliveryDateUntil;
     @Expose
     private String status;
     @Expose
     private String deliverDateUntil;
-    @Expose
+
     private boolean smallSettlement;
     @Expose
     private int taxRate = 19;
@@ -74,14 +75,12 @@ public class Invoice {
     private String customeerInternalNote;
 
 
-    public Invoice(Contact contact, ContactPerson contactPerson, String invoiceDate, int discount, AdressCountry adressCountry, String status, String taxText) {
+    public Invoice(Contact contact, String invoiceDate, String status, String taxText) {
         this.contact = contact;
-        this.contactPerson = contactPerson;
         this.invoiceDate = invoiceDate;
-        this.discount = discount;
-        this.adressCountry = adressCountry;
         this.status = status;
         this.taxText = taxText;
+
     }
 
     public int getId() {
@@ -116,13 +115,6 @@ public class Invoice {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
 
     public ContactPerson getContactPerson() {
         return contactPerson;
@@ -177,11 +169,11 @@ public class Invoice {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
     public String getPayDate() {
@@ -338,6 +330,14 @@ public class Invoice {
 
     public void setTaxText(String taxText) {
         this.taxText = taxText;
+    }
+
+    public Contact getContactLink() {
+        return contact;
+    }
+
+    public void setContactLink(Contact contactLink) {
+        this.contact = contactLink;
     }
 }
 

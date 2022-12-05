@@ -1,19 +1,30 @@
 package text.parser;
 
+import data.auftrag.invoices.Auftrag;
+import data.entity.accountingType.AccountingTypeRequest;
+import data.entity.contact.Category;
+import data.entity.contact.ContactAddress;
+import data.entity.invoice.InvoicePos;
+import data.entity.other.Country;
+import data.entity.other.TagName;
+import data.entity.voucher.Voucher;
+import data.entity.voucher.VoucherPosSave;
+import data.filepaths.PropertyReader;
 import org.jboss.logging.Logger;
+import restfulapi.requests.url.Token;
 import text.extractor.InvoiceTextExtractor;
-import text.object.*;
+import text.object.InvoicePosBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TextParser {
     private final Logger logger = Logger.getLogger(TextParser.class);
 
-    public List<Object> parseInvoice(String invoiceText) {
+    public Auftrag parseInvoice(String invoiceText) {
         List<String> list = Arrays.asList(invoiceText.split("\n\n"));
         List<String> contact = new ArrayList<>();
         List<String> contactAdress = new ArrayList<>();
@@ -23,6 +34,8 @@ public class TextParser {
         List<String> invoiceInfoList = new ArrayList<>();
         String invoiceDate = "";
         String gutachtennummer = "";
+
+        Auftrag rechnung = new Auftrag();
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == "") {
@@ -35,6 +48,7 @@ public class TextParser {
             contact.add(parseName(list.get(1)));
             contactAdress.add(parseAdress(list.get(2)));
             contactAdress.add(list.get(3));
+
             for (int i = 0; i < (contact.size() + contactAdress.size()); i++) {
                 list.set(i, null);
             }
@@ -46,6 +60,9 @@ public class TextParser {
                 list.set(i, null);
             }
         }
+
+        rechnung.setContact(buildContact(contact));
+        rechnung.setContactAddress(buildContactAdress(contactAdress));
         int index = 0;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) != null) {
@@ -66,6 +83,7 @@ public class TextParser {
         voucherInfo.add(invoiceDate);
         voucherInfo.add(gutachtennummer);
 
+        rechnung.setVoucher(buildVoucher(voucherInfo));
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) != null) {
@@ -76,6 +94,7 @@ public class TextParser {
         }
 
         float max = parseMaxAmount(voucherPos);
+        rechnung.setVoucherPosSave(buildVoucherPos(max));
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) != null) {
@@ -85,19 +104,15 @@ public class TextParser {
             }
         }
 
+        rechnung.setInvoiceHeadText(buildHeadText(tag));
+        rechnung.setLoyer(buildTag(tag));
+
         invoiceInfoList = Arrays.asList(list.get(list.size() - 1).split("\n"));
 
-
-        List<Object> objectList = new ArrayList<>();
-        objectList.add(new ContactBuilder().build(contact));
-        objectList.add(new ContactAdressBuilder().build(contactAdress));
-        objectList.add(new VoucherBuilder().build(voucherInfo));
-        objectList.add(new VoucherPosBuilder().build(max));
-        objectList.add(new TagBuilder().build(tag));
-        objectList.add(new InvoicePosBuilder().build(invoiceInfoList));
+        rechnung.setRechnungsPositions((List<InvoicePos>) new InvoicePosBuilder().build(invoiceInfoList));
 
         logger.log(Logger.Level.INFO, "Alle Daten korrekt ausgelesen!");
-        return objectList;
+        return rechnung;
     }
 
     public String parseId(String toParse) {
@@ -186,17 +201,154 @@ public class TextParser {
         return builder.toString();
     }
 
+    private data.entity.contact.Contact buildContact(List<String> e) {
+        Category category = new Category(3);
+        data.entity.contact.Contact contact = new data.entity.contact.Contact(category);
+        StringBuilder builder = new StringBuilder();
+        if (e.size() != 1) {
+            contact.setGender(e.get(0));
+            String[] arr = e.get(1).split(" ");
+            contact.setSurename(arr[0]);
+            for (int i = 1; i < arr.length; i++) {
+                builder.append(arr[i]);
+                builder.append(" ");
+            }
+            contact.setFamilyname(builder.toString());
+        } else {
+            contact.setSurename(e.get(0));
+        }
+
+        return contact;
+    }
+
+    private ContactAddress buildContactAdress(List<String> e) {
+        char[] abcShort = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+                'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ä', 'ü', 'ö'};
+        char[] abcBig = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+                'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Ä', 'Ü', 'Ö'};
+        char[] number = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+        Country country = new Country(0);
+        ContactAddress contactAdress = new ContactAddress(country);
+        String street = e.get(0);
+        char[] cityZip = e.get(1).toCharArray();
+        StringBuilder zip = new StringBuilder();
+        StringBuilder city = new StringBuilder();
+        int zipLength = 0;
+        while (zip.toString().length() < 5) {
+            for (int i = 0; i < cityZip.length; i++) {
+                for (int j = 0; j < number.length; j++) {
+                    if (cityZip[i] == number[j]) {
+                        zip.append(cityZip[i]);
+                        cityZip[i] = ' ';
+                        zipLength += 1;
+                        break;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < cityZip.length; i++) {
+            if (cityZip[i] != ' ') {
+                city.append(cityZip[i]);
+            }
+
+
+        }
+        contactAdress.setStreet(street);
+        contactAdress.setZip(zip.toString());
+        contactAdress.setCity(city.toString());
+        return contactAdress;
+    }
+
+    private Voucher buildVoucher(List<String> e) {
+        Voucher returnVoucher = new Voucher(50, "D", "VOU", null);
+        Calendar calendar = new DateParser().parseDate(e.get(0));
+        Date voucherDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 14);
+
+        Date paymentDate = calendar.getTime();
+
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+
+        returnVoucher.setVoucherDate(dateFormat.format(voucherDate));
+        returnVoucher.setDeliveryDate(dateFormat.format(voucherDate));
+        returnVoucher.setPaymentDeadline(dateFormat.format(paymentDate));
+        returnVoucher.setDescritption((String) e.get(1));
+        return returnVoucher;
+    }
+
+
+    private VoucherPosSave buildVoucherPos(float max) {
+        AccountingTypeRequest accountingTypeRequest = new AccountingTypeRequest(26);
+        int taxRate = 19;
+        boolean net = false;
+        float netSum = (float) (max / 1.19);
+        VoucherPosSave voucherPosSaveRequest = new VoucherPosSave(accountingTypeRequest, taxRate, net, netSum, max);
+        return voucherPosSaveRequest;
+    }
+
+    private String buildHeadText(List<String> e) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < e.size(); i++) {
+            if (e.get(i).contains("Rückfragen") ) {
+                continue;
+            }
+            if (e.get(i).contains("Sehr") ) {
+                break;
+            } else {
+                builder.append(e.get(i) + "\n");
+            }
+        }
+
+        return builder.toString();
+    }
+
+    private TagName buildTag(List<String> e) {
+        List<TagName> tagNames = new PropertyReader().readRechtsanwälte(new PropertyReader().readProperties("RechtsanwälteProperties.txt"));
+
+        TagName tagName = tagNames.get(tagNames.size() - 1);
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < e.size(); i++) {
+            if (e.get(i).contains("anwalt")) {
+                builder.append(e.get(i));
+                builder.append(" " + e.get(i + 1));
+            }
+        }
+
+        String rechtsanwalt = builder.toString();
+
+        for (int i = 0; i < tagNames.size(); i++) {
+            if (rechtsanwalt.length() != 0) {
+                if (rechtsanwalt.contains(tagNames.get(i).getKürzel())) {
+                    tagName = tagNames.get(i);
+                    break;
+
+
+                }
+            }
+        }
+
+        return tagName;
+    }
+
+
     public static void main(String[] args) {
         InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
         String string = new String();
         try {
-            string = invoiceTextExtractor.extractTextFromDoc(new File("/Users/lukegollenstede/Desktop/Rechnung_0722_581TG01.pdf"));
+            string = invoiceTextExtractor.extractTextFromDoc(new File("/Users/lukegollenstede/Downloads/Rechnung_1022_651TG01.pdf"));
             System.out.println(string);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        Token TOKEN = new Token();
         TextParser textParser = new TextParser();
-        List<Object> list = textParser.parseInvoice(string);
+        Auftrag auftrag = textParser.parseInvoice(string);
+
+
     }
 
+
 }
+

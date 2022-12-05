@@ -4,20 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Test Parser angepasst">
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Positionen werden nun korrekt ausgelesen. Nächster Schritt -&gt; InvoicePosBuilder fertig machen.">
       <change afterPath="$PROJECT_DIR$/RechtsanwälteProperties.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactPerson.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/invoice/Invoice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/invoice/InvoicePos.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/AdressCountry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/Unity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/auftrag/invoices/Auftrag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/invoice/InvoiceText.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/link/Contact.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/link/InvoiceLink.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ApplicationProperties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ApplicationProperties.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/invoice/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/invoice/Invoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/invoice/InvoicePos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/invoice/InvoicePos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/other/AbstractEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/AbstractEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/other/AdressCountry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/AdressCountry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/other/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/Country.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/voucher/VoucherLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/voucher/VoucherLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/coordinates/InvoiceCoordinates.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/InvoiceBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/VoucherBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +92,7 @@
       <recent name="data.entity.contact" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TextParser">
+  <component name="RunManager" selected="Maven.SevDeskRestAPIClient [clean,package...]">
     <configuration name="ApplicationMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.ApplicationMain" />
       <module name="SevDeskRestAPIClient" />
@@ -183,9 +189,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ApplicationMain" />
         <item itemvalue="Application.TextParser" />
         <item itemvalue="Application.InvoiceTextExtractor" />
-        <item itemvalue="Application.ApplicationMain" />
         <item itemvalue="Application.TestMain" />
         <item itemvalue="Application.PostBuilder" />
       </list>
@@ -243,7 +249,9 @@
       <workItem from="1669803818345" duration="1995000" />
       <workItem from="1669810011572" duration="4945000" />
       <workItem from="1669891763176" duration="650000" />
-      <workItem from="1669995985364" duration="4610000" />
+      <workItem from="1669995985364" duration="8987000" />
+      <workItem from="1670224783916" duration="16337000" />
+      <workItem from="1670241945653" duration="9424000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -413,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669816346727</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="-- Work in Progress -- Positionen werden nun korrekt ausgelesen. Nächster Schritt -&gt; InvoicePosBuilder fertig machen.">
+      <created>1670000792748</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1670000792748</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -455,7 +470,8 @@
     <MESSAGE value="-- Work in Progress -- Voucher können nun mit korrekten VoucherDates und PaymentDeadlines ausgestattet werden" />
     <MESSAGE value="-- Work in Progress -- Tags werden nun den Vouchern hinzugefügt und korrekt hochgeladen" />
     <MESSAGE value="-- Work in Progress -- Test Parser angepasst" />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Test Parser angepasst" />
+    <MESSAGE value="-- Work in Progress -- Positionen werden nun korrekt ausgelesen. Nächster Schritt -&gt; InvoicePosBuilder fertig machen." />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Positionen werden nun korrekt ausgelesen. Nächster Schritt -&gt; InvoicePosBuilder fertig machen." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -482,33 +498,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostBuilder.java</url>
-          <line>175</line>
+          <line>204</line>
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/post/PostBuilder.java</url>
-          <line>71</line>
+          <line>74</line>
           <option name="timeStamp" value="148" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
-          <line>71</line>
-          <option name="timeStamp" value="158" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/text/extractor/InvoiceTextExtractor.java</url>
-          <line>92</line>
+          <line>93</line>
           <option name="timeStamp" value="172" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="174" />
+          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
+          <line>346</line>
+          <option name="timeStamp" value="213" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="175" />
+          <url>file://$PROJECT_DIR$/src/main/java/main/ApplicationMain.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="222" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -522,5 +533,10 @@
         <watch expression="gson" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SevDeskRestAPIClient$TextParser.ic" NAME="TextParser Coverage Results" MODIFIED="1670245197266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>text.parser.*</FILTER>
+    </SUITE>
   </component>
 </project>

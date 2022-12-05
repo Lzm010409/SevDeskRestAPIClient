@@ -4,14 +4,14 @@ import com.google.gson.annotations.Expose;
 import data.entity.other.Unity;
 
 public class InvoicePos {
-    @Expose
+    @Expose(serialize = false, deserialize = true)
     private int id;
 
     @Expose(serialize = false, deserialize = true)
     private Invoice invoice;
 
     @Expose
-    private String objectName = "invoicePos";
+    private String objectName = "InvoicePos";
     @Expose
     private boolean mapAll = true;
     @Expose
@@ -19,7 +19,7 @@ public class InvoicePos {
     @Expose
     private int quantity;
     @Expose
-    private float price;
+    private double price;
     @Expose
     private String name;
     @Expose
@@ -34,14 +34,12 @@ public class InvoicePos {
     @Expose
     private float taxRate;
     @Expose
-    private float priceGross;
+    private double priceGross;
     @Expose
-    private float priceTax;
+    private double priceTax;
 
-    public InvoicePos(int quantity, Unity unity, float taxRate) {
-        this.quantity = quantity;
-        this.unity = unity;
-        this.taxRate = taxRate;
+    public InvoicePos() {
+
     }
 
     public int getId() {
@@ -92,11 +90,11 @@ public class InvoicePos {
         this.quantity = quantity;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -148,19 +146,19 @@ public class InvoicePos {
         this.taxRate = taxRate;
     }
 
-    public float getPriceGross() {
+    public double getPriceGross() {
         return priceGross;
     }
 
-    public void setPriceGross(float priceGross) {
+    public void setPriceGross(double priceGross) {
         this.priceGross = priceGross;
     }
 
-    public float getPriceTax() {
+    public double getPriceTax() {
         return priceTax;
     }
 
-    public void setPriceTax(float priceTax) {
+    public void setPriceTax(double priceTax) {
         this.priceTax = priceTax;
     }
 }

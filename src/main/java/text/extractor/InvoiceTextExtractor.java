@@ -76,6 +76,7 @@ public class InvoiceTextExtractor implements TextExtractor {
             str = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1), strategy) + "\n\n";
             builder.append(str);
 
+
             logger.log(Logger.Level.INFO, "Auslesen erfolgreich!");
 
             return builder.toString();

@@ -1,18 +1,16 @@
-package data.entity.voucher;
+package data.entity.link;
 
 import com.google.gson.annotations.Expose;
 import data.entity.other.AbstractEntity;
 
-public class VoucherLink extends AbstractEntity {
-
+public class InvoiceLink extends AbstractEntity {
     @Expose
-    private String objectName ="Voucher";
+    private String objectName = "Invoice";
 
-
-    public VoucherLink(long id) {
+    public InvoiceLink(long id) {
         super(id);
-
     }
+
 
     public String getObjectName() {
         return objectName;
@@ -22,3 +20,4 @@ public class VoucherLink extends AbstractEntity {
         this.objectName = objectName;
     }
 }
+

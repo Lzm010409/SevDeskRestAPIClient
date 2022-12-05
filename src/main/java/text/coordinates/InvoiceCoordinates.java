@@ -14,9 +14,11 @@ public enum InvoiceCoordinates {
     BETRAG(440, 75, 130, 250),
     RECHNUNGSDATUM(415, 600, 150, 15),
 
-    ANDERE(50, 370, 500, 200),
+    ANDERE(50, 291, 510, 270),
 
-    RECHNUNGSPOSITIONEN(51, 80, 500, 300);
+    RECHNUNGSPOSITIONEN(51, 40, 500, 300),
+
+    ;
 
 
     float x, y, width, height;
