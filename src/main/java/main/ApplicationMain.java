@@ -80,7 +80,7 @@ public class ApplicationMain {
                         }
                         Contact contact = new Contact(Long.parseLong(contactId));
                         Invoice invoice = new Invoice(contact, auftrag.getVoucher().getVoucherDate(), "100", InvoiceText.FOOTERTEXT.getText());
-                        invoice.setAdress(auftrag.getContact().getGender() + " " + auftrag.getContact().getSurename() + " " + auftrag.getContact().getFamilyname()
+                        invoice.setAdress(auftrag.getContact().getGender() + "\n" + auftrag.getContact().getSurename() + " " + auftrag.getContact().getFamilyname()
                                 + "\n" + auftrag.getContactAddress().getStreet() + "\n" + auftrag.getContactAddress().getZip() + " " + auftrag.getContactAddress().getCity());
                         invoice.setTimeToPay(14);
                         invoice.setSendDate(auftrag.getVoucher().getDeliveryDate());
