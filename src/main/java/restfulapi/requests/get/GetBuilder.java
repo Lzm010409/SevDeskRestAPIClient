@@ -3,6 +3,7 @@ package restfulapi.requests.get;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.entity.contact.Contact;
+import data.entity.contact.ContactAddress;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import restfulapi.requests.url.RootUrl;
@@ -47,8 +48,9 @@ public class GetBuilder {
 
     public List<Contact> getAllContacts(Token TOKEN) {
         try {
-            request = new ClientRequest(ROOTURL.getROOTURL() + "/Contact?" + TOKEN.getToken());
+            request = new ClientRequest(ROOTURL.getROOTURL() + "/Contact?depth=1&limit=none");
             request.accept("application/json");
+            request.header("Authorization",TOKEN.getToken());
             ClientResponse<String> response = request.get(String.class);
             if (response.getStatus() != 200) {
                 throw new RuntimeException("Failed: Http error code: " + response.getStatus());
@@ -56,7 +58,7 @@ public class GetBuilder {
             }
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response.getEntity().getBytes())));
             String output = bufferedReader.readLine();
-            String test=output.replace("{\"objects\":", "");
+            String test = output.replace("{\"objects\":", "");
             char[] chars = test.toCharArray();
             chars[chars.length - 1] = ' ';
             StringBuilder stringBuilder = new StringBuilder();
@@ -70,6 +72,40 @@ public class GetBuilder {
             }.getType();
 
             List<Contact> list = gson.fromJson(output, contactList);
+            return list;
+
+        } catch (Exception e) {
+            return null;
+        }
+
+
+    }
+    public List<ContactAddress> getAllContactAdresses(Token TOKEN) {
+        try {
+            request = new ClientRequest(ROOTURL.getROOTURL() + "/ContactAddress?depth=1&limit=none");
+            request.accept("application/json");
+            request.header("Authorization",TOKEN.getToken());
+            ClientResponse<String> response = request.get(String.class);
+            if (response.getStatus() != 200) {
+                throw new RuntimeException("Failed: Http error code: " + response.getStatus());
+
+            }
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response.getEntity().getBytes())));
+            String output = bufferedReader.readLine();
+            String test = output.replace("{\"objects\":", "");
+            char[] chars = test.toCharArray();
+            chars[chars.length - 1] = ' ';
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < chars.length; i++) {
+                stringBuilder.append(chars[i]);
+            }
+            output = stringBuilder.toString();
+            Gson gson = new Gson();
+
+            Type contactList = new TypeToken<ArrayList<ContactAddress>>() {
+            }.getType();
+
+            List<ContactAddress> list = gson.fromJson(output, contactList);
             return list;
 
         } catch (Exception e) {
@@ -107,8 +143,9 @@ public class GetBuilder {
     public static void main(String[] args) {
 
         GetBuilder getVoucher = new GetBuilder();
-
-
+        Token token= new Token();
+        token.setToken("b135d867554ab439a014eafb84078349");
+        getVoucher.getAllContactAdresses(token);
 
     }
 }

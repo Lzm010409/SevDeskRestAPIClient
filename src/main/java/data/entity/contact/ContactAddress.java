@@ -7,8 +7,9 @@ public class ContactAddress {
     @Expose(serialize = false, deserialize = true)
     private long id;
 
+
     @Expose
-    private Contact contact;
+    private data.entity.link.Contact contact;
     @Expose
     private String street;
     @Expose
@@ -40,11 +41,11 @@ public class ContactAddress {
         this.id = id;
     }
 
-    public Contact getContact() {
+    public data.entity.link.Contact getContact() {
         return contact;
     }
 
-    public void setContact(Contact contact) {
+    public void setContact(data.entity.link.Contact contact) {
         this.contact = contact;
     }
 
@@ -119,4 +120,5 @@ public class ContactAddress {
     public void setName4(String name4) {
         this.name4 = name4;
     }
+
 }

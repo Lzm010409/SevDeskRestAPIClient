@@ -1,12 +1,15 @@
 package database;
 
 import data.entity.contact.Contact;
+import data.entity.contact.ContactAddress;
 import database.entities.tables.Kunden;
 import database.entities.tables.records.KundenRecord;
 import org.jboss.logging.Logger;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
+import restfulapi.requests.get.GetBuilder;
+import restfulapi.requests.url.Token;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -56,19 +59,32 @@ public class DbManager {
         return connection;
     }
 
-    public void transmitContacts(List<Contact> list, DSLContext context) {
+    public void transmitContacts(List<Contact> list, List<ContactAddress> contactAddressList, DSLContext context) {
 
         KundenRecord kundenRecord;
 
         for (int i = 0; i < list.size(); i++) {
             kundenRecord = context.fetchOne(Kunden.KUNDEN, Kunden.KUNDEN.ID.eq(Long.valueOf(list.get(i).getId())));
             if (kundenRecord == null) {
-                kundenRecord = context.newRecord(Kunden.KUNDEN);
-                kundenRecord.setId(Long.valueOf(list.get(i).getId()));
-                kundenRecord.setGender(list.get(i).getGender());
-                kundenRecord.setFirstname(list.get(i).getSurename());
-                kundenRecord.setFamilyname(list.get(i).getFamilyname());
-                kundenRecord.store();
+                ContactAddress contactAddress = findContactAdress(contactAddressList, list.get(i).getId());
+                if (contactAddress != null) {
+                    kundenRecord = context.newRecord(Kunden.KUNDEN);
+                    kundenRecord.setId(Long.valueOf(list.get(i).getId()));
+                    kundenRecord.setGender(list.get(i).getGender());
+                    kundenRecord.setFirstname(list.get(i).getSurename());
+                    kundenRecord.setFamilyname(list.get(i).getFamilyname());
+                    kundenRecord.setStreet(contactAddress.getStreet());
+                    kundenRecord.setZip(contactAddress.getZip());
+                    kundenRecord.setCity(contactAddress.getCity());
+                    kundenRecord.store();
+                } else {
+                    kundenRecord = context.newRecord(Kunden.KUNDEN);
+                    kundenRecord.setId(Long.valueOf(list.get(i).getId()));
+                    kundenRecord.setGender(list.get(i).getGender());
+                    kundenRecord.setFirstname(list.get(i).getSurename());
+                    kundenRecord.setFamilyname(list.get(i).getFamilyname());
+                    kundenRecord.store();
+                }
             } else {
                 logger.log(Logger.Level.WARN, "Kunde mit ID: " + list.get(i).getId() + " bereits vorhanden!");
             }
@@ -76,13 +92,33 @@ public class DbManager {
 
     }
 
+    public ContactAddress findContactAdress(List<ContactAddress> list, long id) {
+
+        ContactAddress contactAddress = null;
+        for (int i = 0; i < list.size(); i++) {
+
+            if ((list.get(i).getContact()).getId() == id) {
+                contactAddress = list.get(i);
+                break;
+
+            }
+
+        }
+        return contactAddress;
+    }
+
     public static void main(String[] args) {
         DbManager dbManager = new DbManager();
         DSLContext context = DSL.using(dbManager.connect("jdbc:postgresql://127.0.0.1:5432/", "", ""), SQLDialect.POSTGRES);
-      /*  try {
+        /*try {
             GenerationTool.generate(Files.readString(Path.of("/Users/lukegollenstede/IdeaProjects/SevDeskRestAPIClient/jooq-config.xml")));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }*/
+        Token token = new Token();
+        token.setToken("");
+
+
+        dbManager.transmitContacts(new GetBuilder().getAllContacts(token), new GetBuilder().getAllContactAdresses(token), context);
     }
 }

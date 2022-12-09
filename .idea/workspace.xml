@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Rechnungen werden nun richtig angelegt. Voucher uploads wurden exkludiert.">
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Integrierung der Jooq Library. Erweiterung des Db Manager mit der transmitContact Methode. Anlegen der getAllContacts Methode, welche eine Liste mit allen Contacts zurück gibt.">
       <change afterPath="$PROJECT_DIR$/RechtsanwälteProperties.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/jooq-config.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/database/DbManager.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ApplicationProperties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ApplicationProperties.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAddress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/link/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/link/Contact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/database/DbManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/DbManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -252,7 +252,8 @@
       <workItem from="1670431514770" duration="651000" />
       <workItem from="1670435026583" duration="649000" />
       <workItem from="1670437009264" duration="80000" />
-      <workItem from="1670571303136" duration="8029000" />
+      <workItem from="1670571303136" duration="8282000" />
+      <workItem from="1670600912400" duration="2208000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -436,7 +437,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670274107712</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="-- Work in Progress -- Integrierung der Jooq Library. Erweiterung des Db Manager mit der transmitContact Methode. Anlegen der getAllContacts Methode, welche eine Liste mit allen Contacts zurück gibt.">
+      <created>1670600711370</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1670600711370</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -454,7 +462,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-- Work in Progress -- Post Request angepasst. Verschiedene Entities hinzugefügt." />
     <MESSAGE value="-- Work in Progress -- Get Request für Application Type hinzugefügt, die Application Type namen + id's werden nun korrekt ausgelesen und dargestellt." />
     <MESSAGE value="-- Work in Progress -- Voucher Post funktioniert nun. Als nächstes wird das File anhängbar gemacht" />
     <MESSAGE value="-- Work in Progress -- Sicherheits Commit" />
@@ -479,7 +486,8 @@
     <MESSAGE value="-- Work in Progress -- Test Parser angepasst" />
     <MESSAGE value="-- Work in Progress -- Positionen werden nun korrekt ausgelesen. Nächster Schritt -&gt; InvoicePosBuilder fertig machen." />
     <MESSAGE value="-- Work in Progress -- Rechnungen werden nun richtig angelegt. Voucher uploads wurden exkludiert." />
-    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Rechnungen werden nun richtig angelegt. Voucher uploads wurden exkludiert." />
+    <MESSAGE value="-- Work in Progress -- Integrierung der Jooq Library. Erweiterung des Db Manager mit der transmitContact Methode. Anlegen der getAllContacts Methode, welche eine Liste mit allen Contacts zurück gibt." />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Integrierung der Jooq Library. Erweiterung des Db Manager mit der transmitContact Methode. Anlegen der getAllContacts Methode, welche eine Liste mit allen Contacts zurück gibt." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -526,7 +534,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetBuilder.java</url>
-          <line>65</line>
+          <line>59</line>
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/restfulapi/requests/get/GetBuilder.java</url>
+          <line>67</line>
           <option name="timeStamp" value="224" />
         </line-breakpoint>
       </breakpoints>

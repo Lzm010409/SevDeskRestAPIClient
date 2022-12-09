@@ -22,4 +22,12 @@ public class Contact {
     public void setObjectName(String objectName) {
         this.objectName = objectName;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
