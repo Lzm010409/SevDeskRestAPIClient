@@ -65,12 +65,19 @@ public class Voucher {
     private Timestamp reccuringEndDate;
 
 
-    public Voucher(int status, String creditDebit, String voucherType, Supplier supplier) {
-        this.supplier = supplier;
+    public Voucher(int status, String creditDebit, String voucherType) {
         this.status = status;
         this.creditDebit = creditDebit;
         this.voucherType = voucherType;
+        if (this.creditDebit.equalsIgnoreCase("d")) {
+            Supplier supplier = new Supplier(54378628);
+            this.setSupplier(supplier);
 
+        } else {
+            Supplier supplier = new Supplier(54445210);
+            this.setSupplier(supplier);
+
+        }
     }
 
     public String getObjectName() {

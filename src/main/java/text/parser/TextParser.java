@@ -1,15 +1,14 @@
 package text.parser;
 
 import data.auftrag.invoices.Auftrag;
+import data.auftrag.invoices.Rechtsanwalt;
 import data.entity.accountingType.AccountingTypeRequest;
 import data.entity.contact.Category;
 import data.entity.contact.ContactAddress;
 import data.entity.invoice.InvoicePos;
 import data.entity.other.Country;
-import data.entity.other.TagName;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
-import data.filepaths.PropertyReader;
 import org.jboss.logging.Logger;
 import restfulapi.requests.url.Token;
 import text.extractor.InvoiceTextExtractor;
@@ -105,7 +104,7 @@ public class TextParser {
         }
 
         rechnung.setInvoiceHeadText(buildHeadText(tag));
-        rechnung.setLoyer(buildTag(tag));
+        rechnung.setLoyer(buildLoyer(tag));
 
         invoiceInfoList = Arrays.asList(list.get(list.size() - 1).split("\n"));
 
@@ -260,7 +259,7 @@ public class TextParser {
     }
 
     private Voucher buildVoucher(List<String> e) {
-        Voucher returnVoucher = new Voucher(50, "D", "VOU", null);
+        Voucher returnVoucher = new Voucher(50, "D", "VOU");
         Calendar calendar = new DateParser().parseDate(e.get(0));
         Date voucherDate = calendar.getTime();
         calendar.add(Calendar.DAY_OF_MONTH, 14);
@@ -290,10 +289,10 @@ public class TextParser {
     private String buildHeadText(List<String> e) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < e.size(); i++) {
-            if (e.get(i).contains("Rückfragen") ) {
+            if (e.get(i).contains("Rückfragen")) {
                 continue;
             }
-            if (e.get(i).contains("Sehr") ) {
+            if (e.get(i).contains("Sehr")) {
                 break;
             } else {
                 builder.append(e.get(i) + "\n");
@@ -303,33 +302,62 @@ public class TextParser {
         return builder.toString();
     }
 
-    private TagName buildTag(List<String> e) {
-        List<TagName> tagNames = new PropertyReader().readRechtsanwälte(new PropertyReader().readProperties("RechtsanwälteProperties.txt"));
-
-        TagName tagName = tagNames.get(tagNames.size() - 1);
-
-        StringBuilder builder = new StringBuilder();
+    private Rechtsanwalt buildLoyer(List<String> e) {
+        Rechtsanwalt rechtsanwalt = new Rechtsanwalt();
+        rechtsanwalt.setName("Kein Rechtsanwalt");
+        StringBuilder zipBuilder = new StringBuilder();
+        StringBuilder cityBuilder = new StringBuilder();
         for (int i = 0; i < e.size(); i++) {
             if (e.get(i).contains("anwalt")) {
-                builder.append(e.get(i));
-                builder.append(" " + e.get(i + 1));
-            }
-        }
+                String newRechtsanwalt = e.get(i).replace("Rechtsanwalt ", "");
+                rechtsanwalt.setName(newRechtsanwalt);
+                String[] tempArray = e.get(i + 1).split(",");
+                rechtsanwalt.setStreet(tempArray[0]);
+                char[] chars = tempArray[1].toCharArray();
 
-        String rechtsanwalt = builder.toString();
-
-        for (int i = 0; i < tagNames.size(); i++) {
-            if (rechtsanwalt.length() != 0) {
-                if (rechtsanwalt.contains(tagNames.get(i).getKürzel())) {
-                    tagName = tagNames.get(i);
-                    break;
-
-
+                for (int j = 0; j < chars.length; j++) {
+                    if (Character.isDigit(chars[j])) {
+                        zipBuilder.append(chars[j]);
+                    }
+                    if (Character.isLetter(chars[j])) {
+                        cityBuilder.append(chars[j]);
+                    }
                 }
+                String zip = zipBuilder.toString();
+                String city = cityBuilder.toString();
+                zipBuilder = null;
+                cityBuilder = null;
+                rechtsanwalt.setZip(zip);
+                rechtsanwalt.setCity(city);
             }
         }
 
-        return tagName;
+
+        return rechtsanwalt;
+    }
+
+    public String parseVoucherFileName(String input) {
+        String[] array = input.split(",");
+        String fileName = "";
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].contains("filename")) {
+                fileName = array[i];
+                break;
+            }
+        }
+
+        String newFileName = fileName.replace("\"filename\":\"", "");
+        char[] chars = newFileName.toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '\"') {
+                break;
+            } else {
+                stringBuilder.append(chars[i]);
+            }
+        }
+        return stringBuilder.toString();
+
     }
 
 

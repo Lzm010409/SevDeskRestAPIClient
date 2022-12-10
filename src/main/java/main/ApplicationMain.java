@@ -8,14 +8,18 @@ import data.entity.link.Contact;
 import data.entity.link.InvoiceLink;
 import data.entity.other.Country;
 import data.entity.other.Tag;
-import data.filepaths.PathReader;
-import data.filepaths.PathWriter;
+import data.entity.voucher.Voucher;
 import data.filepaths.PropertyReader;
+import database.DbManager;
 import dir.dir.DirLister;
-import mail.login.Login;
-import mail.send.MailSender;
-import restfulapi.requests.post.PostBuilder;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+import restfulapi.requests.Request;
+import restfulapi.requests.builder.JsonBuilder;
 import restfulapi.requests.url.Token;
+import restfulapi.requests.url.URL;
+import restfulapi.requests.url.UrlBuilder;
 import text.extractor.InvoiceTextExtractor;
 import text.parser.TextParser;
 
@@ -40,21 +44,19 @@ public class ApplicationMain {
         ThreadSleeper threadSleeper = new ThreadSleeper();
         List<String> invoiceFileList = new ArrayList<>();
         List<String> voucherFileList = new ArrayList<>();
-        //List<Object> objectList = new ArrayList<>();
         Auftrag auftrag = new Auftrag();
-        List<String> readedFileList = new ArrayList<>();
-        List<String> applicationProperties = new PropertyReader().readProperties("ApplicationProperties.txt");
+        List<String> applicationProperties = new PropertyReader().readProperties("src/main/resources/ApplicationProperties.txt");
         TextParser textParser = new TextParser();
         InvoiceTextExtractor invoiceTextExtractor = new InvoiceTextExtractor();
-        PostBuilder postBuilder = new PostBuilder();
-        PathWriter readedFilesWriter = new PathWriter();
-        PathReader pathReader = new PathReader();
-        readedFilesWriter.setFilePathName(applicationProperties.get(0));
-        File readedFiles = new File(applicationProperties.get(0));
-        applicationMain.setInvoiceDir(applicationProperties.get(1));
-        applicationMain.setVoucherDir(applicationProperties.get(2));
+        applicationMain.setInvoiceDir(applicationProperties.get(0));
+        applicationMain.setVoucherDir(applicationProperties.get(1));
         Token TOKEN = new Token();
-        TOKEN.setToken(applicationProperties.get(3));
+        TOKEN.setToken(applicationProperties.get(2));
+        Request request = new Request();
+        JsonBuilder jsonBuilder = new JsonBuilder();
+        UrlBuilder urlBuilder = new UrlBuilder();
+        DbManager dbManager = new DbManager();
+        DSLContext context = DSL.using(dbManager.connect(applicationProperties.get(3), applicationProperties.get(4), applicationProperties.get(5)), SQLDialect.POSTGRES);
 
         String output = "";
 
@@ -65,14 +67,16 @@ public class ApplicationMain {
             String contactId = "";
             for (int i = 0; i < invoiceFileList.size(); i++) {
                 try {
-                    if (pathReader.isPresent(readedFiles, invoiceFileList.get(i)) == false) {
+                    if (dbManager.fileIsPresent(invoiceFileList.get(i), context) == false) {
                         auftrag = textParser.parseInvoice(invoiceTextExtractor.extractTextFromDoc(new File(invoiceFileList.get(i))));
 
                         try {
                             Country country = new Country(0);
-                            output = postBuilder.postNewContact(auftrag.getContact(), TOKEN);
+                            output = request.httpPost(jsonBuilder.build(auftrag.getContact()), urlBuilder.buildUrl(URL.CREATENEWCONTACT), TOKEN.getToken());
                             contactId = textParser.parseId(output);
-                            postBuilder.postNewContactAdress(auftrag.getContactAddress(), Long.parseLong(contactId), TOKEN);
+                            Contact contactLink = new Contact(Long.parseLong(contactId));
+                            request.httpPost(jsonBuilder.build(auftrag.getContactAddress(), contactLink), urlBuilder.buildUrl(URL.CREATENEWCONTACTADRESS), TOKEN.getToken());
+                            contactLink = null;
                             output = null;
 
                         } catch (Exception e) {
@@ -87,16 +91,19 @@ public class ApplicationMain {
                         invoice.setDeliveryDate(auftrag.getVoucher().getDeliveryDate());
                         invoice.setInvoiceNumber(auftrag.getVoucher().getDescritption());
                         invoice.setHeader("Rechnung");
-                        invoice.setHeadText(auftrag.getInvoiceHeadText());//Es muss noch der Headtext, ausgelesen und angepasst werden!!!
-                        output = postBuilder.postNewInvoice(invoice, auftrag.getRechnungsPositions(), TOKEN);
+                        invoice.setHeadText(auftrag.getInvoiceHeadText());
+                        output = request.httpPost(jsonBuilder.build(invoice, auftrag.getRechnungsPositions()), urlBuilder.buildUrl(URL.CREATEINVOICE), TOKEN.getToken());
 
-                        //output = postBuilder.postNewVoucher(auftrag.getVoucher(), auftrag.getVoucherPosSave(), "D", TOKEN);
                         String invoiceId = textParser.parseId(output);
+                        output = null;
                         InvoiceLink invoiceLink = new InvoiceLink(Integer.parseInt(invoiceId));
+                        if (dbManager.rechtsanwaltIsPresent(auftrag.getLoyer().getName(), context) == false) {
+                            dbManager.createRechtsanwalt(auftrag.getLoyer(), context);
+                        }
                         Tag tag = new Tag((auftrag.getLoyer()).getName());
                         tag.setObject(invoiceLink);
-                        postBuilder.postNewTag(tag, TOKEN);
-                        readedFilesWriter.writeData(invoiceFileList.get(i));
+                        request.httpPost(jsonBuilder.build(tag), urlBuilder.buildUrl(URL.CREATETAG), TOKEN.getToken());
+                        dbManager.createFilePath(invoiceFileList.get(i), context);
                     }
 
                 } catch (IOException e) {
@@ -105,27 +112,40 @@ public class ApplicationMain {
             }
             voucherFileList = voucherDirLister.getInvoices(new File(applicationMain.getVoucherDir()));
 
-            Login login = new Login();
+            for (int j = 0; j < voucherFileList.size(); j++) {
+                if (dbManager.fileIsPresent(voucherFileList.get(j), context) == false) {
+                    output = request.httpPost(new File(voucherFileList.get(j)), urlBuilder.buildUrl(URL.UPLOADVOUCHERFILE), TOKEN.getToken());
+                    String fileName = new TextParser().parseVoucherFileName(output);
+                    Voucher voucher = new Voucher(50, "c", "VOU");
+                    request.httpPost(jsonBuilder.build(voucher, fileName), urlBuilder.buildUrl(URL.CREATEVOUCHER), TOKEN.getToken());
+                    dbManager.createFilePath(voucherFileList.get(j),context);
+                }
+            }
+
+
+
+
+            /*Login login = new Login();
             MailSender mailSender = new MailSender();
 
             try {
-                login.login(applicationProperties.get(4), applicationProperties.get(6) + "#" + applicationProperties.get(7));
+                login.login(applicationProperties.get(4), applicationProperties.get(5) + "#" + applicationProperties.get(6));
                 mailSender.setMailSession(login.getMailSession());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             for (int i = 0; i < voucherFileList.size(); i++) {
-                if (pathReader.isPresent(readedFiles, voucherFileList.get(i)) == false) {
+                if (dbManager.fileIsPresent(voucherFileList.get(i), context) == false) {
                     try {
-                        mailSender.sendMail(applicationProperties.get(4), applicationProperties.get(5), "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
-                        readedFilesWriter.writeData(voucherFileList.get(i));
+                        mailSender.sendMail(applicationProperties.get(3), applicationProperties.get(4), "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
+                        dbManager.createFilePath(voucherFileList.get(i), context);
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
-            }
+            }*/
 
 
             threadSleeper.threadSleep(3600000);

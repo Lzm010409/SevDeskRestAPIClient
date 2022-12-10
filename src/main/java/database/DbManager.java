@@ -1,16 +1,21 @@
 package database;
 
+import data.auftrag.invoices.Rechtsanwalt;
 import data.entity.contact.Contact;
 import data.entity.contact.ContactAddress;
 import database.entities.tables.Kunden;
+import database.entities.tables.Rechtsanwälte;
+import database.entities.tables.records.FilesRecord;
 import database.entities.tables.records.KundenRecord;
+import database.entities.tables.records.RechtsanwälteRecord;
 import org.jboss.logging.Logger;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.codegen.GenerationTool;
 import org.jooq.impl.DSL;
-import restfulapi.requests.get.GetBuilder;
-import restfulapi.requests.url.Token;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -92,6 +97,52 @@ public class DbManager {
 
     }
 
+    public void createContact(Contact contact, ContactAddress contactAddress, DSLContext context) {
+        KundenRecord kundenRecord;
+        kundenRecord = context.newRecord(Kunden.KUNDEN);
+        kundenRecord.setId(Long.valueOf(contact.getId()));
+        kundenRecord.setGender(contact.getGender());
+        kundenRecord.setFirstname(contact.getSurename());
+        kundenRecord.setFamilyname(contact.getFamilyname());
+        kundenRecord.setStreet(contactAddress.getStreet());
+        kundenRecord.setZip(contactAddress.getZip());
+        kundenRecord.setCity(contactAddress.getCity());
+        kundenRecord.store();
+    }
+
+    public void createFilePath(String path, DSLContext context) {
+        FilesRecord filesRecord;
+        filesRecord = context.newRecord(database.entities.tables.Files.FILES);
+        filesRecord.setPath(path);
+        filesRecord.store();
+    }
+
+    public void createRechtsanwalt(Rechtsanwalt rechtsanwalt, DSLContext context) {
+        RechtsanwälteRecord rechtsanwälteRecord;
+        rechtsanwälteRecord = context.newRecord(Rechtsanwälte.RECHTSANWÄLTE);
+        rechtsanwälteRecord.setName(rechtsanwalt.getName());
+        rechtsanwälteRecord.setStreet(rechtsanwalt.getStreet());
+        rechtsanwälteRecord.setZip(rechtsanwalt.getZip());
+        rechtsanwälteRecord.setCity(rechtsanwalt.getCity());
+        rechtsanwälteRecord.store();
+    }
+
+    public boolean contactIsPresent(long id, DSLContext context) {
+        KundenRecord kundenRecord = context.fetchOne(Kunden.KUNDEN, Kunden.KUNDEN.ID.eq(id));
+        return (kundenRecord == null ? true : false);
+    }
+
+    public boolean fileIsPresent(String path, DSLContext context) {
+        FilesRecord filesRecord = context.fetchOne(database.entities.tables.Files.FILES, database.entities.tables.Files.FILES.PATH.eq(path));
+        return (filesRecord == null ? false : true);
+    }
+
+    public boolean rechtsanwaltIsPresent(String tag, DSLContext context) {
+        RechtsanwälteRecord rechtsanwälteRecord = context.fetchOne(Rechtsanwälte.RECHTSANWÄLTE, Rechtsanwälte.RECHTSANWÄLTE.NAME.eq(tag));
+        return (rechtsanwälteRecord == null ? false : true);
+    }
+
+
     public ContactAddress findContactAdress(List<ContactAddress> list, long id) {
 
         ContactAddress contactAddress = null;
@@ -109,16 +160,16 @@ public class DbManager {
 
     public static void main(String[] args) {
         DbManager dbManager = new DbManager();
-        DSLContext context = DSL.using(dbManager.connect("jdbc:postgresql://127.0.0.1:5432/", "", ""), SQLDialect.POSTGRES);
-        /*try {
+        DSLContext context = DSL.using(dbManager.connect("jdbc:postgresql://127.0.0.1:5432/lukegollenstede", "lukegollenstede", ""), SQLDialect.POSTGRES);
+        try {
             GenerationTool.generate(Files.readString(Path.of("/Users/lukegollenstede/IdeaProjects/SevDeskRestAPIClient/jooq-config.xml")));
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }*/
-        Token token = new Token();
-        token.setToken("");
+        }
 
 
-        dbManager.transmitContacts(new GetBuilder().getAllContacts(token), new GetBuilder().getAllContactAdresses(token), context);
+
+      /*  dbManager.transmitContacts(new ResponseParser().parseContacts(new Request().httpGet(new UrlBuilder().buildUrl(URL.RETRIEVEALLCONTACTS), token.getToken())),
+                new ResponseParser().parseContactAdresses(new Request().httpGet(new UrlBuilder().buildUrl(URL.RETRIEVEALLCONTACTADRESSES), token.getToken())), context);*/
     }
 }

@@ -3,7 +3,6 @@ package data.auftrag.invoices;
 import data.entity.contact.Contact;
 import data.entity.contact.ContactAddress;
 import data.entity.invoice.InvoicePos;
-import data.entity.other.TagName;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
 
@@ -23,7 +22,7 @@ public class Auftrag {
     private List<InvoicePos> rechnungsPositions;
     private float value;
 
-    private TagName loyer;
+    private Rechtsanwalt loyer;
 
     public Auftrag(
 
@@ -89,11 +88,11 @@ public class Auftrag {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public TagName getLoyer() {
+    public Rechtsanwalt getLoyer() {
         return loyer;
     }
 
-    public void setLoyer(TagName loyer) {
+    public void setLoyer(Rechtsanwalt loyer) {
         this.loyer = loyer;
     }
 

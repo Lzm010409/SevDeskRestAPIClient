@@ -1,3 +1,4 @@
+
 package text.object;
 
 import data.entity.invoice.InvoicePos;
