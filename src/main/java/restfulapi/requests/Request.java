@@ -1,5 +1,6 @@
 package restfulapi.requests;
 
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
@@ -94,6 +95,23 @@ public class Request {
         httpGet.setHeader("Authorization", TOKEN);
 
         try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
+            System.out.println(response.getCode() + " " + response.getReasonPhrase());
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String output = bufferedReader.readLine();
+            httpclient.close();
+            return output;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String httpDelete(String URL, String TOKEN) {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpDelete httpDelete = new HttpDelete(URL);
+        httpDelete.setHeader("Authorization", TOKEN);
+
+        try (CloseableHttpResponse response = httpclient.execute(httpDelete)) {
             System.out.println(response.getCode() + " " + response.getReasonPhrase());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String output = bufferedReader.readLine();

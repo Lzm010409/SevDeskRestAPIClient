@@ -17,7 +17,7 @@ public class InvoicePos {
     @Expose
     private Object part;
     @Expose
-    private int quantity;
+    private float quantity;
     @Expose
     private double price;
     @Expose
@@ -82,11 +82,11 @@ public class InvoicePos {
         this.part = part;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 

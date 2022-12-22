@@ -53,7 +53,7 @@ public class InvoicePosBuilder {
             String[] stringArray = tempList.get(i).split(" ");
             int position = Integer.parseInt(stringArray[0]);
             stringArray[0] = null;
-            int quantity = 0;
+            float quantity = 0;
             float zahl1 = 0;
             float zahl2 = 0;
             String quantityName = "";
@@ -73,7 +73,7 @@ public class InvoicePosBuilder {
                         invoicePosName.append(stringArray[k]);
                     }
                     if (isQuantity(stringArray[k])) {
-                        quantity = Integer.parseInt(stringArray[k]);
+                        quantity = Float.parseFloat(stringArray[k]);
                     }
                     if (isQuantityName(stringArray[k])) {
                         quantityName = stringArray[k];
@@ -171,6 +171,9 @@ public class InvoicePosBuilder {
             if (Character.isDigit(charPosition[0]) && Character.isDigit(charPosition[1])) {
                 isQuantity = true;
             }
+        }
+        if (charPosition.length > 1 && charPosition[charPosition.length - 2] == '.') {
+            isQuantity = true;
         }
 
 

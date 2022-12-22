@@ -10,12 +10,7 @@ import database.entities.tables.records.KundenRecord;
 import database.entities.tables.records.RechtsanwälteRecord;
 import org.jboss.logging.Logger;
 import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.codegen.GenerationTool;
-import org.jooq.impl.DSL;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,8 +24,9 @@ public class DbManager {
 
     }
 
-    public Connection connect(String url) {
+    public Connection connect(String url) throws ClassNotFoundException {
         Connection connection;
+        Class.forName("org.postgresql.Driver");
         try {
             connection = DriverManager.getConnection(url);
             if (connection != null) {
@@ -47,7 +43,8 @@ public class DbManager {
     }
 
 
-    public Connection connect(String url, String user, String password) {
+    public Connection connect(String url, String user, String password) throws ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
         Connection connection;
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -159,13 +156,7 @@ public class DbManager {
     }
 
     public static void main(String[] args) {
-        DbManager dbManager = new DbManager();
-        DSLContext context = DSL.using(dbManager.connect("jdbc:postgresql://127.0.0.1:5432/lukegollenstede", "lukegollenstede", ""), SQLDialect.POSTGRES);
-        try {
-            GenerationTool.generate(Files.readString(Path.of("/Users/lukegollenstede/IdeaProjects/SevDeskRestAPIClient/jooq-config.xml")));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
 
 
 

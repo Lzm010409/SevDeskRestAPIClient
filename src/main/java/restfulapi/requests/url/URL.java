@@ -10,7 +10,8 @@ public enum URL {
     CREATENEWCONTACT("/Contact"),
 
     CREATENEWCONTACTADRESS("/ContactAddress"),
-    CREATETAG("/Tag/Factory/create");
+    CREATETAG("/Tag/Factory/create"),
+    DELETECONTACT("/Contact/");
 
     String extender;
 
