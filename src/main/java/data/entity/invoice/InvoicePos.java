@@ -1,6 +1,7 @@
 package data.entity.invoice;
 
 import com.google.gson.annotations.Expose;
+import data.entity.other.Part;
 import data.entity.other.Unity;
 
 public class InvoicePos {
@@ -15,7 +16,7 @@ public class InvoicePos {
     @Expose
     private boolean mapAll = true;
     @Expose
-    private Object part;
+    private Part part;
     @Expose
     private float quantity;
     @Expose
@@ -74,11 +75,11 @@ public class InvoicePos {
         this.mapAll = mapAll;
     }
 
-    public Object getPart() {
+    public Part getPart() {
         return part;
     }
 
-    public void setPart(Object part) {
+    public void setPart(Part part) {
         this.part = part;
     }
 

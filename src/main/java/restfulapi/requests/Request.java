@@ -98,11 +98,17 @@ public class Request {
             System.out.println(response.getCode() + " " + response.getReasonPhrase());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String output = bufferedReader.readLine();
-            httpclient.close();
-            return output;
 
+            return output;
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -128,6 +134,6 @@ public class Request {
         Request request = new Request();
         Token token = new Token();
         token.setToken("b135d867554ab439a014eafb84078349");
-        request.httpPost(new File("/Users/lukegollenstede/Desktop/02/Gutachten/12/1222_705TG/Abtrittserklärung_ausgefüllt.pdf"),new UrlBuilder().buildUrl(URL.UPLOADVOUCHERFILE),"b135d867554ab439a014eafb84078349");
+        request.httpPost(new File("/Users/lukegollenstede/Desktop/02/Gutachten/12/1222_705TG/Abtrittserklärung_ausgefüllt.pdf"), new UrlBuilder().buildUrl(URL.UPLOADVOUCHERFILE), "b135d867554ab439a014eafb84078349");
     }
 }

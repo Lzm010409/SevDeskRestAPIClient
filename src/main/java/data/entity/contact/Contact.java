@@ -1,6 +1,8 @@
 package data.entity.contact;
 
 import com.google.gson.annotations.Expose;
+import data.entity.other.Category;
+
 public class Contact {
     @Expose(serialize = false, deserialize = true)
     private int id;

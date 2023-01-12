@@ -1,4 +1,4 @@
-package data.entity.contact;
+package data.entity.other;
 
 import com.google.gson.annotations.Expose;
 

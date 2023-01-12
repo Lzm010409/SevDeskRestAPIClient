@@ -3,7 +3,7 @@ package text.parser;
 import data.auftrag.invoices.Auftrag;
 import data.auftrag.invoices.Rechtsanwalt;
 import data.entity.accountingType.AccountingTypeRequest;
-import data.entity.contact.Category;
+import data.entity.other.Category;
 import data.entity.contact.ContactAddress;
 import data.entity.invoice.InvoicePos;
 import data.entity.other.Country;
@@ -42,7 +42,7 @@ public class TextParser {
             }
         }
 
-        if (list.get(0).equalsIgnoreCase("frau") || list.get(0).equalsIgnoreCase("herr")) {
+        if (list.get(0).equalsIgnoreCase("frau") || list.get(0).equalsIgnoreCase("herr") || list.get(0).equalsIgnoreCase("firma")) {
             contact.add(parseName(list.get(0)));
             contact.add(parseName(list.get(1)));
             contactAdress.add(parseAdress(list.get(2)));
@@ -204,17 +204,21 @@ public class TextParser {
         Category category = new Category(3);
         data.entity.contact.Contact contact = new data.entity.contact.Contact(category);
         StringBuilder builder = new StringBuilder();
-        if (e.size() != 1) {
-            contact.setGender(e.get(0));
-            String[] arr = e.get(1).split(" ");
-            contact.setSurename(arr[0]);
-            for (int i = 1; i < arr.length; i++) {
-                builder.append(arr[i]);
-                builder.append(" ");
-            }
-            contact.setFamilyname(builder.toString());
+        if (e.get(0).equalsIgnoreCase("firma")) {
+            contact.setFamilyname(e.get(1));
         } else {
-            contact.setSurename(e.get(0));
+            if (e.size() != 1) {
+                contact.setGender(e.get(0));
+                String[] arr = e.get(1).split(" ");
+                contact.setSurename(arr[0]);
+                for (int i = 1; i < arr.length; i++) {
+                    builder.append(arr[i]);
+                    builder.append(" ");
+                }
+                contact.setFamilyname(builder.toString());
+            } else {
+                contact.setSurename(e.get(0));
+            }
         }
 
         return contact;

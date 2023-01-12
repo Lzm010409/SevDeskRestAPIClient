@@ -1,6 +1,7 @@
 package data.entity.contact;
 
 import com.google.gson.annotations.Expose;
+import data.entity.other.Category;
 import data.entity.other.Country;
 
 public class ContactAddress {

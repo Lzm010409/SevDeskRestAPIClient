@@ -55,7 +55,7 @@ public class DateParser {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, day);
         calendar.set(Calendar.MONTH,month-1);
-        calendar.set(Calendar.YEAR,2022);
+        calendar.set(Calendar.YEAR,year);
 
 
 

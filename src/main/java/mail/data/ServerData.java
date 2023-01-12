@@ -2,8 +2,8 @@ package mail.data;
 
 public enum ServerData {
 
-    SMTPHOST("smtp-mail.outlook.com"),
-    SMTPPORT("587");
+    SMTPHOST("smtp.strato.de"),
+    SMTPPORT("465");
     private String data;
 
     ServerData(String data) {

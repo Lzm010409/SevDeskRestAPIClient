@@ -8,10 +8,11 @@ import data.entity.link.Contact;
 import data.entity.link.InvoiceLink;
 import data.entity.other.Country;
 import data.entity.other.Tag;
-import data.entity.voucher.Voucher;
 import data.filepaths.PropertyReader;
 import database.DbManager;
 import dir.dir.DirLister;
+import mail.login.Login;
+import mail.send.MailSender;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -53,6 +54,8 @@ public class ApplicationMain {
         applicationMain.setVoucherDir(applicationProperties.get(1));
         Token TOKEN = new Token();
         TOKEN.setToken(applicationProperties.get(2));
+        String mail = applicationProperties.get(6);
+        String mailPassword = applicationProperties.get(7);
         Request request = new Request();
         JsonBuilder jsonBuilder = new JsonBuilder();
         UrlBuilder urlBuilder = new UrlBuilder();
@@ -125,7 +128,7 @@ public class ApplicationMain {
             }
             voucherFileList = voucherDirLister.getInvoices(new File(applicationMain.getVoucherDir()));
 
-            for (int j = 0; j < voucherFileList.size(); j++) {
+           /* for (int j = 0; j < voucherFileList.size(); j++) {
                 if (dbManager.fileIsPresent(voucherFileList.get(j), context) == false) {
                     output = request.httpPost(new File(voucherFileList.get(j)), urlBuilder.buildUrl(URL.UPLOADVOUCHERFILE), TOKEN.getToken());
                     String fileName = new TextParser().parseVoucherFileName(output);
@@ -133,16 +136,14 @@ public class ApplicationMain {
                     request.httpPost(jsonBuilder.build(voucher, fileName), urlBuilder.buildUrl(URL.CREATEVOUCHER), TOKEN.getToken());
                     dbManager.createFilePath(voucherFileList.get(j), context);
                 }
-            }
+            }*/
 
 
-
-
-            /*Login login = new Login();
+            Login login = new Login();
             MailSender mailSender = new MailSender();
 
             try {
-                login.login(applicationProperties.get(4), applicationProperties.get(5) + "#" + applicationProperties.get(6));
+                login.login(mail, mailPassword);
                 mailSender.setMailSession(login.getMailSession());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -150,7 +151,7 @@ public class ApplicationMain {
             for (int i = 0; i < voucherFileList.size(); i++) {
                 if (dbManager.fileIsPresent(voucherFileList.get(i), context) == false) {
                     try {
-                        mailSender.sendMail(applicationProperties.get(3), applicationProperties.get(4), "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
+                        mailSender.sendMail(mail, mail, "autobox@sevdesk.email", "Upload", new File(voucherFileList.get(i)));
                         dbManager.createFilePath(voucherFileList.get(i), context);
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
@@ -158,7 +159,8 @@ public class ApplicationMain {
                         throw new RuntimeException(e);
                     }
                 }
-            }*/
+            }
+
 
 
             threadSleeper.threadSleep(3600000);
@@ -171,10 +173,10 @@ public class ApplicationMain {
         try {
             String buildUrl = new UrlBuilder().buildUrl(URL.DELETECONTACT) + contactId;
             new Request().httpDelete(buildUrl, token);
-            logger.log(Level.WARNING,"Der obige Kontakt mit der ID: " + contactId + ", wurde wegen eines " +
+            logger.log(Level.WARNING, "Der obige Kontakt mit der ID: " + contactId + ", wurde wegen eines " +
                     "Fehlers nicht angelegt und daher wieder gelöscht!");
-        }catch (Exception e){
-            logger.log(Level.SEVERE,"Bem Rollback des Kontaktes ist ein schwerwiegender Fehler aufgetreten!");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Bem Rollback des Kontaktes ist ein schwerwiegender Fehler aufgetreten!");
         }
     }
 
