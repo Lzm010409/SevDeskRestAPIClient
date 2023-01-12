@@ -85,7 +85,7 @@ public class PropertyReader {
 
     public static void main(String[] args) throws MessagingException {
         Token token = new Token();
-        token.setToken("b135d867554ab439a014eafb84078349");
+        token.setToken("");
         UrlBuilder builder = new UrlBuilder();
         Request request = new Request();
 
