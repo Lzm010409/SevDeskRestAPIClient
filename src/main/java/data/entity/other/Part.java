@@ -6,7 +6,7 @@ public class Part {
     @Expose(serialize = false, deserialize = true)
     private int id;
     @Expose
-    private String objectName;
+    private String objectName ="Part";
     @Expose
     private String name;
     @Expose

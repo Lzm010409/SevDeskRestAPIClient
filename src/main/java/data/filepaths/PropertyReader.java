@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PropertyReader {
+
+    private final String partsPath = "src/main/resources/parts.json";
     private final Logger logger = Logger.getLogger(PropertyReader.class);
 
     public List<String> readProperties(String path) {
@@ -56,7 +58,7 @@ public class PropertyReader {
     }
 
 
-    public Map<String, Part> readPartsData(String partsPath, String serverResponse) {
+    public void requestPartsData(String serverResponse) {
         String zeile;
         StringBuilder builder = new StringBuilder();
         File filePaths = new File(partsPath);
@@ -68,11 +70,25 @@ public class PropertyReader {
                 fileWriter.close();
                 logger.log(Logger.Level.INFO, "Datei " + filePaths.getName() + " wurde neu angelegt und der übergebene File Path:" + filePaths.getAbsolutePath() + " gespeichert.");
             }
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePaths));
+
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public Map<String, Part> readPartsData() {
+        BufferedReader bufferedReader = null;
+        String zeile;
+        StringBuilder builder = new StringBuilder();
+        try {
+            bufferedReader = new BufferedReader(new FileReader(new File(partsPath)));
             while ((zeile = bufferedReader.readLine()) != null) {
                 builder.append(zeile);
             }
-
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -80,6 +96,8 @@ public class PropertyReader {
         }
         Map<String, Part> partList = new ResponseParser().parseParts(builder.toString());
         return partList;
+
+
     }
 
 
@@ -90,8 +108,8 @@ public class PropertyReader {
         Request request = new Request();
 
         PropertyReader propertyReader = new PropertyReader();
-        Map<String, Part> partsList = propertyReader.readPartsData("src/main/resources/parts.json",
-                request.httpGet(builder.buildUrl(URL.GETALLPARTS), token.getToken()));
+        propertyReader.requestPartsData(request.httpGet(builder.buildUrl(URL.GETALLPARTS), token.getToken()));
+        Map<String, Part> partsList = propertyReader.readPartsData();
         for (String key : partsList.keySet()) {
             String output = String.format("Id: %s, name: %s, preis:%s", partsList.get(key).getId(), partsList.get(key).getName(), String.valueOf(partsList.get(key).getPrice()));
             System.out.println(output);

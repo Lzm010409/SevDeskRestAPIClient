@@ -1,7 +1,7 @@
 package data.entity.invoice;
 
 import com.google.gson.annotations.Expose;
-import data.entity.other.Part;
+import data.entity.link.Part;
 import data.entity.other.Unity;
 
 public class InvoicePos {

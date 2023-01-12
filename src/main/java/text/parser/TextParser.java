@@ -106,7 +106,7 @@ public class TextParser {
         rechnung.setInvoiceHeadText(buildHeadText(tag));
         rechnung.setLoyer(buildLoyer(tag));
 
-        invoiceInfoList = Arrays.asList(list.get(list.size() - 1).split("\n"));
+        invoiceInfoList = Arrays.asList(list.get(list.size() - 1));
 
         rechnung.setRechnungsPositions((List<InvoicePos>) new InvoicePosBuilder().build(invoiceInfoList));
 

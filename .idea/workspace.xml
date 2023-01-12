@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="Kleiner BugFix, da die Quantity einer Rechnungsposition keine Kommazahlen zuließ.">
+    <list default="true" id="82a72e6d-5f4e-4237-8974-bc76c82b7278" name="Changes" comment="-- Work in Progress -- Parts wurden ergänzt. Parts werden im nächsten Schritt bei der Rechnungserstellung verwendet">
       <change afterPath="$PROJECT_DIR$/ApplicationProperties.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/jooq-config.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/Part.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/data/entity/link/Part.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/text/object/test" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/Contact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/contact/ContactAddress.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/invoice/InvoicePos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/invoice/InvoicePos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/entity/other/Part.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/entity/other/Part.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mail/data/ServerData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mail/data/ServerData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/ApplicationMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/Request.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/URL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/requests/url/URL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restfulapi/response/ResponseParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restfulapi/response/ResponseParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/DateParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/DateParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/text/parser/TextParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,24 +50,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/lukegollenstede/IdeaProjects/SevDeskRestAPIClient/src/main/java&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;d13aebd44112d1cbd9a4896b73975e48&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/lukegollenstede/IdeaProjects/SevDeskRestAPIClient/src/main/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "spring.configuration.checksum": "d13aebd44112d1cbd9a4896b73975e48"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
@@ -87,13 +82,14 @@
       <recent name="" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="data.entity.link" />
       <recent name="text.object" />
       <recent name="data.entity.invoice" />
       <recent name="data.entity.other" />
       <recent name="data.entity.contact" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PropertyReader">
+  <component name="RunManager" selected="Application.InvoicePosBuilder">
     <configuration name="ApplicationMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.ApplicationMain" />
       <module name="SevDeskRestAPIClient" />
@@ -120,6 +116,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="InvoicePosBuilder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="text.object.InvoicePosBuilder" />
+      <module name="SevDeskRestAPIClient" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="text.object.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PropertyReader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="data.filepaths.PropertyReader" />
       <module name="SevDeskRestAPIClient" />
@@ -139,19 +148,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="restfulapi.requests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="restfulapi.test.TestMain" />
-      <module name="SevDeskRestAPIClient" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="restfulapi.requests.url.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -187,20 +183,20 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.InvoicePosBuilder" />
       <item itemvalue="Application.PropertyReader" />
       <item itemvalue="Application.Request" />
-      <item itemvalue="Application.TestMain" />
       <item itemvalue="Application.DbManager" />
       <item itemvalue="Application.ApplicationMain" />
       <item itemvalue="Maven.SevDeskRestAPIClient [clean,package...]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.PropertyReader" />
+        <item itemvalue="Application.InvoicePosBuilder" />
         <item itemvalue="Application.ApplicationMain" />
+        <item itemvalue="Application.PropertyReader" />
         <item itemvalue="Application.Request" />
         <item itemvalue="Application.DbManager" />
-        <item itemvalue="Application.TestMain" />
       </list>
     </recent_temporary>
   </component>
@@ -276,7 +272,8 @@
       <workItem from="1671734646489" duration="3805000" />
       <workItem from="1673255104239" duration="3889000" />
       <workItem from="1673437733721" duration="2269000" />
-      <workItem from="1673517038431" duration="4311000" />
+      <workItem from="1673517038431" duration="6059000" />
+      <workItem from="1673540714853" duration="3914000" />
     </task>
     <task id="LOCAL-00001" summary="-- Work in Progress -- Get All und kleine Post Abfragen können nun getätigt werden.">
       <created>1667641192482</created>
@@ -488,7 +485,21 @@
       <option name="project" value="LOCAL" />
       <updated>1671738045433</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="-- Work in Progress -- Parts wurden ergänzt. Parts werden im nächsten Schritt bei der Rechnungserstellung verwendet">
+      <created>1673521818627</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1673521818627</updated>
+    </task>
+    <task id="LOCAL-00032" summary="-- Work in Progress -- Parts wurden ergänzt. Parts werden im nächsten Schritt bei der Rechnungserstellung verwendet">
+      <created>1673521861240</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1673521861240</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -506,7 +517,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-- Work in Progress -- Contact.java Entity hinzugefügt. PostRequest für Contact erstellt." />
     <MESSAGE value="-- Work in Progress -- Auf GSON für Json Requests umgestellt. Der Umbau wird ein wenig dauern." />
     <MESSAGE value="-- Work in Progress -- PostContact integriert. Entity Klassen werden im nächsten Schritt so angepasst, sodas der GSON Builder mit Annotation arbeiten kann" />
     <MESSAGE value="-- Work in Progress -- Lokale Ordner können nun durchsucht und gespeichert werden. Zusätzlich wurde ein ThreadSleeper integriert." />
@@ -531,7 +541,8 @@
     <MESSAGE value="-- Work in Progress -- Kontakte werden nun mit den ContactAdresses eingepflegt." />
     <MESSAGE value="-- Work in Progress -- Voucher werden nun per Api übertragen" />
     <MESSAGE value="Kleiner BugFix, da die Quantity einer Rechnungsposition keine Kommazahlen zuließ." />
-    <option name="LAST_COMMIT_MESSAGE" value="Kleiner BugFix, da die Quantity einer Rechnungsposition keine Kommazahlen zuließ." />
+    <MESSAGE value="-- Work in Progress -- Parts wurden ergänzt. Parts werden im nächsten Schritt bei der Rechnungserstellung verwendet" />
+    <option name="LAST_COMMIT_MESSAGE" value="-- Work in Progress -- Parts wurden ergänzt. Parts werden im nächsten Schritt bei der Rechnungserstellung verwendet" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -602,14 +613,19 @@
           <option name="timeStamp" value="262" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/text/parser/TextParser.java</url>
-          <line>82</line>
-          <option name="timeStamp" value="263" />
+          <url>file://$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="266" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/data/filepaths/PropertyReader.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="266" />
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="270" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/text/object/InvoicePosBuilder.java</url>
+          <line>123</line>
+          <option name="timeStamp" value="272" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -2,22 +2,19 @@
 package text.object;
 
 import data.entity.invoice.InvoicePos;
+import data.entity.other.Part;
 import data.entity.other.Unity;
+import data.filepaths.PropertyReader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class InvoicePosBuilder {
 
     Map<String, Long> unityMap = new HashMap<String, Long>();
 
     public Object build(List<String> e) {
-        unityMap.put("km", Long.valueOf(10));
-        unityMap.put("stück", Long.valueOf(1));
-        unityMap.put("pauschal", Long.valueOf(7));
-        unityMap.put("seiten", Long.valueOf(371137));
+        Map<String, Part> partMap = new PropertyReader().readPartsData();
         List<InvoicePos> invoiceList = new ArrayList<>();
         for (int i = 0; i < e.size(); i++) {
             if (!e.get(i).contains("Gesamtpreis")) {
@@ -122,8 +119,88 @@ public class InvoicePosBuilder {
         return invoiceList;
     }
 
+    public Object testBuild(List<String> e) {
+
+        List<String> tempList = new LinkedList<>(Arrays.asList(e.get(0).split("\n")));
+        int index = 0;
+        while (!tempList.get(index).contains("Gesamtpreis")) {
+            tempList.remove(index);
+        }
+        tempList.remove(index);
+        List<InvoicePos> invoicePosList = new LinkedList<>();
+        Map<String, Part> partMap = new PropertyReader().readPartsData();
+
+        while (index < tempList.size()) {
+            InvoicePos invoicePos = new InvoicePos();
+            List<Double> amountList = new ArrayList<>();
+            List<String> stringList = new LinkedList<>(Arrays.asList(tempList.get(index).split(" ")));
+            stringList.remove(0);
+            int secIndex = 0;
+            while (!invoicePosReady(invoicePos)) {
+                if (partMap.containsKey(stringList.get(secIndex))) {
+                    data.entity.link.Part tempPart = new data.entity.link.Part(partMap.get(stringList.get(secIndex)).getId());
+                    invoicePos.setPart(tempPart);
+                    invoicePos.setUnity(partMap.get(stringList.get(secIndex)).getUnity());
+                }
+                if (isAmount(stringList.get(secIndex))) {
+                    amountList.add(Double.valueOf(new String(tempList.get(secIndex).replace(",", "."))));
+                }
+                if (isQuantity(tempList.get(secIndex))) {
+                    invoicePos.setQuantity(Float.parseFloat(tempList.get(secIndex)));
+                }
+                if (amountList.size() == 2) {
+                    if (amountList.get(0) > amountList.get(1)) {
+                        invoicePos.setPriceGross(amountList.get(0));
+                        invoicePos.setPrice(amountList.get(1) / invoicePos.getQuantity());
+                        invoicePos.setPriceTax(amountList.get(0) - (amountList.get(0) / 1.19));
+                    } else {
+                        invoicePos.setPriceGross(amountList.get(1));
+                        invoicePos.setPrice(amountList.get(0) / invoicePos.getQuantity());
+                        invoicePos.setPriceTax(amountList.get(1) - (amountList.get(1) / 1.19));
+                    }
+                }
+            }
+            invoicePosList.add(invoicePos);
+        }
+
+
+        return null;
+    }
+
+    private boolean invoicePosReady(InvoicePos invoicePos) {
+        if (invoicePos.getName() != null && invoicePos.getPrice() != 0.0 && invoicePos.getQuantity() != 0 && invoicePos.getUnity() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        InvoicePosBuilder invoicePosBuilder = new InvoicePosBuilder();
+        List<String> test = new ArrayList<>();
+        test.add("Sehr geehrte Damen und Herren,\n" +
+                "wir danken für Ihren Auftrag und erlauben uns in obiger Sache zu berechnen:\n" +
+                "Pos Bezeichnung Anz. Einheit Einzelpreis Gesamtpreis\n" +
+                "1 SV\u00ADHonorar 1 620,00 EUR EUR 620,00\n" +
+                "2 Fahrtkosten erh. Energiekosten 42 km 0,80 EUR EUR 33,60\n" +
+                "3 Fotos 22 Stück 2,00 EUR EUR 44,00\n" +
+                "4 Porto/Telefon 1 7,50 EUR EUR 7,50\n" +
+                "Systemgeb. m. Bewertung + erh. \n" +
+                "5 1 30,00 EUR EUR 30,00\n" +
+                "Transakt.\u00ADKosten\n" +
+                "6 Schreibkosten (Original) 20 Seiten 1,80 EUR EUR 36,00\n" +
+                "7 Digitalisierungspauschale 1 Stück 3,00 EUR EUR 3,00\n" +
+                "Rechnungsbetrag exkl. MwSt EUR 774,10\n" +
+                "MwSt. 19 % EUR 147,08\n" +
+                "EUR 921,18\n" +
+                "Rechnungsbetrag inkl. MwSt.\n" +
+                "Bankverbindung: Geschäftsführer: Thorsten Gollenstede\n" +
+                "Bank: Postbank Steuernummer: 117/5114/2808");
+        invoicePosBuilder.testBuild(test);
+    }
+
     public boolean isAmount(String amount) {
-        char[] charAmount = amount.toCharArray();
+     /*   char[] charAmount = amount.toCharArray();
         boolean isAmount = false;
         for (int i = 0; i < charAmount.length; i++) {
             if (charAmount[i] == ',' && Character.isDigit(charAmount[i + 1]) && Character.isDigit(charAmount[i + 2])) {
@@ -131,7 +208,16 @@ public class InvoicePosBuilder {
                 break;
             }
         }
-        return isAmount;
+        return isAmount;*/
+        if (amount.endsWith("EUR")) {
+            amount = amount.replace(" EUR", "");
+        }
+        Pattern pattern = Pattern.compile("[0-9]*\\,(\\d{2})$");
+        if (pattern.matcher(amount).matches()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public float convertToFloat(String amount) {
