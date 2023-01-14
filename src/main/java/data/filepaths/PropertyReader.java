@@ -63,15 +63,11 @@ public class PropertyReader {
         StringBuilder builder = new StringBuilder();
         File filePaths = new File(partsPath);
         try {
-            if (!filePaths.exists()) {
-                FileWriter fileWriter = new FileWriter(filePaths);
-                fileWriter.write(serverResponse);
-                fileWriter.flush();
-                fileWriter.close();
-                logger.log(Logger.Level.INFO, "Datei " + filePaths.getName() + " wurde neu angelegt und der übergebene File Path:" + filePaths.getAbsolutePath() + " gespeichert.");
-            }
-
-
+            FileWriter fileWriter = new FileWriter(filePaths);
+            fileWriter.write(serverResponse);
+            fileWriter.flush();
+            fileWriter.close();
+            logger.log(Logger.Level.INFO, "Datei " + filePaths.getName() + " wurde neu angelegt und der übergebene File Path:" + filePaths.getAbsolutePath() + " gespeichert.");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

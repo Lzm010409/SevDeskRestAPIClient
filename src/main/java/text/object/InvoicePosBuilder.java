@@ -5,6 +5,10 @@ import data.entity.invoice.InvoicePos;
 import data.entity.other.Part;
 import data.entity.other.Unity;
 import data.filepaths.PropertyReader;
+import restfulapi.requests.Request;
+import restfulapi.requests.url.Token;
+import restfulapi.requests.url.URL;
+import restfulapi.requests.url.UrlBuilder;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -12,6 +16,8 @@ import java.util.regex.Pattern;
 public class InvoicePosBuilder {
 
     Map<String, Long> unityMap = new HashMap<String, Long>();
+
+    Map<String, Part> partMap = new PropertyReader().readPartsData();
 
     public Object build(List<String> e) {
         Map<String, Part> partMap = new PropertyReader().readPartsData();
@@ -128,7 +134,7 @@ public class InvoicePosBuilder {
         }
         tempList.remove(index);
         List<InvoicePos> invoicePosList = new LinkedList<>();
-        Map<String, Part> partMap = new PropertyReader().readPartsData();
+        // Map<String, Part> partMap = new PropertyReader().readPartsData();
 
         while (index < tempList.size()) {
             InvoicePos invoicePos = new InvoicePos();
@@ -136,47 +142,116 @@ public class InvoicePosBuilder {
             List<String> stringList = new LinkedList<>(Arrays.asList(tempList.get(index).split(" ")));
             stringList.remove(0);
             int secIndex = 0;
+            int runtime = 0;
+            for (int i = 0; i < stringList.size(); i++) {
+                stringList.set(i, reworkStrings(stringList.get(i)));
+            }
+            if (stringList.contains("")) {
+                stringList.remove("");
+            }
             while (!invoicePosReady(invoicePos)) {
-                if (partMap.containsKey(stringList.get(secIndex))) {
-                    data.entity.link.Part tempPart = new data.entity.link.Part(partMap.get(stringList.get(secIndex)).getId());
+                if (runtime > 10) {
+                    secIndex += 1;
+                    runtime = 0;
+                }
+                if (secIndex < stringList.size() && containsPart(stringList.get(secIndex)) != "") {
+                    String key = containsPart(stringList.get(secIndex));
+                    data.entity.link.Part tempPart = new data.entity.link.Part(partMap.get(key).getId());
                     invoicePos.setPart(tempPart);
-                    invoicePos.setUnity(partMap.get(stringList.get(secIndex)).getUnity());
+                    invoicePos.setUnity(partMap.get(key).getUnity());
+                    secIndex += 1;
                 }
-                if (isAmount(stringList.get(secIndex))) {
-                    amountList.add(Double.valueOf(new String(tempList.get(secIndex).replace(",", "."))));
+                if (secIndex < stringList.size() && isAmount(stringList.get(secIndex))) {
+                    amountList.add(Double.valueOf(new String(removeSpacesFromAmount(stringList.get(secIndex)).replace(",", "."))));
+                    secIndex += 1;
                 }
-                if (isQuantity(tempList.get(secIndex))) {
-                    invoicePos.setQuantity(Float.parseFloat(tempList.get(secIndex)));
+                if (secIndex < stringList.size() && isQuantity(stringList.get(secIndex))) {
+                    invoicePos.setQuantity(Float.parseFloat(stringList.get(secIndex)));
+                    secIndex += 1;
                 }
                 if (amountList.size() == 2) {
                     if (amountList.get(0) > amountList.get(1)) {
-                        invoicePos.setPriceGross(amountList.get(0));
-                        invoicePos.setPrice(amountList.get(1) / invoicePos.getQuantity());
-                        invoicePos.setPriceTax(amountList.get(0) - (amountList.get(0) / 1.19));
+                        invoicePos.setPriceGross(amountList.get(0) * 1.19);
+                        invoicePos.setPrice(amountList.get(1));
+                        invoicePos.setPriceTax(invoicePos.getPriceGross() - (invoicePos.getPriceGross() / 1.19));
+                        secIndex += 1;
                     } else {
-                        invoicePos.setPriceGross(amountList.get(1));
-                        invoicePos.setPrice(amountList.get(0) / invoicePos.getQuantity());
-                        invoicePos.setPriceTax(amountList.get(1) - (amountList.get(1) / 1.19));
+                        invoicePos.setPriceGross(amountList.get(1) * 1.19);
+                        invoicePos.setPrice(amountList.get(0));
+                        invoicePos.setPriceTax(invoicePos.getPriceGross() - (invoicePos.getPriceGross() / 1.19));
+                        secIndex += 1;
                     }
                 }
+                runtime += 1;
             }
             invoicePosList.add(invoicePos);
+            index += 1;
         }
 
 
         return null;
     }
 
+    private String containsPart(String input) {
+        char[] charArray = input.toCharArray();
+        int hitCounter = 0;
+        float averageChar = 0;
+        float charLength = 0;
+        String returnKey = "";
+        for (String key : partMap.keySet()) {
+            char[] partChars = key.toCharArray();
+            int runner = 0;
+            if (partChars.length < charArray.length) {
+                runner = partChars.length;
+            } else {
+                runner = charArray.length;
+            }
+            for (int i = 0; i < runner; i++) {
+                if (charArray[i] == partChars[i]) {
+                    hitCounter += 1;
+                }
+            }
+            averageChar = ((hitCounter * 100) / runner);
+            System.out.println(averageChar);
+            if (averageChar > 75) {
+                returnKey = key;
+                break;
+            }
+            hitCounter = 0;
+        }
+
+
+        return returnKey;
+    }
+
+    private String reworkStrings(String input) {
+
+        if (input.contains("\u00AD")) {
+            input = input.replace("\u00AD", "-");
+        }
+        if (input.contains("EUR")) {
+            input = input.replace("EUR", "");
+        }
+        return input;
+    }
+
+
     private boolean invoicePosReady(InvoicePos invoicePos) {
-        if (invoicePos.getName() != null && invoicePos.getPrice() != 0.0 && invoicePos.getQuantity() != 0 && invoicePos.getUnity() != null) {
+        if (invoicePos.getPart() != null && invoicePos.getPrice() != 0.0 && invoicePos.getQuantity() != 0
+                && invoicePos.getUnity() != null) {
             return true;
         } else {
             return false;
         }
     }
 
+
     public static void main(String[] args) {
         InvoicePosBuilder invoicePosBuilder = new InvoicePosBuilder();
+        Token token = new Token();
+        token.setToken("");
+        PropertyReader propertyReader = new PropertyReader();
+        propertyReader.requestPartsData(new Request().httpGet(new UrlBuilder().buildUrl(URL.GETALLPARTS), token.getToken()));
         List<String> test = new ArrayList<>();
         test.add("Sehr geehrte Damen und Herren,\n" +
                 "wir danken für Ihren Auftrag und erlauben uns in obiger Sache zu berechnen:\n" +
@@ -199,6 +274,17 @@ public class InvoicePosBuilder {
         invoicePosBuilder.testBuild(test);
     }
 
+    private String removeSpacesFromAmount(String amount) {
+        char[] chars = amount.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            if (Character.isDigit(chars[i]) || chars[i] == ',') {
+                builder.append(chars[i]);
+            }
+        }
+        return builder.toString();
+    }
+
     public boolean isAmount(String amount) {
      /*   char[] charAmount = amount.toCharArray();
         boolean isAmount = false;
@@ -209,11 +295,17 @@ public class InvoicePosBuilder {
             }
         }
         return isAmount;*/
-        if (amount.endsWith("EUR")) {
-            amount = amount.replace(" EUR", "");
+        char[] chars = amount.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        if (chars.length != 1) {
+            for (int i = 0; i < chars.length; i++) {
+                if (Character.isDigit(chars[i]) || chars[i] == ',') {
+                    builder.append(chars[i]);
+                }
+            }
         }
         Pattern pattern = Pattern.compile("[0-9]*\\,(\\d{2})$");
-        if (pattern.matcher(amount).matches()) {
+        if (pattern.matcher(builder.toString()).matches()) {
             return true;
         } else {
             return false;
