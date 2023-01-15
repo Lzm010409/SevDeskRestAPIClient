@@ -16,7 +16,7 @@ public enum InvoiceCoordinates {
 
     ANDERE(50, 291, 510, 270),
 
-    RECHNUNGSPOSITIONEN(51, 40, 500, 300),
+    RECHNUNGSPOSITIONEN(51, 40, 500, 400),
 
     ;
 

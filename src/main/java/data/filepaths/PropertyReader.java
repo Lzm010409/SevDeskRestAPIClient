@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class PropertyReader {
 
-    private final String partsPath = "src/main/resources/parts.json";
+    private final String partsPath = "parts.json";
     private final Logger logger = Logger.getLogger(PropertyReader.class);
 
     public List<String> readProperties(String path) {
@@ -102,9 +102,12 @@ public class PropertyReader {
         token.setToken("");
         UrlBuilder builder = new UrlBuilder();
         Request request = new Request();
-
         PropertyReader propertyReader = new PropertyReader();
         propertyReader.requestPartsData(request.httpGet(builder.buildUrl(URL.GETALLPARTS), token.getToken()));
+
+
+
+
         Map<String, Part> partsList = propertyReader.readPartsData();
         for (String key : partsList.keySet()) {
             String output = String.format("Id: %s, name: %s, preis:%s", partsList.get(key).getId(), partsList.get(key).getName(), String.valueOf(partsList.get(key).getPrice()));

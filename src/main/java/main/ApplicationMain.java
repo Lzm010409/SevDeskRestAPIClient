@@ -75,7 +75,8 @@ public class ApplicationMain {
 
         while (applicationMain.isRunApplication() == true) {
 
-
+            PropertyReader propertyReader = new PropertyReader();
+            propertyReader.requestPartsData(new Request().httpGet(new UrlBuilder().buildUrl(URL.GETALLPARTS), TOKEN.getToken()));
             invoiceFileList = invoiceDirLister.getInvoices(new File(applicationMain.getInvoiceDir()));
             String contactId = "";
             String invoiceId = "";
@@ -104,8 +105,12 @@ public class ApplicationMain {
                         invoice.setSendDate(auftrag.getVoucher().getDeliveryDate());
                         invoice.setDeliveryDate(auftrag.getVoucher().getDeliveryDate());
                         invoice.setInvoiceNumber(auftrag.getVoucher().getDescritption());
-                        invoice.setHeader("Rechnung");
-                        invoice.setHeadText(auftrag.getInvoiceHeadText());
+                        invoice.setHeader("Rechnung " + auftrag.getVoucher().getDescritption());
+                        invoice.setHeadText("Sehr geehrte/r " + auftrag.getContact().getGender() + " " + auftrag.getContact().getFamilyname() + ", " +
+                                "wir danken für Ihren Auftrag und erlauben uns in obiger Sache zu berechnen.");
+                        output = request.httpPost(new File(invoiceFileList.get(i)), urlBuilder.buildUrl(URL.UPLOADVOUCHERFILE), TOKEN.getToken());
+                        String fileName = new TextParser().parseVoucherFileName(output);
+                        invoice.setFilename(fileName);
                         output = request.httpPost(jsonBuilder.build(invoice, auftrag.getRechnungsPositions()), urlBuilder.buildUrl(URL.CREATEINVOICE), TOKEN.getToken());
 
                         invoiceId = textParser.parseId(output);

@@ -73,6 +73,8 @@ public class Invoice {
     private Object origin;
     @Expose
     private String customeerInternalNote;
+    @Expose
+    private String filename;
 
 
     public Invoice(Contact contact, String invoiceDate, String status, String taxText) {
@@ -338,6 +340,30 @@ public class Invoice {
 
     public void setContactLink(Contact contactLink) {
         this.contact = contactLink;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
 

@@ -3,9 +3,8 @@ package text.parser;
 import data.auftrag.invoices.Auftrag;
 import data.auftrag.invoices.Rechtsanwalt;
 import data.entity.accountingType.AccountingTypeRequest;
-import data.entity.other.Category;
 import data.entity.contact.ContactAddress;
-import data.entity.invoice.InvoicePos;
+import data.entity.other.Category;
 import data.entity.other.Country;
 import data.entity.voucher.Voucher;
 import data.entity.voucher.VoucherPosSave;
@@ -107,8 +106,8 @@ public class TextParser {
         rechnung.setLoyer(buildLoyer(tag));
 
         invoiceInfoList = Arrays.asList(list.get(list.size() - 1));
-
-        rechnung.setRechnungsPositions((List<InvoicePos>) new InvoicePosBuilder().build(invoiceInfoList));
+        InvoicePosBuilder invoicePosBuilder = new InvoicePosBuilder();
+        rechnung.setRechnungsPositions(invoicePosBuilder.checkIfPosListIsFull(invoicePosBuilder.buildInvoicePos(invoiceInfoList), rechnung.getVoucherPosSave().getSumGross()));
 
         logger.log(Logger.Level.INFO, "Alle Daten korrekt ausgelesen!");
         return rechnung;
@@ -162,6 +161,9 @@ public class TextParser {
                     builder.append(numberArray[j]);
                     list.set(i, builder.toString());
                 }
+                if (hasTwoDots(list.get(i))) {
+                    list.set(i, removeSecondDot(list.get(i)));
+                }
 
 
                 if (max < Float.parseFloat(list.get(i))) {
@@ -172,6 +174,40 @@ public class TextParser {
             }
         }
         return max;
+    }
+
+    private String removeSecondDot(String s) {
+        char[] chars = s.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        boolean firstDot = false;
+        for (int i = 0; i < chars.length; i++) {
+            if (firstDot == true && chars[i] == '.') {
+                builder.append(chars[i]);
+            }
+            if (chars[i] != '.') {
+                builder.append(chars[i]);
+            }
+            if (chars[i] == '.') {
+                firstDot = true;
+            }
+        }
+        return builder.toString();
+    }
+
+    private boolean hasTwoDots(String string) {
+        char[] chars = string.toCharArray();
+        int counter = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '.') {
+                counter += 1;
+            }
+        }
+        if (counter == 2) {
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
     public String parseAdress(String adress) {

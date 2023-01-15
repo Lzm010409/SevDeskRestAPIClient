@@ -5,11 +5,9 @@ import data.entity.invoice.InvoicePos;
 import data.entity.other.Part;
 import data.entity.other.Unity;
 import data.filepaths.PropertyReader;
-import restfulapi.requests.Request;
-import restfulapi.requests.url.Token;
-import restfulapi.requests.url.URL;
-import restfulapi.requests.url.UrlBuilder;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -18,7 +16,7 @@ public class InvoicePosBuilder {
     Map<String, Long> unityMap = new HashMap<String, Long>();
 
     Map<String, Part> partMap = new PropertyReader().readPartsData();
-
+    @Deprecated
     public Object build(List<String> e) {
         Map<String, Part> partMap = new PropertyReader().readPartsData();
         List<InvoicePos> invoiceList = new ArrayList<>();
@@ -125,7 +123,7 @@ public class InvoicePosBuilder {
         return invoiceList;
     }
 
-    public Object testBuild(List<String> e) {
+    public List<InvoicePos> buildInvoicePos(List<String> e) {
 
         List<String> tempList = new LinkedList<>(Arrays.asList(e.get(0).split("\n")));
         int index = 0;
@@ -143,6 +141,8 @@ public class InvoicePosBuilder {
             stringList.remove(0);
             int secIndex = 0;
             int runtime = 0;
+            int finalRuntime = 0;
+            boolean brokenUp = false;
             for (int i = 0; i < stringList.size(); i++) {
                 stringList.set(i, reworkStrings(stringList.get(i)));
             }
@@ -150,15 +150,22 @@ public class InvoicePosBuilder {
                 stringList.remove("");
             }
             while (!invoicePosReady(invoicePos)) {
+                invoicePos.setTaxRate(19);
                 if (runtime > 10) {
                     secIndex += 1;
                     runtime = 0;
+                    finalRuntime += 1;
+                }
+                if (finalRuntime > 5) {
+                    brokenUp = true;
+                    break;
                 }
                 if (secIndex < stringList.size() && containsPart(stringList.get(secIndex)) != "") {
                     String key = containsPart(stringList.get(secIndex));
                     data.entity.link.Part tempPart = new data.entity.link.Part(partMap.get(key).getId());
                     invoicePos.setPart(tempPart);
                     invoicePos.setUnity(partMap.get(key).getUnity());
+                    invoicePos.setName(partMap.get(key).getName());
                     secIndex += 1;
                 }
                 if (secIndex < stringList.size() && isAmount(stringList.get(secIndex))) {
@@ -184,12 +191,52 @@ public class InvoicePosBuilder {
                 }
                 runtime += 1;
             }
-            invoicePosList.add(invoicePos);
+            if (brokenUp != true) {
+                invoicePosList.add(invoicePos);
+            }
             index += 1;
         }
+        return invoicePosList;
+    }
 
+    public List<InvoicePos> checkIfPosListIsFull(List<InvoicePos> list, float maxAmount) {
+        float amountNow = 0;
+        for (InvoicePos invoicePos : list) {
+            amountNow += invoicePos.getPriceGross();
+        }
+        if (amountNow < maxAmount) {
+            double difference = roundNumber(maxAmount - amountNow);
+            for (String key : partMap.keySet()) {
+                if (partMap.get(key).getPriceGross() == difference) {
+                    float quantitiy = 0;
+                    int modulo = (int) (partMap.get(key).getPriceGross() % difference);
+                    if (modulo == 0) {
+                        quantitiy = (float) (partMap.get(key).getPriceGross() / difference);
+                    } else {
+                        quantitiy = 1;
+                    }
+                    InvoicePos invoicePos = new InvoicePos();
+                    data.entity.link.Part part = new data.entity.link.Part(partMap.get(key).getId());
+                    invoicePos.setPart(part);
+                    invoicePos.setQuantity(quantitiy);
+                    invoicePos.setUnity(partMap.get(key).getUnity());
+                    invoicePos.setPrice(partMap.get(key).getPrice());
+                    invoicePos.setPriceGross(partMap.get(key).getPriceGross());
+                    invoicePos.setPriceTax(invoicePos.getPriceGross() - (invoicePos.getPriceGross() / 1.19));
+                    invoicePos.setTaxRate(19);
+                    invoicePos.setName(partMap.get(key).getName());
+                    list.add(invoicePos);
+                    break;
+                }
+            }
+        }
+        return list;
+    }
 
-        return null;
+    private double roundNumber(float number) {
+        BigDecimal bd = new BigDecimal(number).setScale(2, RoundingMode.HALF_UP);
+        double roundedValue = bd.doubleValue();
+        return roundedValue;
     }
 
     private String containsPart(String input) {
@@ -211,8 +258,7 @@ public class InvoicePosBuilder {
                     hitCounter += 1;
                 }
             }
-            averageChar = ((hitCounter * 100) / runner);
-            System.out.println(averageChar);
+            averageChar = ((hitCounter * 100) / charArray.length);
             if (averageChar > 75) {
                 returnKey = key;
                 break;
@@ -224,6 +270,78 @@ public class InvoicePosBuilder {
         return returnKey;
     }
 
+    private float compareStringAndGiveAverage(String input, String key) {
+        int hitCounter = 0;
+        float averageChar = 0;
+        char[] inputArray = input.toCharArray();
+        char[] keyArray = key.toCharArray();
+
+        int runner = 0;
+        if (keyArray.length < inputArray.length) {
+            runner = keyArray.length;
+        } else {
+            runner = inputArray.length;
+        }
+        for (int i = 0; i < runner; i++) {
+            if (inputArray[i] == keyArray[i]) {
+                hitCounter += 1;
+            }
+        }
+        averageChar = ((hitCounter * 100) / runner);
+        return averageChar;
+    }
+
+
+    public void reworkStringList(List<String> list) {
+        List<List<String>> tempList = new LinkedList<>();
+        for (int i = 0; i < list.size(); i++) {
+            tempList.add(Arrays.asList(list.get(i).split(" ")));
+        }
+        Map<String, Float> hitMap = new HashMap<>();
+        int hitCounter = 0;
+        float averageChar = 0;
+        boolean containsPart = false;
+        String highestAverageHit = "";
+        for (int i = 0; i < tempList.size(); i++) {
+            for (int j = 0; j < tempList.get(i).size(); j++) {
+                if (containsPart(tempList.get(i).get(j)) != "") {
+                    containsPart = true;
+                    break;
+                }
+            }
+            if (containsPart == false) {
+                float max = 0;
+                for (String key : partMap.keySet()) {
+                    for (int k = 0; k < tempList.get(i).size(); k++) {
+                        if (compareStringAndGiveAverage(tempList.get(i).get(k), key.toString()) > max) {
+                            max = compareStringAndGiveAverage(tempList.get(i).get(k), key.toString());
+                            highestAverageHit = tempList.get(i).get(k);
+                        }
+                    }
+                }
+
+                for (String key : partMap.keySet()) {
+                    for (int z = 0; z < tempList.size(); z++) {
+                        for (int k = 0; k < tempList.get(z).size(); k++) {
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(highestAverageHit);
+                            builder.append(tempList.get(z).get(k));
+                            hitMap.put(builder.toString(), compareStringAndGiveAverage(builder.toString(), key.toString()));
+                        }
+                    }
+                }
+
+
+            }
+        }
+        for (String key : hitMap.keySet()) {
+            if (hitMap.get(key) > 75) {
+                System.out.println("Folgendes Wort wurde erkannt: " + key + " Mit folgender Übereinstimmung zu einem Key in der PartMap: " + hitMap.get(key));
+            }
+        }
+
+    }
+
     private String reworkStrings(String input) {
 
         if (input.contains("\u00AD")) {
@@ -233,6 +351,8 @@ public class InvoicePosBuilder {
             input = input.replace("EUR", "");
         }
         return input;
+
+
     }
 
 
@@ -246,33 +366,6 @@ public class InvoicePosBuilder {
     }
 
 
-    public static void main(String[] args) {
-        InvoicePosBuilder invoicePosBuilder = new InvoicePosBuilder();
-        Token token = new Token();
-        token.setToken("");
-        PropertyReader propertyReader = new PropertyReader();
-        propertyReader.requestPartsData(new Request().httpGet(new UrlBuilder().buildUrl(URL.GETALLPARTS), token.getToken()));
-        List<String> test = new ArrayList<>();
-        test.add("Sehr geehrte Damen und Herren,\n" +
-                "wir danken für Ihren Auftrag und erlauben uns in obiger Sache zu berechnen:\n" +
-                "Pos Bezeichnung Anz. Einheit Einzelpreis Gesamtpreis\n" +
-                "1 SV\u00ADHonorar 1 620,00 EUR EUR 620,00\n" +
-                "2 Fahrtkosten erh. Energiekosten 42 km 0,80 EUR EUR 33,60\n" +
-                "3 Fotos 22 Stück 2,00 EUR EUR 44,00\n" +
-                "4 Porto/Telefon 1 7,50 EUR EUR 7,50\n" +
-                "Systemgeb. m. Bewertung + erh. \n" +
-                "5 1 30,00 EUR EUR 30,00\n" +
-                "Transakt.\u00ADKosten\n" +
-                "6 Schreibkosten (Original) 20 Seiten 1,80 EUR EUR 36,00\n" +
-                "7 Digitalisierungspauschale 1 Stück 3,00 EUR EUR 3,00\n" +
-                "Rechnungsbetrag exkl. MwSt EUR 774,10\n" +
-                "MwSt. 19 % EUR 147,08\n" +
-                "EUR 921,18\n" +
-                "Rechnungsbetrag inkl. MwSt.\n" +
-                "Bankverbindung: Geschäftsführer: Thorsten Gollenstede\n" +
-                "Bank: Postbank Steuernummer: 117/5114/2808");
-        invoicePosBuilder.testBuild(test);
-    }
 
     private String removeSpacesFromAmount(String amount) {
         char[] chars = amount.toCharArray();
@@ -409,4 +502,6 @@ public class InvoicePosBuilder {
         }
         return net;
     }
+
+
 }
