@@ -7,8 +7,6 @@ import data.entity.other.Unity;
 import data.filepaths.PropertyReader;
 import money.AmountConverter;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -182,12 +180,12 @@ public class InvoicePosBuilder {
                 }
                 if (amountList.size() == 2) {
                     if (amountConverter.euroToCents(amountList.get(0)) > amountConverter.euroToCents(amountList.get(1))) {
-                        invoicePos.setPriceGross(amountConverter.centsToEuro((long) (amountConverter.euroToCents(amountList.get(0)) * 1.19)));
+                        invoicePos.setPriceGross(amountConverter.roundDoubleNumber(amountConverter.centsToEuro(amountConverter.euroToCents(amountList.get(0)) * 1.19)));
                         invoicePos.setPrice(amountList.get(1));
                         invoicePos.setPriceTax(amountConverter.centsToEuro(calculateTaxPrice(invoicePos.getPriceGross(), invoicePos.getPrice(), invoicePos.getQuantity())));
                         secIndex += 1;
                     } else {
-                        invoicePos.setPriceGross(amountConverter.centsToEuro((long) (amountConverter.euroToCents(amountList.get(1)) * 1.19)));
+                        invoicePos.setPriceGross(amountConverter.roundDoubleNumber(amountConverter.centsToEuro(amountConverter.euroToCents(amountList.get(1)) * 1.19)));
                         invoicePos.setPrice(amountList.get(0));
                         invoicePos.setPriceTax(amountConverter.centsToEuro(calculateTaxPrice(invoicePos.getPriceGross(), invoicePos.getPrice(), invoicePos.getQuantity())));
                         secIndex += 1;
@@ -203,28 +201,34 @@ public class InvoicePosBuilder {
         return invoicePosList;
     }
 
-    private long calculateTaxPrice(double priceGross, double price, float quantity) {
+    private double calculateTaxPrice(double priceGross, double price, float quantity) {
         AmountConverter amountConverter1 = new AmountConverter();
-        long returnAmount = (long) (amountConverter1.euroToCents(priceGross) - (amountConverter1.euroToCents(price) * quantity));
+        double returnAmount = amountConverter1.roundDoubleNumber(amountConverter1.euroToCents(priceGross) - (amountConverter1.euroToCents(price) * quantity));
         return returnAmount;
     }
 
+    /**
+     * Es gibt leider immer noch Rundungsfehler...
+     *
+     * @param list
+     * @param amount
+     * @return
+     */
     public List<InvoicePos> checkIfPosListIsFull(List<InvoicePos> list, float amount) {
-        long amountNow = 0;
-        long maxAmount = amountConverter.euroToCents(amount);
+        double amountNow = 0;
+        double maxAmount = amountConverter.euroToCents(amount / 1.19);
         AmountConverter amountConverter = new AmountConverter();
         for (InvoicePos invoicePos : list) {
-            amountNow += amountConverter.euroToCents(invoicePos.getPriceGross());
+            amountNow += amountConverter.euroToCents(invoicePos.getPrice() * invoicePos.getQuantity());
         }
-
         if (amountNow < maxAmount) {
-            long difference = amountConverter.euroToCents(maxAmount - amountNow);
+            double difference = maxAmount - amountNow;
             for (String key : partMap.keySet()) {
-                if (amountConverter.euroToCents(partMap.get(key).getPriceGross()) == difference) {
+                if (amountConverter.euroToCents(partMap.get(key).getPrice()) == difference) {
                     float quantitiy = 0;
-                    int modulo = (int) (amountConverter.euroToCents(partMap.get(key).getPriceGross()) % difference);
+                    int modulo = (int) (amountConverter.euroToCents(partMap.get(key).getPrice()) % difference);
                     if (modulo == 0) {
-                        quantitiy = amountConverter.euroToCents(partMap.get(key).getPriceGross()) / difference;
+                        quantitiy = (float) (amountConverter.euroToCents(partMap.get(key).getPriceGross() / 1.19) / difference);
                     } else {
                         quantitiy = 1;
                     }
@@ -235,7 +239,7 @@ public class InvoicePosBuilder {
                     invoicePos.setUnity(partMap.get(key).getUnity());
                     invoicePos.setPrice(partMap.get(key).getPrice());
                     invoicePos.setPriceGross(partMap.get(key).getPriceGross());
-                    invoicePos.setPriceTax(amountConverter.centsToEuro((long) (amountConverter.euroToCents(invoicePos.getPriceGross()) - (amountConverter.euroToCents(invoicePos.getPriceGross()) / 1.19))));
+                    invoicePos.setPriceTax(amountConverter.centsToEuro(calculateTaxPrice(invoicePos.getPriceGross(), invoicePos.getPrice(), invoicePos.getQuantity())));
                     invoicePos.setTaxRate(19);
                     invoicePos.setName(partMap.get(key).getName());
                     list.add(invoicePos);
@@ -246,17 +250,6 @@ public class InvoicePosBuilder {
         return list;
     }
 
-    private double roundDoubleNumbler(double v) {
-        BigDecimal bd = new BigDecimal(v).setScale(2, RoundingMode.HALF_UP);
-        double roundedValue = bd.doubleValue();
-        return roundedValue;
-    }
-
-    private double roundFloatNumber(float number) {
-        BigDecimal bd = new BigDecimal(number).setScale(2, RoundingMode.HALF_UP);
-        double roundedValue = bd.doubleValue();
-        return roundedValue;
-    }
 
     private String containsPart(String input) {
         char[] charArray = input.toCharArray();

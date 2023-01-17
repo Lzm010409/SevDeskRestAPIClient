@@ -108,9 +108,9 @@ public class ApplicationMain {
                         invoice.setHeader("Rechnung " + auftrag.getVoucher().getDescritption());
                         invoice.setHeadText("Sehr geehrte/r " + auftrag.getContact().getGender() + " " + auftrag.getContact().getFamilyname() + ", " +
                                 "wir danken für Ihren Auftrag und erlauben uns in obiger Sache zu berechnen.");
-                        output = request.httpPost(new File(invoiceFileList.get(i)), urlBuilder.buildUrl(URL.UPLOADVOUCHERFILE), TOKEN.getToken());
+                       /* output = request.httpPost(new File(invoiceFileList.get(i)), urlBuilder.buildUrl(URL.UPLOADVOUCHERFILE), TOKEN.getToken());
                         String fileName = new TextParser().parseVoucherFileName(output);
-                        invoice.setFilename(fileName);
+                        invoice.setFilename(fileName);*/
                         output = request.httpPost(jsonBuilder.build(invoice, auftrag.getRechnungsPositions()), urlBuilder.buildUrl(URL.CREATEINVOICE), TOKEN.getToken());
 
                         invoiceId = textParser.parseId(output);
@@ -165,7 +165,6 @@ public class ApplicationMain {
                     }
                 }
             }
-
 
 
             threadSleeper.threadSleep(3600000);

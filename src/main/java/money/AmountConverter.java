@@ -1,7 +1,10 @@
 package money;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class AmountConverter {
-    public long euroToCents(double number) {
+    public double euroToCents(double number) {
         long returnValue = (long) (number * 100);
         return returnValue;
     }
@@ -11,8 +14,25 @@ public class AmountConverter {
     }
 
     public double centsToEuro(long amount) {
+        double dAmount = amount;
+        double returnValue = dAmount / 100;
+        return returnValue;
+    }
+    public double centsToEuro(double amount) {
         double returnValue = amount / 100;
         return returnValue;
+    }
+    public double roundDoubleNumber(double v) {
+        BigDecimal bd = new BigDecimal(v).setScale(2, RoundingMode.HALF_UP);
+        double roundedValue = bd.doubleValue();
+        return roundedValue;
+    }
+
+
+    public double roundFloatNumber(float number) {
+        BigDecimal bd = new BigDecimal(number).setScale(2, RoundingMode.HALF_UP);
+        double roundedValue = bd.doubleValue();
+        return roundedValue;
     }
 
     public double removeComma(double d) {
